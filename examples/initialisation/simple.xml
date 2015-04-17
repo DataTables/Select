@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<dt-example table-type="html" table-class="display nowrap" order="2">
+
+<css lib="datatables select"/>
+<js lib="jquery datatables select">
+<![CDATA[
+
+$(document).ready(function() {
+	$('#example').DataTable( {
+		select: {
+			style: 'os'
+		}
+	} );
+} );
+
+]]>
+</js>
+
+<title lib="Select">Simple initialisation</title>
+
+<info><![CDATA[
+
+
+
+]]></info>
+
+</dt-example>
+

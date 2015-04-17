@@ -1,0 +1,83 @@
+
+// Row colour, when selected
+$table-selected: #B0BED9 !default;
+
+// Colour to use when shading
+$table-shade: black !default;
+
+@function shade( $color, $percent ) {
+	@return mix($table-shade, $color, $percent);
+}
+
+
+table.dataTable {
+	// Body styles
+	tbody > tr.selected,
+	tbody > tr > .selected {
+		background-color: $table-selected;
+	}
+
+
+	// Stripe classes - add "stripe" class to the table to activate
+	&.stripe tbody,
+	&.display tbody {
+		> tr.odd.selected,
+		> tr.odd > .selected {
+			background-color: shade($table-selected, 2.35%);
+		}
+	}
+
+
+	// Hover classes - add "hover" class to the table to activate
+	&.hover tbody,
+	&.display tbody {
+		> tr.selected:hover,
+		> tr > .selected:hover {
+			background-color: shade($table-selected, 3.6%);
+		}
+	}
+
+
+	// Sort column highlighting - add "order-column" class to the table to activate
+	&.order-column tbody,
+	&.display tbody {
+		> tr.selected > .sorting_1,
+		> tr.selected > .sorting_2,
+		> tr.selected > .sorting_3,
+		> tr > .selected {
+			background-color: shade($table-selected, 2%);
+		}
+	}
+
+	&.display tbody,
+	&.order-column.stripe tbody {
+		> tr.odd.selected {
+			>.sorting_1 { background-color: shade($table-selected, 5.4%); }
+			>.sorting_2 { background-color: shade($table-selected, 4.7%); }
+			>.sorting_3 { background-color: shade($table-selected, 3.9%); }
+		}
+
+		> tr.even.selected {
+			>.sorting_1 { background-color: shade($table-selected, 2%); }
+			>.sorting_2 { background-color: shade($table-selected, 1.2%); }
+			>.sorting_3 { background-color: shade($table-selected, 0.4%); }
+		}
+
+		> tr.odd > .selected { background-color: shade($table-selected, 5.4%); }
+		> tr.even > .selected { background-color: shade($table-selected, 2%); }
+	}
+
+	&.display tbody,
+	&.order-column.hover tbody {
+		> tr.selected:hover {
+			>.sorting_1 { background-color: shade($table-selected, 8.2%); }
+			>.sorting_2 { background-color: shade($table-selected, 7.5%); }
+			>.sorting_3 { background-color: shade($table-selected, 6.3%); }
+		}
+
+		> tr:hover > .selected,
+		> tr > .selected:hover {
+			background-color: shade($table-selected, 8.2%);
+		}
+	}
+}
