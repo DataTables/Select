@@ -325,6 +325,39 @@ DataTable.ext.selector.cell.push( function ( settings, opts, cells ) {
 } );
 
 
+
+// This will occur _after_ the initial DataTables initialisation, although
+// before Ajax data is rendered, if there is ajax data
+function selectInit ( ctx ) {
+	// Row callback so that classes can be added to rows and cells if the item
+	// was selected before the element was created. This will happen with the
+	// `deferRender` option enabled.
+	// 
+	// This method of attaching to `aoRowCreatedCallback` is a hack until
+	// DataTables has proper events for row manipulation If you are reviewing
+	// this code to create your own plug-ins, please do not do this!
+	ctx.aoRowCreatedCallback.push( {
+		fn: function ( row, data, index ) {
+			var i, ien;
+			var d = ctx.aoData[ index ];
+
+			// Row
+			if ( d._select_selected ) {
+				$( row ).addClass( 'selected' );
+			}
+
+			// Cells and columns - if separated out, we would need to do two
+			// loops, so it makes sense to combine them into a single one
+			for ( i=0, ien=ctx.aoColumns.length ; i<ien ; i++ ) {
+				if ( ctx.aoColumns[i]._select_selected || (d._selected_cells && d._selected_cells[i]) ) {
+					$(d.anCells[i]).addClass( 'selected' );
+				}
+			}
+		},
+		sName: 'select-deferRender'
+	} );
+}
+
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
  * DataTables API
  *
@@ -341,18 +374,6 @@ DataTable.Api.register( 'select.mode()', function ( type ) {
 
 	return this.iterator( 'table', function ( ctx ) {
 		ctx._select_mode = type;
-
-		// Add / remove mouse event handlers. They aren't required when only
-		// API selection is available, so they should be removed.
-		if ( type === 'api' ) {
-			ctx._select_listeners = false;
-			disableMouseSelection( new DataTable.Api( ctx ) );
-		}
-		else {
-			if ( ! ctx._select_listeners ) {
-				enableMouseSelection( new DataTable.Api( ctx ) );
-			}
-		}
 	} );
 } );
 
@@ -365,6 +386,22 @@ DataTable.Api.register( 'select.style()', function ( style ) {
 
 	return this.iterator( 'table', function ( ctx ) {
 		ctx._select_style = style;
+
+		if ( ! ctx._select_init ) {
+			selectInit( ctx );
+		}
+
+		// Add / remove mouse event handlers. They aren't required when only
+		// API selection is available, so they should be removed.
+		if ( style === 'api' ) {
+			ctx._select_listeners = false;
+			disableMouseSelection( new DataTable.Api( ctx ) );
+		}
+		else {
+			if ( ! ctx._select_listeners ) {
+				enableMouseSelection( new DataTable.Api( ctx ) );
+			}
+		}
 	} );
 } );
 
@@ -407,10 +444,10 @@ DataTable.Api.registerPlural( 'columns().select()', 'column().select()', functio
 
 		var column = new DataTable.Api( ctx ).column( idx );
 
-		$( column.header() ).addClass( 'selected column-selected' );
-		$( column.footer() ).addClass( 'selected column-selected' );
+		$( column.header() ).addClass( 'selected' );
+		$( column.footer() ).addClass( 'selected' );
 
-		column.nodes().to$().addClass( 'selected column-selected' );
+		column.nodes().to$().addClass( 'selected' );
 	} );
 } );
 
@@ -430,7 +467,9 @@ DataTable.Api.registerPlural( 'cells().select()', 'cell().select()', function ( 
 
 		data._selected_cells[ colIdx ] = true;
 
-		$( new DataTable.Api( ctx ).cell( rowIdx, colIdx ).node() ).addClass( 'selected cell-selected' );
+		if ( data.anCells ) {
+			$( data.anCells[ colIdx ] ).addClass( 'selected' );
+		}
 	} );
 } );
 
@@ -448,11 +487,11 @@ DataTable.Api.registerPlural( 'columns().deselect()', 'column().deselect()', fun
 
 		var column = new DataTable.Api( ctx ).column( idx );
 
-		$( column.header() ).removeClass( 'selected column-selected' );
-		$( column.footer() ).removeClass( 'selected column-selected' );
+		$( column.header() ).removeClass( 'selected' );
+		$( column.footer() ).removeClass( 'selected' );
 
 		// xxx what if they are cell selected?
-		column.nodes().to$().removeClass( 'selected column-selected' );
+		column.nodes().to$().removeClass( 'selected' );
 	} );
 } );
 
@@ -463,7 +502,9 @@ DataTable.Api.registerPlural( 'cells().deselect()', 'cell().deselect()', functio
 		data._selected_cells[ colIdx ] = false;
 
 		// xxx what if they are column selected?
-		$( new DataTable.Api( ctx ).cell( rowIdx, colIdx ).node() ).removeClass( 'selected cell-selected' );
+		if ( data.anCells ) {
+			$( data.anCells[ colIdx ] ).removeClass( 'selected' );
+		}
 	} );
 } );
 

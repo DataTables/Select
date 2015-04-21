@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<dt-example table-type="ajax" order="2">
+
+<css lib="datatables select"/>
+<js lib="jquery datatables select"/>
+
+<title>Defer render</title>
+<js><![CDATA[
+$(document).ready(function() {
+	$('#example').dataTable( {
+		"ajax": "../../../../examples/ajax/data/objects.txt",
+		deferRender: true,
+		"columns": [
+			{ "data": "name" },
+			{ "data": "position" },
+			{ "data": "office" },
+			{ "data": "extn" },
+			{ "data": "start_date" },
+			{ "data": "salary" }
+		],
+		select: 'os'
+	} );
+} );
+]]></js>
+
+<info><![CDATA[
+
+
+
+]]></info>
+
+</dt-example>
