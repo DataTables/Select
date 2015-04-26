@@ -417,17 +417,32 @@ DataTable.Api.register( 'select.blurable()', function ( flag ) {
 } );
 
 
+function eventTrigger ( ctx, selected, type, indexes )
+{
+	// xxx
+	$(ctx.nTable).triggerHandler( 'select.dt', indexes, type );
+}
+
+
 DataTable.Api.registerPlural( 'rows().select()', 'row().select()', function ( select ) {
 	if ( select === false ) {
 		return this.deselect();
 	}
 
-	return this.iterator( 'row', function ( ctx, idx ) {
+	var that = this;
+
+	this.iterator( 'row', function ( ctx, idx ) {
 		_selectClear( ctx );
 
 		ctx.aoData[ idx ]._select_selected = true;
 		$( ctx.aoData[ idx ].nTr ).addClass( 'selected' );
 	} );
+
+	this.iterator( 'table', function ( ctx ) {
+		eventTrigger( ctx, true, 'row', that[0] );
+	} ); 
+
+	return this;
 } );
 
 DataTable.Api.registerPlural( 'columns().select()', 'column().select()', function ( select ) {
@@ -485,13 +500,23 @@ DataTable.Api.registerPlural( 'columns().deselect()', 'column().deselect()', fun
 	return this.iterator( 'column', function ( ctx, idx ) {
 		ctx.aoColumns[ idx ]._select_selected = false;
 
-		var column = new DataTable.Api( ctx ).column( idx );
+		var api = new DataTable.Api( ctx );
+		var column = api.column( idx );
 
 		$( column.header() ).removeClass( 'selected' );
 		$( column.footer() ).removeClass( 'selected' );
 
-		// xxx what if they are cell selected?
-		column.nodes().to$().removeClass( 'selected' );
+		// Need to loop over each cell, rather than just using
+		// `column().nodes()` as cells which are individually selected should
+		// not have the `selected` class removed from them
+		api.cells( null, idx ).indexes().each( function (cellIdx) {
+			var data = ctx.aoData[ cellIdx.row ];
+			var cellSelected = data._selected_cells;
+
+			if ( data.anCells && (! cellSelected || ! cellSelected[ cellIdx.column ]) ) {
+				$( data.anCells[ cellIdx.column  ] ).removeClass( 'selected' );
+			}
+		} );
 	} );
 } );
 
@@ -501,8 +526,10 @@ DataTable.Api.registerPlural( 'cells().deselect()', 'cell().deselect()', functio
 
 		data._selected_cells[ colIdx ] = false;
 
-		// xxx what if they are column selected?
-		if ( data.anCells ) {
+		// Remove class only if the cells exist, and the cell is not column
+		// selected, in which case the class should remain (since it is selected
+		// in the column)
+		if ( data.anCells && ! ctx.aoColumns[ colIdx ]._select_selected ) {
 			$( data.anCells[ colIdx ] ).removeClass( 'selected' );
 		}
 	} );
