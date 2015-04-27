@@ -358,6 +358,25 @@ function selectInit ( ctx ) {
 	} );
 }
 
+// Iterate over the rows / cells for a table triggering the event handlers for
+// selection and de-selection
+function eventTrigger ( api, selected, type )
+{
+	api.iterator( 'table', function ( ctx, i ) {
+		if ( ! api[i].length ) {
+			return;
+		}
+
+		$(ctx.nTable).triggerHandler(
+			selected ?
+				'select.dt' :
+				'deselect.dt',
+			[ type, api[i] ]
+		);
+	} );
+}
+
+
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
  * DataTables API
  *
@@ -416,20 +435,10 @@ DataTable.Api.register( 'select.blurable()', function ( flag ) {
 	} );
 } );
 
-
-function eventTrigger ( ctx, selected, type, indexes )
-{
-	// xxx
-	$(ctx.nTable).triggerHandler( 'select.dt', indexes, type );
-}
-
-
 DataTable.Api.registerPlural( 'rows().select()', 'row().select()', function ( select ) {
 	if ( select === false ) {
 		return this.deselect();
 	}
-
-	var that = this;
 
 	this.iterator( 'row', function ( ctx, idx ) {
 		_selectClear( ctx );
@@ -438,9 +447,7 @@ DataTable.Api.registerPlural( 'rows().select()', 'row().select()', function ( se
 		$( ctx.aoData[ idx ].nTr ).addClass( 'selected' );
 	} );
 
-	this.iterator( 'table', function ( ctx ) {
-		eventTrigger( ctx, true, 'row', that[0] );
-	} ); 
+	eventTrigger( this, true, 'row' );
 
 	return this;
 } );
@@ -450,7 +457,7 @@ DataTable.Api.registerPlural( 'columns().select()', 'column().select()', functio
 		return this.deselect();
 	}
 
-	return this.iterator( 'column', function ( ctx, idx ) {
+	this.iterator( 'column', function ( ctx, idx ) {
 		_selectClear( ctx );
 
 		ctx.aoColumns[ idx ]._select_selected = true;
@@ -464,6 +471,10 @@ DataTable.Api.registerPlural( 'columns().select()', 'column().select()', functio
 
 		column.nodes().to$().addClass( 'selected' );
 	} );
+
+	eventTrigger( this, true, 'column' );
+
+	return this;
 } );
 
 DataTable.Api.registerPlural( 'cells().select()', 'cell().select()', function ( select ) {
@@ -471,7 +482,7 @@ DataTable.Api.registerPlural( 'cells().select()', 'cell().select()', function ( 
 		return this.deselect();
 	}
 
-	return this.iterator( 'cell', function ( ctx, rowIdx, colIdx ) {
+	this.iterator( 'cell', function ( ctx, rowIdx, colIdx ) {
 		_selectClear( ctx );
 
 		var data = ctx.aoData[ rowIdx ];
@@ -486,18 +497,26 @@ DataTable.Api.registerPlural( 'cells().select()', 'cell().select()', function ( 
 			$( data.anCells[ colIdx ] ).addClass( 'selected' );
 		}
 	} );
+
+	eventTrigger( this, true, 'cell' );
+
+	return this;
 } );
 
 
 DataTable.Api.registerPlural( 'rows().deselect()', 'row().deselect()', function () {
-	return this.iterator( 'row', function ( ctx, idx ) {
+	this.iterator( 'row', function ( ctx, idx ) {
 		ctx.aoData[ idx ]._select_selected = false;
 		$( ctx.aoData[ idx ].nTr ).removeClass( 'selected' );
 	} );
+
+	eventTrigger( this, false, 'row' );
+
+	return this;
 } );
 
 DataTable.Api.registerPlural( 'columns().deselect()', 'column().deselect()', function () {
-	return this.iterator( 'column', function ( ctx, idx ) {
+	this.iterator( 'column', function ( ctx, idx ) {
 		ctx.aoColumns[ idx ]._select_selected = false;
 
 		var api = new DataTable.Api( ctx );
@@ -518,10 +537,14 @@ DataTable.Api.registerPlural( 'columns().deselect()', 'column().deselect()', fun
 			}
 		} );
 	} );
+
+	eventTrigger( this, false, 'column' );
+
+	return this;
 } );
 
 DataTable.Api.registerPlural( 'cells().deselect()', 'cell().deselect()', function () {
-	return this.iterator( 'cell', function ( ctx, rowIdx, colIdx ) {
+	this.iterator( 'cell', function ( ctx, rowIdx, colIdx ) {
 		var data = ctx.aoData[ rowIdx ];
 
 		data._selected_cells[ colIdx ] = false;
@@ -533,6 +556,10 @@ DataTable.Api.registerPlural( 'cells().deselect()', 'cell().deselect()', functio
 			$( data.anCells[ colIdx ] ).removeClass( 'selected' );
 		}
 	} );
+
+	eventTrigger( this, false, 'cell' );
+
+	return this;
 } );
 
 
