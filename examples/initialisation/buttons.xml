@@ -1,13 +1,14 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <dt-example table-type="ajax" order="2">
 
-<css lib="datatables select"/>
-<js lib="jquery datatables select"/>
+<css lib="datatables select buttons"/>
+<js lib="jquery datatables select buttons"/>
 
-<title>Defer render</title>
+<title>Buttons</title>
 <js><![CDATA[
 $(document).ready(function() {
 	var table = $('#example').DataTable( {
+		dom: 'Bfrtip',
 		"ajax": "../../../../examples/ajax/data/objects.txt",
 		deferRender: true,
 		"columns": [
@@ -19,9 +20,14 @@ $(document).ready(function() {
 			{ "data": "salary" }
 		],
 		select: {
+			mode: 'row',
 			style: 'os',
 			idSrc: 'name'
-		}
+		},
+		buttons: [
+			'selected', 'selectedSingle', 'selectAll', 'selectNone',
+			'selectRows', 'selectColumns', 'selectCells'
+		]
 	} );
 
 	 $('#example').on( 'select.dt', function ( e, type, indexes ) {

@@ -452,6 +452,8 @@ DataTable.Api.register( 'select.mode()', function ( type ) {
 
 	return this.iterator( 'table', function ( ctx ) {
 		ctx._select.mode = type;
+
+		$(ctx.nTable).triggerHandler( 'selectMode.dt', type );
 	} );
 } );
 
@@ -480,6 +482,8 @@ DataTable.Api.register( 'select.style()', function ( style ) {
 				enableMouseSelection( new DataTable.Api( ctx ) );
 			}
 		}
+
+		$(ctx.nTable).triggerHandler( 'selectStyle.dt', style );
 	} );
 } );
 
@@ -637,13 +641,77 @@ DataTable.Api.registerPlural( 'cells().deselect()', 'cell().deselect()', functio
 
 
 // -- buttons
-// select (alias of selectMulti?)
-// selectSingle
+// selected (alias of selectMulti?)
+// selectedSingle
 // selectAll (current mode)
 // selectNone (current mode)
 // selectMode Rows | Columns | Cells
 
+$.extend( DataTable.ext.buttons, {
+	selected: {
+		text: 'Selected',
+		className: 'buttons-selected',
+		init: function ( dt, button, config ) {
+			var that = this;
 
+			// .DT namespace listeners are removed by DataTables automatically
+			// on table destroy
+			dt.on( 'select.dt.DT deselect.dt.DT', function () {
+				// xxx This only does rows atm...
+				that.enable( that.rows( { selected: true } ).any() );
+			} );
+
+			this.disable();
+		}
+	},
+	selectedSingle: {
+		text: 'Selected single',
+		className: 'buttons-selected-single',
+		init: function ( dt, button, config ) {
+			var that = this;
+
+			dt.on( 'select.dt.DT deselect.dt.DT', function () {
+				that.enable( dt.rows( { selected: true } ).flatten().length === 1 );
+			} );
+
+			this.disable();
+		}
+	},
+	selectAll: {
+		text: 'Select all',
+		className: 'buttons-select-all',
+		action: function () {
+			var mode = this.select.mode();
+			this[ mode+'s' ]().select();
+		}
+	},
+	selectNone: {
+		text: 'Deselect all',
+		className: 'buttons-select-none',
+		action: function () {
+			_selectClear( this.settings()[0], true );
+		}
+	}
+} );
+
+$.each( [ 'Row', 'Column', 'Cell' ], function ( i, item ) {
+	var lc = item.toLowerCase();
+
+	DataTable.ext.buttons[ 'select'+item+'s' ] = {
+		text: 'Select '+lc+'s',
+		className: 'buttons-select-'+lc+'s',
+		action: function () {
+			this.select.mode( lc );
+		},
+		init: function ( dt, button, config ) {
+			var that = this;
+
+			dt.on( 'selectMode.dt.DT', function ( e, mode ) {
+				that.active( mode === lc );
+			} );
+		}
+	};
+} );
 
 
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
@@ -663,37 +731,42 @@ $(document).on( 'init.dt.dtSelect', function (e, ctx, json) {
 	var dt = new DataTable.Api( ctx );
 
 	// Set defaults
-	ctx._select = {
-		mode: 'row',
-		style: 'api',
-		blurable: false,
-		idSrc: 'DT_RowId'
-	};
+	var mode = 'row';
+	var style = 'api';
+	var blurable = false;
+	var idSrc = 'Dt_RowId';
+
+	ctx._select = {};
 
 	// Initialisation customisations
 	if ( opts === true ) {
-		dt.select.style( 'os' );
+		style = 'os';
 	}
 	else if ( typeof opts === 'string' ) {
-		dt.select.style( opts );
+		style = opts;
 	}
 	else if ( $.isPlainObject( opts ) ) {
 		if ( opts.mode !== undefined ) {
-			dt.select.mode( opts.mode );
+			mode = opts.mode;
 		}
 
 		if ( opts.style !== undefined ) {
-			dt.select.style( opts.style );
+			style = opts.style;
 		}
 
 		if ( opts.blurable !== undefined ) {
-			dt.select.blurable( opts.blurable );
+			blurable = opts.blurable;
 		}
 
 		if ( opts.idSrc !== undefined ) {
-			dt.select.idSrc( opts.idSrc );
+			idSrc = opts.idSrc;
 		}
 	}
+
+	dt.select.mode( mode );
+	dt.select.style( style );
+	dt.select.blurable( blurable );
+	dt.select.idSrc( idSrc );
 
 	// If the init options haven't enabled select, but there is a selectable
 	// class name, then enable
