@@ -81,3 +81,10 @@ table.dataTable {
 		}
 	}
 }
+
+div.dataTables_wrapper {
+	span.select-info,
+	span.select-item {
+		display: block;
+	}
+}

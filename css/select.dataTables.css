@@ -59,3 +59,8 @@ table.dataTable.display tbody > tr > .selected:hover, table.dataTable.order-colu
 table.dataTable.order-column.hover tbody > tr > .selected:hover {
   background-color: #a1aec7;
 }
+
+div.dataTables_wrapper span.select-info,
+div.dataTables_wrapper span.select-item {
+  display: block;
+}

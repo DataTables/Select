@@ -367,53 +367,57 @@ function selectInit ( ctx ) {
 
 	// On Ajax reload we want to reselect all rows which are currently selected,
 	// if there is an idSrc (i.e. a unique value to identify each row with)
-	api
-		.on( 'preXhr.dtSelect', function () {
-			var idSrc = ctx._select.idSrc;
+	api.on( 'preXhr.dtSelect', function () {
+		var idSrc = ctx._select.idSrc;
 
-			if ( ctx._select.idSrc ) {
-				// note that column selection doesn't need to be cached and then
-				// reselected, as they are already selected
-				var rows = api.rows( { selected: true } ).data().pluck( idSrc );
-				var cells = api.cells( { selected: true } ).eq(0).map( function ( cellIdx ) {
-					var data = api.row( cellIdx.row ).data()[ idSrc ];
-					return data ?
-						{ row: data, column: cellIdx.column } :
-						undefined;
+		if ( ctx._select.idSrc ) {
+			// note that column selection doesn't need to be cached and then
+			// reselected, as they are already selected
+			var rows = api.rows( { selected: true } ).data().pluck( idSrc );
+			var cells = api.cells( { selected: true } ).eq(0).map( function ( cellIdx ) {
+				var data = api.row( cellIdx.row ).data()[ idSrc ];
+				return data ?
+					{ row: data, column: cellIdx.column } :
+					undefined;
+			} );
+
+			// On the next draw, reselect the currently selected items
+			api.one( 'draw.dtSelect', function () {
+				rows.each( function ( id ) {
+					if ( id === undefined ) {
+						return;
+					}
+
+					api
+						.rows( function ( idx, data, node ) {
+							return data[ idSrc ] === id;
+						} )
+						.select();
 				} );
 
-				// On the next draw, reselect the currently selected items
-				api.one( 'draw.dtSelect', function () {
-					rows.each( function ( id ) {
-						if ( id === undefined ) {
-							return;
-						}
+				cells.each( function ( id ) {
+					if ( id === undefined ) {
+						return;
+					}
 
-						api
-							.rows( function ( idx, data, node ) {
-								return data[ idSrc ] === id;
-							} )
-							.select();
-					} );
-
-					cells.each( function ( id ) {
-						if ( id === undefined ) {
-							return;
-						}
-
-						api
-							.cells( function ( idx, data, node ) {
-								return idx.column === id.column &&
-									api.row( idx.row ).data()[ idSrc ] === id.row;
-							} )
-							.select();
-					} );
+					api
+						.cells( function ( idx, data, node ) {
+							return idx.column === id.column &&
+								api.row( idx.row ).data()[ idSrc ] === id.row;
+						} )
+						.select();
 				} );
-			}
-		} )
-		.on( 'destroy.dtSelect', function () {
-			api.off( '.dtSelect' );
-		} );
+			} );
+		}
+	} );
+
+	api.on( 'draw.dtSelect.dt select.dtSelect.dt deselect.dtSelect.dt', function () {
+		info( api );
+	} );
+
+	api.on( 'destroy.dtSelect', function () {
+		api.off( '.dtSelect' );
+	} );
 }
 
 // Iterate over the rows / cells for a table triggering the event handlers for
@@ -433,6 +437,35 @@ function eventTrigger ( api, selected, type )
 		);
 	} );
 }
+
+
+function info ( api )
+{
+	var output = $('<span class="select-info"/>');
+	var use = false;
+	var rows = api.rows( { selected: true } ).flatten().length;
+
+	if ( rows ) {
+		// xxx plural
+		use = true;
+		output.append( '<span class="select-item">'+rows+' rows selected</span>' );
+	}
+
+	// Internal knowledge of DataTables
+	$.each( api.settings()[0].aanFeatures.i, function ( i, el ) {
+		el = $(el);
+
+		var exisiting = el.children('span.select-info');
+		if ( exisiting.length ) {
+			exisiting.remove();
+		}
+
+		if ( use ) {
+			el.append( output );
+		}
+	} );
+}
+
 
 
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
