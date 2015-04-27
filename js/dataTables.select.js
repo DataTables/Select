@@ -10,6 +10,12 @@ var factory = function( $, DataTable ) {
 DataTable.select = {};
 DataTable.select.version = '0.0.1-dev';
 
+// _select object has the following properties:
+//   mode
+//   style
+//   idSrc
+//   blurable
+
 
 function rowColumnRange( dt, type, idx, last )
 {
@@ -232,7 +238,7 @@ function enableMouseSelection ( dt )
 	$('body').on( 'click.dtSelect', function ( e ) {
 		var ctx = dt.settings()[0];
 
-		if ( ctx._select_blurable ) {
+		if ( ctx._select.blurable ) {
 			if ( $.inArray( dt.table().node(), $(e.target).parents('table').toArray() ) === -1 ) {
 				_selectClear( ctx, true );
 			}
@@ -261,7 +267,7 @@ function disableMouseSelection( dt )
 
 function _selectClear( ctx, force )
 {
-	if ( force || ctx._select_style === 'single' ) {
+	if ( force || ctx._select.style === 'single' ) {
 		var api = new DataTable.Api( ctx );
 		
 		api.rows( { selected: true } ).deselect();
@@ -329,6 +335,8 @@ DataTable.ext.selector.cell.push( function ( settings, opts, cells ) {
 // This will occur _after_ the initial DataTables initialisation, although
 // before Ajax data is rendered, if there is ajax data
 function selectInit ( ctx ) {
+	var api = new DataTable.Api( ctx );
+
 	// Row callback so that classes can be added to rows and cells if the item
 	// was selected before the element was created. This will happen with the
 	// `deferRender` option enabled.
@@ -356,6 +364,56 @@ function selectInit ( ctx ) {
 		},
 		sName: 'select-deferRender'
 	} );
+
+	// On Ajax reload we want to reselect all rows which are currently selected,
+	// if there is an idSrc (i.e. a unique value to identify each row with)
+	api
+		.on( 'preXhr.dtSelect', function () {
+			var idSrc = ctx._select.idSrc;
+
+			if ( ctx._select.idSrc ) {
+				// note that column selection doesn't need to be cached and then
+				// reselected, as they are already selected
+				var rows = api.rows( { selected: true } ).data().pluck( idSrc );
+				var cells = api.cells( { selected: true } ).eq(0).map( function ( cellIdx ) {
+					var data = api.row( cellIdx.row ).data()[ idSrc ];
+					return data ?
+						{ row: data, column: cellIdx.column } :
+						undefined;
+				} );
+
+				// On the next draw, reselect the currently selected items
+				api.one( 'draw.dtSelect', function () {
+					rows.each( function ( id ) {
+						if ( id === undefined ) {
+							return;
+						}
+
+						api
+							.rows( function ( idx, data, node ) {
+								return data[ idSrc ] === id;
+							} )
+							.select();
+					} );
+
+					cells.each( function ( id ) {
+						if ( id === undefined ) {
+							return;
+						}
+
+						api
+							.cells( function ( idx, data, node ) {
+								return idx.column === id.column &&
+									api.row( idx.row ).data()[ idSrc ] === id.row;
+							} )
+							.select();
+					} );
+				} );
+			}
+		} )
+		.on( 'destroy.dtSelect', function () {
+			api.off( '.dtSelect' );
+		} );
 }
 
 // Iterate over the rows / cells for a table triggering the event handlers for
@@ -386,13 +444,14 @@ function eventTrigger ( api, selected, type )
 
 DataTable.Api.register( 'select()', function () {} );
 
+// xxx rename to items?
 DataTable.Api.register( 'select.mode()', function ( type ) {
 	if ( type === undefined ) {
-		return this.context[0]._select_mode;
+		return this.context[0]._select.mode;
 	}
 
 	return this.iterator( 'table', function ( ctx ) {
-		ctx._select_mode = type;
+		ctx._select.mode = type;
 	} );
 } );
 
@@ -400,11 +459,11 @@ DataTable.Api.register( 'select.mode()', function ( type ) {
 // does not clear the current selection. Use the `deselect` methods for that
 DataTable.Api.register( 'select.style()', function ( style ) {
 	if ( style === undefined ) {
-		return this.context[0]._select_style;
+		return this.context[0]._select.style;
 	}
 
 	return this.iterator( 'table', function ( ctx ) {
-		ctx._select_style = style;
+		ctx._select.style = style;
 
 		if ( ! ctx._select_init ) {
 			selectInit( ctx );
@@ -427,11 +486,22 @@ DataTable.Api.register( 'select.style()', function ( style ) {
 // click outside the datatable to clear selection
 DataTable.Api.register( 'select.blurable()', function ( flag ) {
 	if ( flag === undefined ) {
-		return this.context[0]._select_blurable;
+		return this.context[0]._select.blurable;
 	}
 
 	return this.iterator( 'table', function ( ctx ) {
-		ctx._select_blurable = flag;
+		ctx._select.blurable = flag;
+	} );
+} );
+
+// click outside the datatable to clear selection
+DataTable.Api.register( 'select.idSrc()', function ( idSrc ) {
+	if ( idSrc === undefined ) {
+		return this.context[0]._select.idSrc;
+	}
+
+	return this.iterator( 'table', function ( ctx ) {
+		ctx._select.idSrc = idSrc;
 	} );
 } );
 
@@ -461,8 +531,6 @@ DataTable.Api.registerPlural( 'columns().select()', 'column().select()', functio
 		_selectClear( ctx );
 
 		ctx.aoColumns[ idx ]._select_selected = true;
-
-		// xxx need a new row listener to add the class
 
 		var column = new DataTable.Api( ctx ).column( idx );
 
@@ -571,8 +639,8 @@ DataTable.Api.registerPlural( 'cells().deselect()', 'cell().deselect()', functio
 // -- buttons
 // select (alias of selectMulti?)
 // selectSingle
-// selectAllRows | Columns | Cells
-// selectNone Rows | Columns | Cells
+// selectAll (current mode)
+// selectNone (current mode)
 // selectMode Rows | Columns | Cells
 
 
@@ -595,9 +663,12 @@ $(document).on( 'init.dt.dtSelect', function (e, ctx, json) {
 	var dt = new DataTable.Api( ctx );
 
 	// Set defaults
-	ctx._select_mode = 'row';
-	ctx._select_style = 'api';
-	ctx._select_blurable = false;
+	ctx._select = {
+		mode: 'row',
+		style: 'api',
+		blurable: false,
+		idSrc: 'DT_RowId'
+	};
 
 	// Initialisation customisations
 	if ( opts === true ) {
@@ -607,9 +678,21 @@ $(document).on( 'init.dt.dtSelect', function (e, ctx, json) {
 		dt.select.style( opts );
 	}
 	else if ( $.isPlainObject( opts ) ) {
-		dt.select.style( opts.style || 'os' );
-		dt.select.mode( opts.mode || 'row' );
-		dt.select.blurable( opts.blurable || false );
+		if ( opts.mode !== undefined ) {
+			dt.select.mode( opts.mode );
+		}
+
+		if ( opts.style !== undefined ) {
+			dt.select.style( opts.style );
+		}
+
+		if ( opts.blurable !== undefined ) {
+			dt.select.blurable( opts.blurable );
+		}
+
+		if ( opts.idSrc !== undefined ) {
+			dt.select.idSrc( opts.idSrc );
+		}
 	}
 
 	// If the init options haven't enabled select, but there is a selectable
