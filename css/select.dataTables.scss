@@ -85,6 +85,16 @@ table.dataTable {
 div.dataTables_wrapper {
 	span.select-info,
 	span.select-item {
-		display: block;
+		margin-left: 0.5em;
+	}
+}
+
+@media screen and (max-width: 640px) {
+	div.dataTables_wrapper {
+		span.select-info,
+		span.select-item {
+			margin-left: 0;
+			display: block;
+		}
 	}
 }

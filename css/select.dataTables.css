@@ -62,5 +62,13 @@ table.dataTable.order-column.hover tbody > tr > .selected:hover {
 
 div.dataTables_wrapper span.select-info,
 div.dataTables_wrapper span.select-item {
-  display: block;
+  margin-left: 0.5em;
+}
+
+@media screen and (max-width: 640px) {
+  div.dataTables_wrapper span.select-info,
+  div.dataTables_wrapper span.select-item {
+    margin-left: 0;
+    display: block;
+  }
 }

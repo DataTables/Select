@@ -441,17 +441,20 @@ function eventTrigger ( api, selected, type )
 
 function info ( api )
 {
-	var output = $('<span class="select-info"/>');
-	var use = false;
-	var rows = api.rows( { selected: true } ).flatten().length;
+	var output  = $('<span class="select-info"/>');
+	var add = function ( name, num ) {
+		output.append( $('<span class="select-item"/>').append( api.i18n(
+			'select.'+name+'s',
+			{ _: '%d '+name+'s selected', 0: '', 1: '1 '+name+' selected' },
+			num
+		) ) );
+	};
 
-	if ( rows ) {
-		// xxx plural
-		use = true;
-		output.append( '<span class="select-item">'+rows+' rows selected</span>' );
-	}
+	add( 'row',    api.rows( { selected: true } ).flatten().length );
+	add( 'column', api.columns( { selected: true } ).flatten().length );
+	add( 'cells',  api.cells( { selected: true } ).flatten().length );
 
-	// Internal knowledge of DataTables
+	// Internal knowledge of DataTables to loop over all information elements
 	$.each( api.settings()[0].aanFeatures.i, function ( i, el ) {
 		el = $(el);
 
@@ -460,7 +463,7 @@ function info ( api )
 			exisiting.remove();
 		}
 
-		if ( use ) {
+		if ( output.text() !== '' ) {
 			el.append( output );
 		}
 	} );
