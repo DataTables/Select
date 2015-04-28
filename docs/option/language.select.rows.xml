@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<dt-option group="core">
+	<name>language.select.rows</name>
+	<summary>Table information summary string for the number of rows selected</summary>
+	<since>1.0.0</since>
+
+	<default value="" />
+
+	<type type="string">
+		<description>
+			The language string to be displayed without any pluralisation considerations. The string should contain `%d` which will be replaced with the number of rows selected.
+		</description>
+	</type>
+
+	<type type="object">
+		<description>
+			As an object this option can be used to define different strings to use for the various singular, plural, dual, etc options required by many languages. If the number of rows selected matches a parameter name in the object, the value of that parameter will be used. If there is no match the `_` (which **must** be defined) is used as the default.
+
+			As with the string case above, any of the parameter values defined in this object can contain the string `%d` which will be replace with the number of rows selected.
+		</description>
+	</type>
+
+	<description>
+		Select can show summary information about the number of rows selected in the table in the table's information element (`dt-init info`). This can provide quick and useful information to the end user to show the table's current state - see `s-init select.info`.
+
+		This language option can be used to provide information to the end user about the number of rows that are selected.
+
+		Internally the DataTables' `dt-api i18n()` method is used to determine the string value to display, which can provide complex singular, plural, dual, etc language strings for true multi-language support. Please refer to the `object` section below for details.
+	</description>
+
+	<example title="A simple string with no concern for pluralisation"><![CDATA[
+
+$('#example').DataTable( {
+	language: {
+		select: {
+			rows: "%d rows selected"
+		}
+	},
+	select: true
+} );
+
+]]></example>
+
+	<example title="Show a message when no rows are selected"><![CDATA[
+
+$('#example').DataTable( {
+	language: {
+		select: {
+			rows: {
+				_: "Selected %d rows",
+				0: "Click a row to select it",
+				1: "Selected 1 row"
+			}
+		}
+	},
+	select: true
+} );
+
+]]></example>
+</dt-option>

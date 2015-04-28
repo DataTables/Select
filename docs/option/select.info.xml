@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<dt-option group="core">
+	<name>select.info</name>
+	<summary>Enable / disable the display for item selection information in the table summary.</summary>
+	<since>1.0.0</since>
+
+	<default value="true"/>
+
+	<type type="boolean">
+		<description>
+			 Enable (`true`) the display of selected item information in the table summary, or not (`false`).
+		</description>
+	</type>
+
+	<description>
+		<![CDATA[
+		Select has the ability to show the end user summary information about the items they have selected in a table - the number of rows for example. This option can be used to enable / disable that action.
+
+		When enabled and information is shown the following markup is added to the table's information element:
+
+		```html
+		<span class="select-info">
+			<span class="select-item"/>{rows}</span>
+			<span class="select-item"/>{columns}</span>
+			<span class="select-item"/>{cells}</span>
+		</span>
+		```
+
+		where `{rows}`, `{columns}` and `{cells}` represents the information to be shown for each item. If there is no information to be shown the element is not included. If there is no information for any of the items, the wrapper element (`-string select-info`) is _not_ added to the document.
+		]]>
+	</description>
+
+	<example title="Disable selection summary information"><![CDATA[
+
+$('#example').DataTable( {
+	select: {
+		info: false
+	}
+} );
+
+]]></example>
+</dt-option>

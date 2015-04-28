@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<dt-option group="core">
+	<name>language.select</name>
+	<summary>Container object for language strings used by Select</summary>
+	<since>1.0.0</since>
+
+	<type type="object">
+		<description>
+			This is a container object for the language strings used by Select:
+
+			* `s-init language.select.rows` - Table summary information, row count string
+			* `s-init language.select.columns` - Table summary information, column count string
+			* `s-init language.select.cells` - Table summary information, cell count string
+		</description>
+	</type>
+
+	<description>
+		Select provides a number of different built in ways that an end user can interact with the selection of items in the table, which is controlled by this parameter (and `s-api select.style()` after initialisation).
+
+		The default mode of operation is based on the selection of files in modern operating systems with the ctrl/cmd and shift keys can be user to provide complex operations.
+
+		Note that while the `-string api` option disables item selection via Select's built in event handler, it is quote possible to use the API to still provide the end user with the ability to select / deselect items based on your own event handlers.
+	</description>
+
+	<example title="Set the strings to be used for row selection"><![CDATA[
+
+$('#example').DataTable( {
+	language: {
+		select: {
+			rows: {
+				_: "Selected %d rows",
+				1: "Selected 1 row"
+			}
+		}
+	},
+	select: true
+} );
+
+]]></example>
+</dt-option>

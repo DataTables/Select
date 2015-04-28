@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<dt-option group="core">
+	<name>select.blurable</name>
+	<summary>Indicate if the selected items will be removed when clicking outside of the table</summary>
+	<since>1.0.0</since>
+
+	<default value="false"/>
+
+	<type type="boolean">
+		<description>
+			 Enable the blurable option of Select (`true`) or not (`false`).
+		</description>
+	</type>
+
+	<description>
+		This option provides the ability to have a table act like a select list whereby any items that are selected will be automatically deselected when clicking outside of a DataTable. This can be useful to make a table "feel" more like a native operating system control, or if you have multiple tables on a page where only one should have selection at a time.
+	</description>
+
+	<example title="Remove selected items when clicking outside of the table"><![CDATA[
+
+$('#example').DataTable( {
+	select: {
+		blurable: true
+	}
+} );
+
+]]></example>
+</dt-option>

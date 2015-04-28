@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<dt-option group="core">
+	<name>select.items</name>
+	<summary>Set which table items to select (rows, columns or cells)</summary>
+	<since>1.0.0</since>
+
+	<default value="rows"/>
+
+	<type type="string">
+		<description>
+			This option can take one of the following values:
+
+			* `-string rows` - select rows
+			* `-string columns` - select columns
+			* `-string cells` - select cells
+		</description>
+	</type>
+
+	<description>
+		Select has the ability to select rows, columns or cells in a DataTable. As well as being able to select each table element type you can also combine the selection to have multiple different item types selected at the same time.
+
+		This option provides the ability to define which table item type will be selected by user interaction with a mouse. The items to be selected can also be defined at run time using the `s-api select.items()` method.
+	</description>
+
+	<example title="Select columns on load"><![CDATA[
+
+$('#example').DataTable( {
+	select: {
+		items: 'columns'
+	}
+} );
+
+]]></example>
+
+	<example title="Select cells on load"><![CDATA[
+
+$('#example').DataTable( {
+	select: {
+		items: 'cells'
+	}
+} );
+
+]]></example>
+</dt-option>

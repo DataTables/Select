@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<dt-option group="core">
+	<name>select</name>
+	<summary>Select configuration object</summary>
+	<since>1.0.0</since>
+
+	<type type="boolean">
+		<description>
+			Enable user selection of _rows_ using the OS style of selection (i.e. similar to a file list in an operating system which provides click options with cmd/ctrl and shift modifier key options. See `s-init select.style` and `s-init select.items`.
+		</description>
+	</type>
+
+	<type type="string">
+		<description>
+			Enable user selection of _rows_ using a style of selection defined by the string. See `s-init select.style` for the options available.
+		</description>
+	</type>
+
+	<type type="object">
+		<description>
+			Fine grained initialisation control of Select allowing full configuration of the selection options. Please refer to the initialisation options for full details. 
+		</description>
+	</type>
+
+	<description>
+		This option can be used to configure the _Select_ extension for DataTables during the initialisation of a DataTable.
+
+		When Select has been loaded on a page, all DataTables on that page have the ability to have items selected, but by default this can only be done through the API - i.e. the end user will have no ability to select items in a table by default. To enable end user selection, this option should be used (the `s-api select.style()` method can also be used after initialisation).
+
+		Exactly what selection the user can make and how depends upon the options selected.
+	</description>
+
+	<example title="Enable selection of rows in the OS style"><![CDATA[
+
+$('#example').DataTable( {
+	select: true
+} );
+
+]]></example>
+
+	<example title="Enable selection of a single row"><![CDATA[
+
+$('#example').DataTable( {
+	select: 'single'
+} );
+
+]]></example>
+
+	<example title="Disable selection summary information from being shown in the table information element."><![CDATA[
+
+$('#example').DataTable( {
+	select: {
+		info: false
+	}
+} );
+
+]]></example>
+
+	<example title="Selelect cells with no summary information shown"><![CDATA[
+
+$('#example').DataTable( {
+	select: {
+		items: 'cells',
+		info: false
+	}
+} );
+
+]]></example>
+</dt-option>
