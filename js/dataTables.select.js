@@ -297,7 +297,7 @@ function eventTrigger ( api, selected, type )
 			selected ?
 				'select.dt' :
 				'deselect.dt',
-			[ type, api[i] ]
+			[ ctx, type, api[i] ]
 		);
 	} );
 }
@@ -669,7 +669,7 @@ apiRegister( 'select.items()', function ( items ) {
 	return this.iterator( 'table', function ( ctx ) {
 		ctx._select.items = items;
 
-		$(ctx.nTable).triggerHandler( 'selectItems.dt', items );
+		$(ctx.nTable).triggerHandler( 'selectItems.dt', [ ctx, items ] );
 	} );
 } );
 
@@ -699,7 +699,7 @@ apiRegister( 'select.style()', function ( style ) {
 			}
 		}
 
-		$(ctx.nTable).triggerHandler( 'selectStyle.dt', style );
+		$(ctx.nTable).triggerHandler( 'selectStyle.dt', [ ctx, style ] );
 	} );
 } );
 
@@ -901,7 +901,7 @@ $.each( [ 'Row', 'Column', 'Cell' ], function ( i, item ) {
 		init: function ( dt, button, config ) {
 			var that = this;
 
-			dt.on( 'selectItems.dt.DT', function ( e, items ) {
+			dt.on( 'selectItems.dt.DT', function ( e, ctx, items ) {
 				that.active( items === lc );
 			} );
 		}
