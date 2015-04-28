@@ -11,7 +11,7 @@ DataTable.select = {};
 DataTable.select.version = '0.0.1-dev';
 
 // _select object has the following properties:
-//   mode
+//   items
 //   style
 //   idSrc
 //   blurable
@@ -177,9 +177,6 @@ function typeSelect ( e, dt, ctx, type, idx )
 
 function enableMouseSelection ( dt )
 {
-	// xxx what about FixedColumns?
-	// xxx select events
-
 	var body = $( dt.table().body() );
 
 	body
@@ -200,8 +197,8 @@ function enableMouseSelection ( dt )
 			body.css( '-moz-user-select', '' );
 		} )
 		.on( 'click.dtSelect', 'td, th', function ( e ) {
-			// what mode are we operating in?
-			var mode = dt.select.mode();
+			// what items are we selecting
+			var items = dt.select.items();
 			var cellIndex = dt.cell( this ).index();
 			var idx;
 
@@ -218,15 +215,15 @@ function enableMouseSelection ( dt )
 				return;
 			}
 
-			if ( mode === 'row' ) {
+			if ( items === 'row' ) {
 				idx = cellIndex.row;
 				typeSelect( e, dt, ctx, 'row', idx );
 			}
-			else if ( mode === 'column' ) {
+			else if ( items === 'column' ) {
 				idx = dt.cell( e.target ).index().column;
 				typeSelect( e, dt, ctx, 'column', idx );
 			}
-			else if ( mode === 'cell' ) {
+			else if ( items === 'cell' ) {
 				idx = dt.cell( e.target ).index();
 				typeSelect( e, dt, ctx, 'cell', idx );
 			}
@@ -480,16 +477,15 @@ function info ( api )
 
 DataTable.Api.register( 'select()', function () {} );
 
-// xxx rename to items?
-DataTable.Api.register( 'select.mode()', function ( type ) {
-	if ( type === undefined ) {
-		return this.context[0]._select.mode;
+DataTable.Api.register( 'select.items()', function ( items ) {
+	if ( items === undefined ) {
+		return this.context[0]._select.items;
 	}
 
 	return this.iterator( 'table', function ( ctx ) {
-		ctx._select.mode = type;
+		ctx._select.items = items;
 
-		$(ctx.nTable).triggerHandler( 'selectMode.dt', type );
+		$(ctx.nTable).triggerHandler( 'selectItems.dt', items );
 	} );
 } );
 
@@ -679,9 +675,9 @@ DataTable.Api.registerPlural( 'cells().deselect()', 'cell().deselect()', functio
 // -- buttons
 // selected (alias of selectMulti?)
 // selectedSingle
-// selectAll (current mode)
-// selectNone (current mode)
-// selectMode Rows | Columns | Cells
+// selectAll (current items)
+// selectNone (current items)
+// select Rows | Columns | Cells
 
 $.extend( DataTable.ext.buttons, {
 	selected: {
@@ -717,8 +713,8 @@ $.extend( DataTable.ext.buttons, {
 		text: 'Select all',
 		className: 'buttons-select-all',
 		action: function () {
-			var mode = this.select.mode();
-			this[ mode+'s' ]().select();
+			var items = this.select.items();
+			this[ items+'s' ]().select();
 		}
 	},
 	selectNone: {
@@ -737,13 +733,13 @@ $.each( [ 'Row', 'Column', 'Cell' ], function ( i, item ) {
 		text: 'Select '+lc+'s',
 		className: 'buttons-select-'+lc+'s',
 		action: function () {
-			this.select.mode( lc );
+			this.select.items( lc );
 		},
 		init: function ( dt, button, config ) {
 			var that = this;
 
-			dt.on( 'selectMode.dt.DT', function ( e, mode ) {
-				that.active( mode === lc );
+			dt.on( 'selectItems.dt.DT', function ( e, items ) {
+				that.active( items === lc );
 			} );
 		}
 	};
@@ -767,7 +763,7 @@ $(document).on( 'init.dt.dtSelect', function (e, ctx, json) {
 	var dt = new DataTable.Api( ctx );
 
 	// Set defaults
-	var mode = 'row';
+	var items = 'row';
 	var style = 'api';
 	var blurable = false;
 	var idSrc = 'Dt_RowId';
@@ -782,8 +778,8 @@ $(document).on( 'init.dt.dtSelect', function (e, ctx, json) {
 		style = opts;
 	}
 	else if ( $.isPlainObject( opts ) ) {
-		if ( opts.mode !== undefined ) {
-			mode = opts.mode;
+		if ( opts.items !== undefined ) {
+			items = opts.items;
 		}
 
 		if ( opts.style !== undefined ) {
@@ -799,7 +795,7 @@ $(document).on( 'init.dt.dtSelect', function (e, ctx, json) {
 		}
 	}
 
-	dt.select.mode( mode );
+	dt.select.items( items );
 	dt.select.style( style );
 	dt.select.blurable( blurable );
 	dt.select.idSrc( idSrc );
