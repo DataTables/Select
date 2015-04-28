@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<dt-event>
+	<name>selectStyle</name>
+	<summary>Select style change event.</summary>
+	<since>1.0.0</since>
+
+	<type type="function">
+		<signature>function( e, settings, style )</signature>
+		<parameter type="object" name="e">
+			jQuery event object
+		</parameter>
+		<parameter type="DataTables.Settings" name="settings">
+			DataTables settings object
+		</parameter>
+		<parameter type="string" name="style">
+			The selection style now active on the DataTable. See `s-init select.style`.
+		</parameter>
+		<scope>HTML table element</scope>
+	</type>
+
+	<description>
+		This event is triggered whenever the selection style is changed. This can be done using the `s-init select.style` initialisation option or the `s-api select.style()` API method.
+
+		Please note that, as with all DataTables emitted events, this event is triggered with the `dt` namespace. As such, to listen for this event, you must also use the `dt` namespace by simply appending `.dt` to your event name (this is done automatically when using `dt-api on()` and `dt-api one()`).
+	</description>
+
+	<example title="Log whenever the selection style changes"><![CDATA[
+
+var table = $('#example').DataTable();
+
+table.on( 'selectStyle', function ( e, settings, style ) {
+	console.log( 'Selection style is now: ', style );
+} );
+
+]]></example>
+</dt-event>

@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<dt-event>
+	<name>select</name>
+	<summary>Items (rows, columns or cells) have been selected</summary>
+	<since>1.0.0</since>
+
+	<type type="function">
+		<signature>function( e, settings, type, indexes )</signature>
+		<parameter type="object" name="e">
+			jQuery event object
+		</parameter>
+		<parameter type="DataTables.Settings" name="settings">
+			DataTables settings object
+		</parameter>
+		<parameter type="string" name="type">
+			Items being selected. This can be `-string rows`, `-string columns` or `-string cells`.
+		</parameter>
+		<parameter type="array" name="indexes">
+			The DataTables' indexes of the selected items. This can be used with the table selector methods (`dt-api rows()` for example). For further information about the item indexes used by DataTables, please refer to `dt-api row().index()`, `dt-api column().index()` and `dt-api cell().index()` as appropriate.
+		</parameter>
+		<scope>HTML table element</scope>
+	</type>
+
+	<description>
+		This event is triggered whenever an item (rows, columns or cells) are selected in a DataTable, and provides information about which item(s) have been selected.
+
+		Please note that for performance reasons only a single event is triggered for each selection action. The result is that if multiple items are selected in a single action (shift click in the `os` selection style for example) each item selected does not receive its own event, but rather the information about the selected items is conveyed in an array.
+
+		Additionally, as with all DataTables emitted events, this event is triggered with the `dt` namespace. As such, to listen for this event, you must also use the `dt` namespace by simply appending `.dt` to your event name (this is done automatically when using `dt-api on()` and `dt-api one()`).
+	</description>
+
+	<example title="Get data from rows whenever rows are selected"><![CDATA[
+
+var table = $('#example').DataTable();
+
+table.on( 'select', function ( e, settings, type, indexes ) {
+	if ( type === 'rows' ) {
+		var data = table.rows( indexes ).data().pluck( 'id' );
+
+		// do something with the ID of the selected items
+	}
+} );
+
+]]></example>
+
+	<example title="Add a custom class when an item is selected"><![CDATA[
+
+var table = $('#example').DataTable();
+
+table.on( 'select', function ( e, settings, type, indexes ) {
+	table[ type ]( indexes ).nodes().to$().addClass( 'custom-selected' );
+} );
+
+]]></example>
+</dt-event>

@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<dt-event>
+	<name>deselect</name>
+	<summary>Items (rows, columns or cells) have been deselected</summary>
+	<since>1.0.0</since>
+
+	<type type="function">
+		<signature>function( e, settings, type, indexes )</signature>
+		<parameter type="object" name="e">
+			jQuery event object
+		</parameter>
+		<parameter type="DataTables.Settings" name="settings">
+			DataTables settings object
+		</parameter>
+		<parameter type="string" name="type">
+			Items being deselected. This can be `-string rows`, `-string columns` or `-string cells`.
+		</parameter>
+		<parameter type="array" name="indexes">
+			The DataTables' indexes of the deselected items. This can be used with the table selector methods (`dt-api rows()` for example). For further information about the item indexes used by DataTables, please refer to `dt-api row().index()`, `dt-api column().index()` and `dt-api cell().index()` as appropriate.
+		</parameter>
+		<scope>HTML table element</scope>
+	</type>
+
+	<description>
+		This event is triggered whenever an item (rows, columns or cells) are deselected in a DataTable, and provides information about which item(s) have been deselected.
+
+		Please note that for performance reasons only a single event is triggered for each deselection action. The result is that if multiple items are deselected in a single action, each item deselected does not receive its own event, but rather the information about the deselected items is conveyed in an array.
+
+		Additionally, as with all DataTables emitted events, this event is triggered with the `dt` namespace. As such, to listen for this event, you must also use the `dt` namespace by simply appending `.dt` to your event name (this is done automatically when using `dt-api on()` and `dt-api one()`).
+	</description>
+
+	<example title="Get data from rows whenever rows are deselected"><![CDATA[
+
+var table = $('#example').DataTable();
+
+table.on( 'deselect', function ( e, settings, type, indexes ) {
+	if ( type === 'rows' ) {
+		var data = table.rows( indexes ).data().pluck( 'id' );
+
+		// do something with the ID of the deselected items
+	}
+} );
+
+]]></example>
+
+	<example title="Remove a custom class when an item is deselected"><![CDATA[
+
+var table = $('#example').DataTable();
+
+table.on( 'deselect', function ( e, settings, type, indexes ) {
+	table[ type ]( indexes ).nodes().to$().removeClass( 'custom-selected' );
+} );
+
+]]></example>
+</dt-event>

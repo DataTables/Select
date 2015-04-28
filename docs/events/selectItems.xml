@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<dt-event>
+	<name>selectItems</name>
+	<summary>Select items type change event.</summary>
+	<since>1.0.0</since>
+
+	<type type="function">
+		<signature>function( e, settings, items )</signature>
+		<parameter type="object" name="e">
+			jQuery event object
+		</parameter>
+		<parameter type="DataTables.Settings" name="settings">
+			DataTables settings object
+		</parameter>
+		<parameter type="string" name="items">
+			The items that are now available for selection by the end user. See `s-init select.items`.
+		</parameter>
+		<scope>HTML table element</scope>
+	</type>
+
+	<description>
+		This event is triggered whenever the items that are to be selected (rows, columns, cells) is changed. This can be done using the `s-init select.items` initialisation option or the `s-api select.items()` API method.
+
+		Please note that, as with all DataTables emitted events, this event is triggered with the `dt` namespace. As such, to listen for this event, you must also use the `dt` namespace by simply appending `.dt` to your event name (this is done automatically when using `dt-api on()` and `dt-api one()`).
+	</description>
+
+	<example title="Log whenever the item selection type changes"><![CDATA[
+
+var table = $('#example').DataTable();
+
+table.on( 'selectItems', function ( e, settings, items ) {
+	console.log( 'Items to be selected are now: ', items );
+} );
+
+]]></example>
+</dt-event>
