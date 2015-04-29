@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<dt-api group="core">
+	<name>columns().deselect()</name>
+	<summary>Deselect columns</summary>
+	<since>1.0.0</since>
+
+	<type type="function">
+		<signature>columns().deselect()</signature>
+		<returns type="DataTables.Api">
+			API instance that contains a reference to the deselected columns.
+		</returns>
+		<description>
+			Deselect one or more columns in the table, based on the columns found by the `dt-api columns()` method.
+		</description>
+	</type>
+
+	<description>
+		This method simply deselects the columns that have been found by the `dt-api columns()` selector method.
+	</description>
+
+	<example title="Deselect all columns which have a class of 'important'"><![CDATA[
+
+var table = $('#myTable').DataTable();
+
+table.columns('.important').deselect();
+
+]]></example>
+
+	<related>s-api columns().select()</related>
+	<related>s-api column().select()</related>
+	<related>s-api column().deselect()</related>
+</dt-api>

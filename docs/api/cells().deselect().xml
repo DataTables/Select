@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<dt-api group="core">
+	<name>cells().deselect()</name>
+	<summary>Deselect cells</summary>
+	<since>1.0.0</since>
+
+	<type type="function">
+		<signature>cells().deselect()</signature>
+		<returns type="DataTables.Api">
+			API instance that contains a reference to the deselected cells.
+		</returns>
+		<description>
+			Deselect one or more cells in the table, based on the cells found by the `dt-api cells()` method.
+		</description>
+	</type>
+
+	<description>
+		This method simply deselects the cells that have been found by the `dt-api cells()` selector method.
+	</description>
+
+	<example title="Deselect all cells which have a class of 'important'"><![CDATA[
+
+var table = $('#myTable').DataTable();
+
+table.cells('.important').deselect();
+
+]]></example>
+
+	<related>s-api cells().select()</related>
+	<related>s-api cell().select()</related>
+	<related>s-api cell().deselect()</related>
+</dt-api>

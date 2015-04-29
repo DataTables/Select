@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<dt-api group="core">
+	<name>select.idSrc()</name>
+	<summary>Get / set the `idSrc` for Select's unique row data point identifier</summary>
+	<since>1.0.0</since>
+
+	<type type="function">
+		<signature>select.idSrc()</signature>
+		<returns type="string|integer">
+			The current `idSrc` for the table's Select options. Note that if multiple tables are defined in the API's context, only the id source state of the first table will be returned.
+		</returns>
+		<description>
+			Gets the current `idSrc` that has been set.
+		</description>
+	</type>
+
+	<type type="function">
+		<signature>select.idSrc( set )</signature>
+		<parameter type="string|integer" name="set">
+			Value to set for the `idSrc`
+		</parameter>
+		<returns type="DataTables.Api">
+			DataTables API instance for chaining.
+		</returns>
+		<description>
+			Set the `idSrc` data point for the table's selection options.
+		</description>
+	</type>
+
+	<description>
+		When refreshing data in a table to update it with the latest data available at the server (using `dt-api ajax.reload()`) it can be useful to retain the user's item selection, particularly if the server is periodically being polled for new data. The `idSrc` option of Select provides the software with a data point that contains a unique value for each row - typically a database primary key value so items can be reselected on data reload.
+
+		This method provides the ability to get / set that id source.
+	</description>
+
+	<example title="Set the Select `idSrc` using the API"><![CDATA[
+
+var table = $('#myTable').DataTable();
+
+table.select.idSrc( 'id' );
+
+]]></example>
+
+	<related>s-init select.idSrc</related>
+</dt-api>

@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<dt-api group="core">
+	<name>column().select()</name>
+	<summary>Select a single column</summary>
+	<since>1.0.0</since>
+
+	<type type="function">
+		<signature>column().select()</signature>
+		<returns type="DataTables.Api">
+			API instance that contains a reference to the selected column.
+		</returns>
+		<description>
+			Select a single column in the table, based on the column found by the `dt-api column()` method.
+		</description>
+	</type>
+
+	<description>
+		This method simply selects a single column that has been found by the `dt-api column()` selector method.
+
+		If the selection style (`s-init select.style` / `s-api select.style()`) is set to `single` any previously selected columns will be automatically deselected. Otherwise the column will be added to the current selected set.
+
+		Selected columns can later be retrieved using the `selected` extension to the `dt-type selector-modifier` object - for example `table.columns( { selected: true } ).data()` will get the data of all columns which are selected in the table.
+	</description>
+
+	<example title="Select the last column in the table (i.e. the right most column)"><![CDATA[
+
+var table = $('#myTable').DataTable();
+
+table.column( -1 ).select();
+
+]]></example>
+
+	<related>s-api column().deselect()</related>
+	<related>s-api columns().select()</related>
+	<related>s-api columns().deselect()</related>
+</dt-api>

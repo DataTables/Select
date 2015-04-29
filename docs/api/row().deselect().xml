@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<dt-api group="core">
+	<name>row().deselect()</name>
+	<summary>Deselect a single row</summary>
+	<since>1.0.0</since>
+
+	<type type="function">
+		<signature>row().deselect()</signature>
+		<returns type="DataTables.Api">
+			API instance that contains a reference to the deselected row.
+		</returns>
+		<description>
+			Deselect a single row in the table, based on the row found by the `dt-api row()` method.
+		</description>
+	</type>
+
+	<description>
+		This method simply deselects a single row that has been found by the `dt-api row()` selector method.
+	</description>
+
+	<example title="Deselect the first row in the table's current page"><![CDATA[
+
+var table = $('#myTable').DataTable();
+
+table.row(':eq(0)', { page: 'current' }).deselect();
+
+]]></example>
+
+	<related>s-api row().select()</related>
+	<related>s-api rows().select()</related>
+	<related>s-api rows().deselect()</related>
+</dt-api>

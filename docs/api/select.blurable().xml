@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<dt-api group="core">
+	<name>select.blurable()</name>
+	<summary>Get / set the blurable state of the table's item selection options</summary>
+	<since>1.0.0</since>
+
+	<type type="function">
+		<signature>select.blurable()</signature>
+		<returns type="boolean">
+			Current state - `true` if blurable, `false` otherwise. Note that if multiple tables are defined in the API's context, only the blurable state of the first table will be returned.
+		</returns>
+		<description>
+			Get the blurable state for the table.
+		</description>
+	</type>
+
+	<type type="function">
+		<signature>select.blurable( flag )</signature>
+		<parameter type="boolean" name="flag">
+			Value to set for the blurable option - `true` to enable, `false` to disable.
+		</parameter>
+		<returns type="DataTables.Api">
+			DataTables API instance for chaining.
+		</returns>
+		<description>
+			Set the blurable state for the table's selection options.
+		</description>
+	</type>
+
+	<description>
+		Select provides the ability for the item selection in the table to be removed when the end user clicks on an element outside of the table - i.e. the selection is blurred. This ability can be enabled and disabled dynamically using this method.
+	</description>
+
+	<example title="Enable item selection bluring using the API"><![CDATA[
+
+var table = $('#myTable').DataTable();
+
+table.select.blurable( true );
+
+]]></example>
+
+	<related>s-init select.blurable</related>
+</dt-api>

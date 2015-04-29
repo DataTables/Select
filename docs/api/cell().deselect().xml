@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<dt-api group="core">
+	<name>cell().deselect()</name>
+	<summary>Deselect a single cell</summary>
+	<since>1.0.0</since>
+
+	<type type="function">
+		<signature>cell().deselect()</signature>
+		<returns type="DataTables.Api">
+			API instance that contains a reference to the deselected cell.
+		</returns>
+		<description>
+			Deselect a single cell in the table, based on the cell found by the `dt-api cell()` method.
+		</description>
+	</type>
+
+	<description>
+		This method simply deselects a single cell that has been found by the `dt-api cell()` selector method.
+	</description>
+
+	<example title="Deselect all cells on the current page"><![CDATA[
+
+var table = $('#myTable').DataTable();
+
+table.cell( {page: 'current'} ).deselect();
+
+]]></example>
+
+	<related>s-api cell().select()</related>
+	<related>s-api cells().select()</related>
+	<related>s-api cells().deselect()</related>
+</dt-api>

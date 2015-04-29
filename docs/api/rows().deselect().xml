@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<dt-api group="core">
+	<name>rows().deselect()</name>
+	<summary>Deselect rows</summary>
+	<since>1.0.0</since>
+
+	<type type="function">
+		<signature>rows().deselect()</signature>
+		<returns type="DataTables.Api">
+			API instance that contains a reference to the deselected rows.
+		</returns>
+		<description>
+			Deselect one or more rows in the table, based on the rows found by the `dt-api rows()` method.
+		</description>
+	</type>
+
+	<description>
+		This method simply deselects the rows that have been found by the `dt-api rows()` selector method.
+	</description>
+
+	<example title="Deselect all rows which have a class of 'important'"><![CDATA[
+
+var table = $('#myTable').DataTable();
+
+table.rows('.important').deselect();
+
+]]></example>
+
+	<related>s-api rows().select()</related>
+	<related>s-api row().select()</related>
+	<related>s-api row().deselect()</related>
+</dt-api>

@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<dt-api group="core">
+	<name>columns().select()</name>
+	<summary>Select columns</summary>
+	<since>1.0.0</since>
+
+	<type type="function">
+		<signature>columns().select()</signature>
+		<returns type="DataTables.Api">
+			API instance that contains a reference to the selected columns.
+		</returns>
+		<description>
+			Select one or more columns in the table, based on the columns found by the `dt-api columns()` method.
+		</description>
+	</type>
+
+	<description>
+		This method simply selects the columns that have been found by the `dt-api columns()` selector method.
+
+		Selected columns can later be retrieved using the `selected` extension to the `dt-type selector-modifier` object - for example `table.columns( { selected: true } ).data()` will get the data of all columns which are selected in the table.
+	</description>
+
+	<example title="Select column indexes 1 and 2"><![CDATA[
+
+var table = $('#myTable').DataTable();
+
+table.columns([1, 2]).select();
+
+]]></example>
+
+	<related>s-api column().select()</related>
+	<related>s-api columns().deselect()</related>
+	<related>s-api column().deselect()</related>
+</dt-api>

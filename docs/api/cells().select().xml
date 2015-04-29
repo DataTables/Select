@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<dt-api group="core">
+	<name>cells().select()</name>
+	<summary>Select cells</summary>
+	<since>1.0.0</since>
+
+	<type type="function">
+		<signature>cells().select()</signature>
+		<returns type="DataTables.Api">
+			API instance that contains a reference to the selected cells.
+		</returns>
+		<description>
+			Select one or more cells in the table, based on the cells found by the `dt-api cells()` method.
+		</description>
+	</type>
+
+	<description>
+		This method simply selects the cells that have been found by the `dt-api cells()` selector method.
+
+		Selected cells can later be retrieved using the `selected` extension to the `dt-type selector-modifier` object - for example `table.cells( { selected: true } ).data()` will get the data of all cells which are selected in the table.
+	</description>
+
+	<example title="Select all cells which have a class of 'important'"><![CDATA[
+
+var table = $('#myTable').DataTable();
+
+table.cells('.important').select();
+
+]]></example>
+
+	<example title="Select all cells in column index 1 on the current page"><![CDATA[
+
+var table = $('#myTable').DataTable();
+
+table.cells( null, 1, {page: 'current'} ).select();
+
+]]></example>
+
+	<related>s-api cell().select()</related>
+	<related>s-api cells().deselect()</related>
+	<related>s-api cell().deselect()</related>
+</dt-api>

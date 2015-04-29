@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<dt-api group="core">
+	<name>column().deselect()</name>
+	<summary>Deselect a single column</summary>
+	<since>1.0.0</since>
+
+	<type type="function">
+		<signature>column().deselect()</signature>
+		<returns type="DataTables.Api">
+			API instance that contains a reference to the deselected column.
+		</returns>
+		<description>
+			Deselect a single column in the table, based on the column found by the `dt-api column()` method.
+		</description>
+	</type>
+
+	<description>
+		This method simply deselects a single column that has been found by the `dt-api column()` selector method.
+	</description>
+
+	<example title="Deselect column index 0"><![CDATA[
+
+var table = $('#myTable').DataTable();
+
+table.column( 0 ).deselect();
+
+]]></example>
+
+	<related>s-api column().select()</related>
+	<related>s-api columns().select()</related>
+	<related>s-api columns().deselect()</related>
+</dt-api>

@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<dt-api group="core">
+	<name>select.info()</name>
+	<summary>Get / set the information summary display state</summary>
+	<since>1.0.0</since>
+
+	<type type="function">
+		<signature>select.info()</signature>
+		<returns type="boolean">
+			Current state - `true` if information summary shown, `false` otherwise. Note that if multiple tables are defined in the API's context, only the information state of the first table will be returned.
+		</returns>
+		<description>
+			Get the summary information display state for the table.
+		</description>
+	</type>
+
+	<type type="function">
+		<signature>select.info( flag )</signature>
+		<parameter type="boolean" name="flag">
+			Value to set for the information summary display state - `true` to enable, `false` to disable.
+		</parameter>
+		<returns type="DataTables.Api">
+			DataTables API instance for chaining.
+		</returns>
+		<description>
+			Set the information summary display state for the table's selection options.
+		</description>
+	</type>
+
+	<description>
+		By default Select will show information in the table's summary element (`dt-init info`) summarising how many items are displayed. This method provides the ability to dynamically enable and disable that option.
+
+		Note that the display will not be immediately updated when toggling this value - it will be updated at the next table draw which can be triggered using the `dt-api draw()` method.
+	</description>
+
+	<example title="Disable the information summary display using the API"><![CDATA[
+
+var table = $('#myTable').DataTable();
+
+table.select.info( false );
+
+]]></example>
+
+	<related>s-init select.info</related>
+</dt-api>

@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<dt-api group="core">
+	<name>rows().select()</name>
+	<summary>Select rows</summary>
+	<since>1.0.0</since>
+
+	<type type="function">
+		<signature>rows().select()</signature>
+		<returns type="DataTables.Api">
+			API instance that contains a reference to the selected rows.
+		</returns>
+		<description>
+			Select one or more rows in the table, based on the rows found by the `dt-api rows()` method.
+		</description>
+	</type>
+
+	<description>
+		This method simply selects the rows that have been found by the `dt-api rows()` selector method.
+
+		Selected rows can later be retrieved using the `selected` extension to the `dt-type selector-modifier` object - for example `table.rows( { selected: true } ).data()` will get the data of all rows which are selected in the table.
+	</description>
+
+	<example title="Select all rows which have a class of 'important'"><![CDATA[
+
+var table = $('#myTable').DataTable();
+
+table.rows('.important').select();
+
+]]></example>
+
+	<related>s-api row().select()</related>
+	<related>s-api rows().deselect()</related>
+	<related>s-api row().deselect()</related>
+</dt-api>

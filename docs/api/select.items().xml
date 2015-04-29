@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<dt-api group="core">
+	<name>select.items()</name>
+	<summary>Get / set the items that Select will select based on user interaction (rows, columns or cells)</summary>
+	<since>1.0.0</since>
+
+	<type type="function">
+		<signature>select.items()</signature>
+		<returns type="string">
+			The current item that will be selected when the user interacts with Select's event listeners - this will be the value `-string rows`, `-string columns` or `-string cells`.
+		</returns>
+		<description>
+			Get the items that will be selected by user interaction (i.e. a click on the table).
+		</description>
+	</type>
+
+	<type type="function">
+		<signature>select.items( set )</signature>
+		<parameter type="string" name="set">
+			Items to select - this must be one of `-string rows`, `-string columns` or `-string cells`.
+		</parameter>
+		<returns type="DataTables.Api">
+			DataTables API instance for chaining.
+		</returns>
+		<description>
+			Set the item type that will be selected by user interaction.
+		</description>
+	</type>
+
+	<description>
+		Select provides the option for end users to be able to select rows, columns or cells in a table (i.e. the table's _items_). This method can be used to dynamically set which item will be selected if the end user is permitted to select items in the table (see the `s-init select.style` and `s-api select.style()` option and method).
+
+		Please note that setting this option effects only the end user interaction with the table. It is still possible to select other items via the API (e.g. if the items are set to select cells, you can still use `s-api rows().select()` to select a row).
+	</description>
+
+	<example title="Let the user select cells by clicking on them"><![CDATA[
+
+var table = $('#myTable').DataTable();
+
+table.select.style( 'os' );
+table.select.items( 'cells' );
+
+]]></example>
+
+	<related>s-init select.items</related>
+</dt-api>

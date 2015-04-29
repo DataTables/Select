@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<dt-api group="core">
+	<name>select.style()</name>
+	<summary>Get / set the style by which the end user can select items in the table</summary>
+	<since>1.0.0</since>
+
+	<type type="function">
+		<signature>select.style()</signature>
+		<returns type="string">
+			The current selection style, this will be one of `-string api`, `-string single`, `-string multi` or `-string os`.
+
+			Note that if multiple tables are defined in the API's context, only the selection style of the first table will be returned.
+		</returns>
+		<description>
+			Get the current selection style applied to the table. 
+		</description>
+	</type>
+
+	<type type="function">
+		<signature>select.style( set )</signature>
+		<parameter type="string" name="set">
+			Selection style to set - this must be one of `-string api`, `-string single`, `-string multi` or `-string os`.
+		</parameter>
+		<returns type="DataTables.Api">
+			DataTables API instance for chaining.
+		</returns>
+		<description>
+			Set the table's selection style.
+		</description>
+	</type>
+
+	<description>
+		Select has four different modes of operation for end user selection of items in the table:
+
+		* `-string api` - Selection can only be performed via the API - this means that selection is disabled unless you use the API
+		* `-string single` - Only a single item can be selected, any other selected items will be automatically deselected when a new item is selected
+		* `-string multi` - Multiple items can be selected. Selection is performed by simply clicking on the items to be selected
+		* `-string os` - _Operating System_ (OS) style selection. This is the most comprehensive option and provides complex behaviours such as ctrl/cmd clicking to select / deselect individual items, shift clicking to select ranges and an unmodified click to select a single item.
+
+		Each of these options can be used with the three table items that can be selected (`e-api select.items()`).
+	</description>
+
+	<example title="Let the user select items using the _os_ selection style"><![CDATA[
+
+var table = $('#myTable').DataTable();
+
+table.select.style( 'os' );
+
+]]></example>
+
+	<related>s-init select.style</related>
+</dt-api>
