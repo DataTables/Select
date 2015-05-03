@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<dt-example table-type="html" table-class="display" order="2" framework="jqueryui">
+
+<css lib="jqueryui datatables select"/>
+<js lib="jquery datatables select">
+<![CDATA[
+
+$(document).ready(function() {
+	$('#example').DataTable( {
+		select: {
+			style: 'os'
+		}
+	} );
+} );
+
+]]>
+</js>
+
+<title lib="Select">jQUery UI styling</title>
+
+<info><![CDATA[
+
+
+
+]]></info>
+
+</dt-example>
+

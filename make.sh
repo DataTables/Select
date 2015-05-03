@@ -11,8 +11,11 @@ DT_BUILT="${DT_SRC}/built/DataTables"
 . $DT_SRC/build/include.sh
 
 # Copy CSS
-scss_compile css/select.dataTables.scss
 rsync -r css $OUT_DIR
+scss_compile $OUT_DIR/css/select.dataTables.scss
+scss_compile $OUT_DIR/css/select.bootstrap.scss
+scss_compile $OUT_DIR/css/select.foundation.scss
+scss_compile $OUT_DIR/css/select.jqueryui.scss
 
 # Copy images
 #rsync -r images $OUT_DIR
