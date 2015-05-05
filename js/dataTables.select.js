@@ -835,9 +835,15 @@ apiRegisterPlural( 'cells().deselect()', 'cell().deselect()', function () {
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
  * Buttons
  */
+function i18n( label, def ) {
+	return function (dt) {
+		return dt.i18n( 'buttons.'+label, def );
+	};
+}
+
 $.extend( DataTable.ext.buttons, {
 	selected: {
-		text: 'Selected',
+		text: i18n( 'selected', 'Selected' ),
 		className: 'buttons-selected',
 		init: function ( dt, button, config ) {
 			var that = this;
@@ -856,7 +862,7 @@ $.extend( DataTable.ext.buttons, {
 		}
 	},
 	selectedSingle: {
-		text: 'Selected single',
+		text: i18n( 'selectedSingle', 'Selected single' ),
 		className: 'buttons-selected-single',
 		init: function ( dt, button, config ) {
 			var that = this;
@@ -873,7 +879,7 @@ $.extend( DataTable.ext.buttons, {
 		}
 	},
 	selectAll: {
-		text: 'Select all',
+		text: i18n( 'selectAll', 'Select all' ),
 		className: 'buttons-select-all',
 		action: function () {
 			var items = this.select.items();
@@ -881,7 +887,7 @@ $.extend( DataTable.ext.buttons, {
 		}
 	},
 	selectNone: {
-		text: 'Deselect all',
+		text: i18n( 'selectNone', 'Deselect all' ),
 		className: 'buttons-select-none',
 		action: function () {
 			clear( this.settings()[0], true );
@@ -893,7 +899,7 @@ $.each( [ 'Row', 'Column', 'Cell' ], function ( i, item ) {
 	var lc = item.toLowerCase();
 
 	DataTable.ext.buttons[ 'select'+item+'s' ] = {
-		text: 'Select '+lc+'s',
+		text: i18n( 'select'+item+'s', 'Select '+lc+'s' ),
 		className: 'buttons-select-'+lc+'s',
 		action: function () {
 			this.select.items( lc );
