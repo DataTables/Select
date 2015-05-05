@@ -12,10 +12,7 @@ DT_BUILT="${DT_SRC}/built/DataTables"
 
 # Copy CSS
 rsync -r css $OUT_DIR
-scss_compile $OUT_DIR/css/select.dataTables.scss
-scss_compile $OUT_DIR/css/select.bootstrap.scss
-scss_compile $OUT_DIR/css/select.foundation.scss
-scss_compile $OUT_DIR/css/select.jqueryui.scss
+css_frameworks select $OUT_DIR/css
 
 # Copy images
 #rsync -r images $OUT_DIR
@@ -23,6 +20,7 @@ scss_compile $OUT_DIR/css/select.jqueryui.scss
 # Copy JS
 rsync -r js $OUT_DIR
 js_compress $OUT_DIR/js/dataTables.select.js
+js_frameworks select $OUT_DIR/js
 
 # Copy and build examples
 rsync -r examples $OUT_DIR
