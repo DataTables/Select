@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<dt-button group="core">
+	<name>selectAll</name>
+	<summary>Select all items in the table based on the current item select mode</summary>
+	<since>1.0.0</since>
+
+	<description>
+		The `selectAll` button will simply select all items in the table, based on the current item selection mode (`s-api select.items()`) - e.g. if the item selection mode is `rows`, all rows in the table will be selected when this button is activated.
+	</description>
+
+	<defaults>
+		<parameter name="text" value="Select all">
+			This can be configured using the `buttons.selectAll` option of the DataTables `dt-init language` object, or using the `b-init buttons.buttons.text` option for this button.
+		</parameter>
+		<parameter name="className" value="buttons-select-all"/>
+		<parameter name="action" value="function">
+			Select all items in the table based on the current item select mode.
+		</parameter>
+	</defaults>
+
+	<example title="DataTables initialisation: Show select all and select none buttons with language options in the DataTables language object"><![CDATA[
+
+$('#myTable').DataTable( {
+	buttons: [
+		'selectAll',
+		'selectNone'
+	},
+	language: {
+		buttons: {
+			selectAll: "Select all items",
+			selectNone: "Select none"
+		}
+	}
+} );
+
+]]></example>
+</dt-button>

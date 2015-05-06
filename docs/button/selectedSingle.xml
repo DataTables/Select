@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<dt-button group="core">
+	<name>selectedSingle</name>
+	<summary>Button that is enabled when a single item is selected in the table</summary>
+	<since>1.0.0</since>
+
+	<description>
+		This button is very similar to the `s-button selected` button type, but in this case rather than being enabled for one or more items selected in the table, it is enabled when there is a single item only selected.
+
+		Single item selection can be useful when you wish to perform complex actions on an item, such as editing the data in a row.
+
+		By providing an `action` function (`b-init buttons.buttons.action` / `b-api button().action()`) this button can be used to perform whatever operation is required on the table and its selected item.
+	</description>
+
+	<defaults>
+		<parameter name="text" value="Selected single">
+			This can be configured using the `buttons.selectedSingle` option of the DataTables `dt-init language` object, or using the `b-init buttons.buttons.text` option for this button.
+		</parameter>
+		<parameter name="className" value="buttons-selected-single"/>
+		<parameter name="init" value="function">
+			Add event handlers to enable / disable the button as the table's selected items change.
+		</parameter>
+	</defaults>
+
+	<example title="DataTables initialisation: Log the data for the selected row"><![CDATA[
+
+$('#myTable').DataTable( {
+	buttons: [
+		{
+			extends: 'selectedSingle',
+			text: 'Log selected data'
+			action: function ( e, dt, button, config ) {
+				console.log( dt.row( { selected: true } ).data() );
+			}
+		}
+	}
+} );
+
+]]></example>
+</dt-button>

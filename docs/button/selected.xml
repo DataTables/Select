@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<dt-button group="core">
+	<name>selected</name>
+	<summary>Button that is enabled when one or more items are selected in the table</summary>
+	<since>1.0.0</since>
+
+	<description>
+		When working with item selection in a DataTable you will typically wish to provide your end users with the ability to take some kind of action when items are selected. This button provides a basic framework for that, as it is dynamically enabled and disabled automatically as items in the table are selected.
+
+		By providing an `action` function (`b-init buttons.buttons.action` / `b-api button().action()`) this button can be used to perform whatever operation is required on the table and its selected items.
+	</description>
+
+	<defaults>
+		<parameter name="text" value="Selected">
+			This can be configured using the `buttons.selected` option of the DataTables `dt-init language` object, or using the `b-init buttons.buttons.text` option for this button.
+		</parameter>
+		<parameter name="className" value="buttons-selected"/>
+		<parameter name="init" value="function">
+			Add event handlers to enable / disable the button as the table's selected items change.
+		</parameter>
+	</defaults>
+
+	<example title="DataTables initialisation: Count the number of selected rows"><![CDATA[
+
+$('#myTable').DataTable( {
+	buttons: [
+		{
+			extends: 'selected',
+			text: 'Count selected rows'
+			action: function ( e, dt, button, config ) {
+				alert( dt.rows( { selected: true } ).indexes().length +' row(s) selected' );
+			}
+		}
+	}
+} );
+
+]]></example>
+</dt-button>

@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<dt-button group="core">
+	<name>selectRows</name>
+	<summary>Change the item selection mode to `row`.</summary>
+	<since>1.0.0</since>
+
+	<description>
+		Select's ability to dynamically change between what items can be selected in the table (`s-api select.items()`) can be controlled by this button, and its counterparts: `s-button selectColumns` and `s-button selectCells` providing the end user with the ability to switch between item selection type.
+
+		If the item selection mode is set to `row`, this button will show as _active_ (see `s-api select.active()`.
+	</description>
+
+	<defaults>
+		<parameter name="text" value="Select rows">
+			This can be configured using the `buttons.selectRows` option of the DataTables `dt-init language` object, or using the `b-init buttons.buttons.text` option for this button.
+		</parameter>
+		<parameter name="className" value="buttons-select-rows"/>
+		<parameter name="action" value="function">
+			Change the item selection
+		</parameter>
+		<parameter name="init" value="function">
+			Add event listener to update the active button
+		</parameter>
+	</defaults>
+
+	<example title="DataTables initialisation: Provide buttons to change item selection"><![CDATA[
+
+$('#myTable').DataTable( {
+	buttons: [
+		'selectRows',
+		'selectColumns',
+		'selectCells'
+	}
+} );
+
+]]></example>
+</dt-button>
