@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<dt-button group="core">
+	<name>selectNone</name>
+	<summary>Deselect all selected items in the table.</summary>
+	<since>1.0.0</since>
+
+	<description>
+		The `selectNone` button will deselect all currently selected items in the table. Note that unlike the `s-button selectAll` button, this button does not base the de-selection on the current item selection mode. All selected items, regardless of selection mode will be deselected when activated.
+	</description>
+
+	<defaults>
+		<parameter name="text" value="Deselect all">
+			This can be configured using the `buttons.selectNone` option of the DataTables `dt-init language` object, or using the `b-init buttons.buttons.text` option for this button.
+		</parameter>
+		<parameter name="className" value="buttons-select-all"/>
+		<parameter name="action" value="function">
+			Deselect all currently selected items in the table
+		</parameter>
+	</defaults>
+
+	<example title="DataTables initialisation: Show select all and select none buttons with language options in the DataTables language object"><![CDATA[
+
+$('#myTable').DataTable( {
+	buttons: [
+		'selectAll',
+		'selectNone'
+	},
+	language: {
+		buttons: {
+			selectAll: "Select all items",
+			selectNone: "Select none"
+		}
+	}
+} );
+
+]]></example>
+</dt-button>
