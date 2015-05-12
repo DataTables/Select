@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<dt-api group="core">
+	<name>select.selector()</name>
+	<summary>Get / set the item selector for mouse event capture</summary>
+	<since>1.0.0</since>
+
+	<type type="function">
+		<signature>select.selector()</signature>
+		<returns type="string">
+			Get the item selector string being used for the table.
+
+			Note that if multiple tables are defined in the API's context, only the selector of the first table will be returned.
+		</returns>
+		<description>
+			Get the current item selector string applied to the table. 
+		</description>
+	</type>
+
+	<type type="function">
+		<signature>select.selector( set )</signature>
+		<parameter type="string" name="set">
+			[jQuery selector](https://api.jquery.com/category/selectors/) that will select the cells that can trigger item selection.
+		</parameter>
+		<returns type="DataTables.Api">
+			DataTables API instance for chaining.
+		</returns>
+		<description>
+			Set the table's item selector string. Note that any old selectors will be automatically removed if this is used as a selector to ensure that there are no memory leaks in unattached event listeners.
+		</description>
+	</type>
+
+	<description>
+		Select has the ability to restrict which cells in the table will trigger item selection (be it row, column or cell selection). By default (`s-init select.selector`) all cells can be used to select items, but this method provides the ability to modify that through the use of jQuery selectors.
+
+		This can be useful if you wish to ensure that only certain items in the table can be used to trigger selection - for example checkboxes in the first column, or to ignore action links in the last column.
+	</description>
+
+	<example title="Allow selection on the first column only"><![CDATA[
+
+var table = $('#myTable').DataTable();
+
+table.select.selector( 'td:first-child' );
+
+]]></example>
+
+	<related>s-init select.selector</related>
+</dt-api>

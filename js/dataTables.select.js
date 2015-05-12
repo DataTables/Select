@@ -197,10 +197,13 @@ function cellRange( dt, idx, last )
  */
 function disableMouseSelection( dt )
 {
+	var ctx = dt.settings()[0];
+	var selector = ctx._select.selector;
+
 	$( dt.table().body() )
-		.off( 'mousedown.dtSelect', 'td, th' )
-		.off( 'mouseup.dtSelect', 'td, th' )
-		.off( 'click.dtSelect', 'td, th' );
+		.off( 'mousedown.dtSelect', selector )
+		.off( 'mouseup.dtSelect', selector )
+		.off( 'click.dtSelect', selector );
 
 	$('body').on( 'click.dtSelect' );
 }
@@ -214,25 +217,28 @@ function disableMouseSelection( dt )
 function enableMouseSelection ( dt )
 {
 	var body = $( dt.table().body() );
+	var ctx = dt.settings()[0];
+	var selector = ctx._select.selector;
 
+	console.log( 'selector', selector );
 	body
-		.on( 'mousedown.dtSelect', 'td, th', function(e) {
+		.on( 'mousedown.dtSelect', selector, function(e) {
 			// Disallow text selection for shift clicking on the table so multi
 			// element selection doesn't look terrible!
 			if ( e.shiftKey ) {
 				body
 					.css( '-moz-user-select', 'none' )
-					.one('selectstart.dtSelect', 'td, th', function () {
+					.one('selectstart.dtSelect', selector, function () {
 						return false;
 					} );
 			}
 		} )
-		.on( 'mouseup.dtSelect', 'td, th', function(e) {
+		.on( 'mouseup.dtSelect', selector, function(e) {
 			// Allow text selection to occur again, Mozilla style (tested in FF
 			// 35.0.1 - still required)
 			body.css( '-moz-user-select', '' );
 		} )
-		.on( 'click.dtSelect', 'td, th', function ( e ) {
+		.on( 'click.dtSelect', selector, function ( e ) {
 			var items = dt.select.items();
 			var cellIndex = dt.cell( this ).index();
 			var idx;
@@ -268,8 +274,6 @@ function enableMouseSelection ( dt )
 
 	// Blurable
 	$('body').on( 'click.dtSelect', function ( e ) {
-		var ctx = dt.settings()[0];
-
 		if ( ctx._select.blurable ) {
 			if ( $.inArray( dt.table().node(), $(e.target).parents('table').toArray() ) === -1 ) {
 				clear( ctx, true );
@@ -688,18 +692,31 @@ apiRegister( 'select.style()', function ( style ) {
 		}
 
 		// Add / remove mouse event handlers. They aren't required when only
-		// API selection is available, so they should be removed.
-		if ( style === 'api' ) {
-			ctx._select_listeners = false;
-			disableMouseSelection( new DataTable.Api( ctx ) );
-		}
-		else {
-			if ( ! ctx._select_listeners ) {
-				enableMouseSelection( new DataTable.Api( ctx ) );
-			}
+		// API selection is available
+		var dt = new DataTable.Api( ctx );
+		disableMouseSelection( dt );
+		
+		if ( style !== 'api' ) {
+			enableMouseSelection( dt );
 		}
 
 		$(ctx.nTable).triggerHandler( 'selectStyle.dt', [ ctx, style ] );
+	} );
+} );
+
+apiRegister( 'select.selector()', function ( selector ) {
+	if ( selector === undefined ) {
+		return this.context[0]._select.selector;
+	}
+
+	return this.iterator( 'table', function ( ctx ) {
+		disableMouseSelection( new DataTable.Api( ctx ) );
+
+		ctx._select.selector = selector;
+
+		if ( ctx._select.style !== 'api' ) {
+			enableMouseSelection( new DataTable.Api( ctx ) );
+		}
 	} );
 } );
 
@@ -938,6 +955,7 @@ $(document).on( 'init.dt.dtSelect', function (e, ctx, json) {
 	var blurable = false;
 	var idSrc = 'Dt_RowId';
 	var info = true;
+	var selector = 'td, th';
 
 	ctx._select = {};
 
@@ -968,8 +986,13 @@ $(document).on( 'init.dt.dtSelect', function (e, ctx, json) {
 		if ( opts.style !== undefined ) {
 			style = opts.style;
 		}
+
+		if ( opts.selector !== undefined ) {
+			selector = opts.selector;
+		}
 	}
 
+	dt.select.selector( selector );
 	dt.select.items( items );
 	dt.select.style( style );
 	dt.select.blurable( blurable );

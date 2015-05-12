@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<dt-option group="core">
+	<name>select.selector</name>
+	<summary>Set the element selector used for mouse event capture to select items</summary>
+	<since>1.0.0</since>
+
+	<default value="td, th"/>
+
+	<type type="string">
+		<description>
+			[jQuery selector](https://api.jquery.com/category/selectors/) that will select the cells that can trigger item selection.
+		</description>
+	</type>
+
+	<description>
+		By default when item selection is active (`s-init select.style` set to anything other than `api`), Select will select items based on any cell in the table when it is clicked. However, at times it can be useful to limit this selection to certain cells (based on column for example), which can be done through this option.
+
+		It is a simple jQuery selector string that is used to attach the event listeners that Select adds to the table.
+	</description>
+
+	<example title="Allow selection on the first column only"><![CDATA[
+
+$('#example').DataTable( {
+	select: {
+		select: {
+			style:    'os',
+			selector: 'td:first-child',
+			blurable: true
+		}
+	}
+} );
+
+]]></example>
+
+	<example title="Allow selection on all but the last column"><![CDATA[
+
+$('#example').DataTable( {
+	select: {
+		select: {
+			style:    'os',
+			selector: ':not(:last-child)'
+		}
+	}
+} );
+
+]]></example>
+
+	<related>s-api select.selector()</related>
+</dt-option>
