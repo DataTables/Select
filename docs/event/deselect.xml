@@ -5,12 +5,12 @@
 	<since>1.0.0</since>
 
 	<type type="function">
-		<signature>function( e, settings, type, indexes )</signature>
+		<signature>function( e, dt, type, indexes )</signature>
 		<parameter type="object" name="e">
 			jQuery event object
 		</parameter>
-		<parameter type="DataTables.Settings" name="settings">
-			DataTables settings object
+		<parameter type="DataTables.Api" name="dt">
+			DataTables API instance
 		</parameter>
 		<parameter type="string" name="type">
 			Items being deselected. This can be `-string rows`, `-string columns` or `-string cells`.
@@ -33,7 +33,7 @@
 
 var table = $('#example').DataTable();
 
-table.on( 'deselect', function ( e, settings, type, indexes ) {
+table.on( 'deselect', function ( e, dt, type, indexes ) {
 	if ( type === 'rows' ) {
 		var data = table.rows( indexes ).data().pluck( 'id' );
 
@@ -47,7 +47,7 @@ table.on( 'deselect', function ( e, settings, type, indexes ) {
 
 var table = $('#example').DataTable();
 
-table.on( 'deselect', function ( e, settings, type, indexes ) {
+table.on( 'deselect', function ( e, dt, type, indexes ) {
 	table[ type ]( indexes ).nodes().to$().removeClass( 'custom-selected' );
 } );
 

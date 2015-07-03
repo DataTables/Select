@@ -5,12 +5,12 @@
 	<since>1.0.0</since>
 
 	<type type="function">
-		<signature>function( e, settings, items )</signature>
+		<signature>function( e, dt, items )</signature>
 		<parameter type="object" name="e">
 			jQuery event object
 		</parameter>
-		<parameter type="DataTables.Settings" name="settings">
-			DataTables settings object
+		<parameter type="DataTables.Api" name="dt">
+			DataTables API instance
 		</parameter>
 		<parameter type="string" name="items">
 			The items that are now available for selection by the end user. See `s-init select.items`.
@@ -28,7 +28,7 @@
 
 var table = $('#example').DataTable();
 
-table.on( 'selectItems', function ( e, settings, items ) {
+table.on( 'selectItems', function ( e, dt, items ) {
 	console.log( 'Items to be selected are now: ', items );
 } );
 

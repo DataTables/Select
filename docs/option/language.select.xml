@@ -15,11 +15,9 @@
 	</type>
 
 	<description>
-		Select provides a number of different built in ways that an end user can interact with the selection of items in the table, which is controlled by this parameter (and `s-api select.style()` after initialisation).
+		Select make use of a number of strings that are displayed to the end user to explain what action will be performed based on the user input.
 
-		The default mode of operation is based on the selection of files in modern operating systems with the ctrl/cmd and shift keys can be user to provide complex operations.
-
-		Note that while the `-string api` option disables item selection via Select's built in event handler, it is quote possible to use the API to still provide the end user with the ability to select / deselect items based on your own event handlers.
+		A parameters of this object provide the ability to customise those strings to suit your needs. This can be a full translation or a tweak of just one or two strings to match the styling of your site / app.
 	</description>
 
 	<example title="Set the strings to be used for row selection"><![CDATA[
