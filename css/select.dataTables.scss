@@ -80,6 +80,45 @@ table.dataTable {
 			background-color: shade($table-selected, 8.2%);
 		}
 	}
+
+	td.select-checkbox {
+		position: relative;
+
+		&:before,
+		&:after {
+			display: block;
+			position: absolute;
+			top: 50%;
+			left: 50%;
+			width: 12px;
+			height: 12px;
+			box-sizing: border-box;
+		}
+
+		&:before {
+			content: ' ';
+			margin-top: -6px;
+			margin-left: -6px;
+			border: 1px solid black;
+			border-radius: 3px;
+		}
+	}
+
+	tr.selected td.select-checkbox {
+		&:after {
+			content: '\2714';
+
+			margin-top: -11px;
+			margin-left: -3px;
+
+			text-align: center;
+			text-shadow:
+				1px 1px #B0BED9,
+				-1px -1px #B0BED9,
+				1px -1px #B0BED9,
+				-1px 1px #B0BED9;
+		}
+	}
 }
 
 div.dataTables_wrapper {
