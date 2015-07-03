@@ -76,8 +76,6 @@ The `_select` object contains the following properties:
 	                   interaction style when selecting items
 	blurable:boolean - If row selection can be cleared by clicking outside of
 	                   the table
-	idSrc:string|int - On ajax reload, a unique value will be read to retain
-	                   selection
 	info:boolean     - If the selection summary should be shown in the table
 	                   information elements
 }
@@ -220,7 +218,6 @@ function enableMouseSelection ( dt )
 	var ctx = dt.settings()[0];
 	var selector = ctx._select.selector;
 
-	console.log( 'selector', selector );
 	body
 		.on( 'mousedown.dtSelect', selector, function(e) {
 			// Disallow text selection for shift clicking on the table so multi
@@ -273,6 +270,9 @@ function enableMouseSelection ( dt )
 		} );
 
 	// Blurable
+	// xxx DON'T BLUR IN EDITOR FORM
+	// Is blurrable detfault true? It shouldn't be
+	// 
 	$('body').on( 'click.dtSelect', function ( e ) {
 		if ( ctx._select.blurable ) {
 			if ( $.inArray( dt.table().node(), $(e.target).parents('table').toArray() ) === -1 ) {
@@ -290,20 +290,15 @@ function enableMouseSelection ( dt )
  * @param  {string}       type     Item type acting on
  * @private
  */
-function eventTrigger ( api, selected, type )
+function eventTrigger ( api, type, args )
 {
-	api.iterator( 'table', function ( ctx, i ) {
-		if ( ! api[i].length ) {
-			return;
-		}
+	if ( ! api.length || ! api[0].length ) {
+		return;
+	}
 
-		$(ctx.nTable).triggerHandler(
-			selected ?
-				'select.dt' :
-				'deselect.dt',
-			[ ctx, type, api[i] ]
-		);
-	} );
+	args.unshift( api );
+
+	$(api.table().node()).triggerHandler( type+'.dt', args );
 }
 
 /**
@@ -391,49 +386,36 @@ function init ( ctx ) {
 	} );
 
 	// On Ajax reload we want to reselect all rows which are currently selected,
-	// if there is an idSrc (i.e. a unique value to identify each row with)
+	// if there is an rowId (i.e. a unique value to identify each row with)
 	api.on( 'preXhr.dtSelect', function () {
-		var idSrc = ctx._select.idSrc;
+		// note that column selection doesn't need to be cached and then
+		// reselected, as they are already selected
+		var rows = api.rows( { selected: true } ).ids( true );
+		var cells = api.cells( { selected: true } ).eq(0).map( function ( cellIdx ) {
+			var id = api.row( cellIdx.row ).id( true );
+			return id ?
+				{ row: id, column: cellIdx.column } :
+				undefined;
+		} );
 
-		if ( ctx._select.idSrc ) {
-			// note that column selection doesn't need to be cached and then
-			// reselected, as they are already selected
-			var rows = api.rows( { selected: true } ).data().pluck( idSrc );
-			var cells = api.cells( { selected: true } ).eq(0).map( function ( cellIdx ) {
-				var data = api.row( cellIdx.row ).data()[ idSrc ];
-				return data ?
-					{ row: data, column: cellIdx.column } :
-					undefined;
+		// On the next draw, reselect the currently selected items
+		api.one( 'draw.dtSelect', function () {
+			rows.each( function ( id ) {
+				if ( id === undefined ) {
+					return;
+				}
+
+				api.row( id ).select();
 			} );
 
-			// On the next draw, reselect the currently selected items
-			api.one( 'draw.dtSelect', function () {
-				rows.each( function ( id ) {
-					if ( id === undefined ) {
-						return;
-					}
+			cells.each( function ( id ) {
+				if ( id === undefined ) {
+					return;
+				}
 
-					api
-						.rows( function ( idx, data, node ) {
-							return data[ idSrc ] === id;
-						} )
-						.select();
-				} );
-
-				cells.each( function ( id ) {
-					if ( id === undefined ) {
-						return;
-					}
-
-					api
-						.cells( function ( idx, data, node ) {
-							return idx.column === id.column &&
-								api.row( idx.row ).data()[ idSrc ] === id.row;
-						} )
-						.select();
-				} );
+				api.cells( id.row, id.column ).select();
 			} );
-		}
+		} );
 	} );
 
 	// Update the table information element with selected item summary
@@ -645,16 +627,6 @@ apiRegister( 'select.blurable()', function ( flag ) {
 	} );
 } );
 
-apiRegister( 'select.idSrc()', function ( idSrc ) {
-	if ( idSrc === undefined ) {
-		return this.context[0]._select.idSrc;
-	}
-
-	return this.iterator( 'table', function ( ctx ) {
-		ctx._select.idSrc = idSrc;
-	} );
-} );
-
 apiRegister( 'select.info()', function ( flag ) {
 	if ( info === undefined ) {
 		return this.context[0]._select.info;
@@ -673,7 +645,7 @@ apiRegister( 'select.items()', function ( items ) {
 	return this.iterator( 'table', function ( ctx ) {
 		ctx._select.items = items;
 
-		$(ctx.nTable).triggerHandler( 'selectItems.dt', [ ctx, items ] );
+		eventTrigger( new DataTable.Api( ctx ), 'selectItems', [ items ] );
 	} );
 } );
 
@@ -700,7 +672,7 @@ apiRegister( 'select.style()', function ( style ) {
 			enableMouseSelection( dt );
 		}
 
-		$(ctx.nTable).triggerHandler( 'selectStyle.dt', [ ctx, style ] );
+		eventTrigger( new DataTable.Api( ctx ), 'selectStyle', [ style ] );
 	} );
 } );
 
@@ -723,6 +695,8 @@ apiRegister( 'select.selector()', function ( selector ) {
 
 
 apiRegisterPlural( 'rows().select()', 'row().select()', function ( select ) {
+	var api = this;
+
 	if ( select === false ) {
 		return this.deselect();
 	}
@@ -734,12 +708,16 @@ apiRegisterPlural( 'rows().select()', 'row().select()', function ( select ) {
 		$( ctx.aoData[ idx ].nTr ).addClass( 'selected' );
 	} );
 
-	eventTrigger( this, true, 'row' );
+	this.iterator( 'table', function ( ctx, i ) {
+		eventTrigger( api, 'select', [ 'row', api[i] ] );
+	} );
 
 	return this;
 } );
 
 apiRegisterPlural( 'columns().select()', 'column().select()', function ( select ) {
+	var api = this;
+
 	if ( select === false ) {
 		return this.deselect();
 	}
@@ -757,12 +735,16 @@ apiRegisterPlural( 'columns().select()', 'column().select()', function ( select 
 		column.nodes().to$().addClass( 'selected' );
 	} );
 
-	eventTrigger( this, true, 'column' );
+	this.iterator( 'table', function ( ctx, i ) {
+		eventTrigger( api, 'select', [ 'column', api[i] ] );
+	} );
 
 	return this;
 } );
 
 apiRegisterPlural( 'cells().select()', 'cell().select()', function ( select ) {
+	var api = this;
+
 	if ( select === false ) {
 		return this.deselect();
 	}
@@ -783,24 +765,32 @@ apiRegisterPlural( 'cells().select()', 'cell().select()', function ( select ) {
 		}
 	} );
 
-	eventTrigger( this, true, 'cell' );
+	this.iterator( 'table', function ( ctx, i ) {
+		eventTrigger( api, 'select', [ 'cell', api[i] ] );
+	} );
 
 	return this;
 } );
 
 
 apiRegisterPlural( 'rows().deselect()', 'row().deselect()', function () {
+	var api = this;
+
 	this.iterator( 'row', function ( ctx, idx ) {
 		ctx.aoData[ idx ]._select_selected = false;
 		$( ctx.aoData[ idx ].nTr ).removeClass( 'selected' );
 	} );
 
-	eventTrigger( this, false, 'row' );
+	this.iterator( 'table', function ( ctx, i ) {
+		eventTrigger( api, 'deselect', [ 'row', api[i] ] );
+	} );
 
 	return this;
 } );
 
 apiRegisterPlural( 'columns().deselect()', 'column().deselect()', function () {
+	var api = this;
+
 	this.iterator( 'column', function ( ctx, idx ) {
 		ctx.aoColumns[ idx ]._select_selected = false;
 
@@ -823,12 +813,16 @@ apiRegisterPlural( 'columns().deselect()', 'column().deselect()', function () {
 		} );
 	} );
 
-	eventTrigger( this, false, 'column' );
+	this.iterator( 'table', function ( ctx, i ) {
+		eventTrigger( api, 'deselect', [ 'column', api[i] ] );
+	} );
 
 	return this;
 } );
 
 apiRegisterPlural( 'cells().deselect()', 'cell().deselect()', function () {
+	var api = this;
+
 	this.iterator( 'cell', function ( ctx, rowIdx, colIdx ) {
 		var data = ctx.aoData[ rowIdx ];
 
@@ -842,7 +836,9 @@ apiRegisterPlural( 'cells().deselect()', 'cell().deselect()', function () {
 		}
 	} );
 
-	eventTrigger( this, false, 'cell' );
+	this.iterator( 'table', function ( ctx, i ) {
+		eventTrigger( api, 'deselect', [ 'cell', api[i] ] );
+	} );
 
 	return this;
 } );
@@ -953,7 +949,6 @@ $(document).on( 'init.dt.dtSelect', function (e, ctx, json) {
 	var items = 'row';
 	var style = 'api';
 	var blurable = false;
-	var idSrc = 'Dt_RowId';
 	var info = true;
 	var selector = 'td, th';
 
@@ -969,10 +964,6 @@ $(document).on( 'init.dt.dtSelect', function (e, ctx, json) {
 	else if ( $.isPlainObject( opts ) ) {
 		if ( opts.blurable !== undefined ) {
 			blurable = opts.blurable;
-		}
-
-		if ( opts.idSrc !== undefined ) {
-			idSrc = opts.idSrc;
 		}
 
 		if ( opts.info !== undefined ) {
@@ -996,7 +987,6 @@ $(document).on( 'init.dt.dtSelect', function (e, ctx, json) {
 	dt.select.items( items );
 	dt.select.style( style );
 	dt.select.blurable( blurable );
-	dt.select.idSrc( idSrc );
 	dt.select.info( info );
 
 	// If the init options haven't enabled select, but there is a selectable
