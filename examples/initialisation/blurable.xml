@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<dt-example table-type="html" order="7">
+
+<css lib="datatables select"/>
+<js lib="jquery datatables select">
+<![CDATA[
+
+$(document).ready(function() {
+	$('#example').DataTable( {
+		select: {
+			style: 'os',
+			blurable: true
+		}
+	} );
+} );
+
+]]>
+</js>
+
+<title lib="Select">Blur selection</title>
+
+<info><![CDATA[
+
+By default the items selected in a DataTable will retain their selection when the end user interacts with other parts of the page. This is typically the desired behaviour for the selected items allowing the user to return to the table with their selection intact at a later time.
+
+However, it can also be useful to have the selected items automatically deselect when the user moves their focus outside of the DataTable - for example if using the DataTable as a form element where items can be selected as a value. This can be enabled through the `se-init select.blurable` option.
+
+This example shows that option enabled. To demonstrate select one or more rows and then click on a part of the page outside of the DataTable.
+
+]]></info>
+
+</dt-example>
+

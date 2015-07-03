@@ -5,6 +5,9 @@
 
 <info><![CDATA[
 
+Select is an extension for DataTables that provides the end user with the ability to select table items (rows, columns and cells). It provides API methods and events to then be able to take action on those selected items.
+
+The examples in this section demonstrate how Select can be initialised and its various options.
 
 ]]></info>
 

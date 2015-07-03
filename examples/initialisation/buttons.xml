@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<dt-example table-type="ajax" order="2">
+<dt-example table-type="html" order="9">
 
 <css lib="datatables select buttons"/>
 <js lib="jquery datatables select buttons"/>
@@ -9,40 +9,35 @@
 $(document).ready(function() {
 	var table = $('#example').DataTable( {
 		dom: 'Bfrtip',
-		"ajax": "../../../../examples/ajax/data/objects.txt",
-		deferRender: true,
-		"columns": [
-			{ "data": "name" },
-			{ "data": "position" },
-			{ "data": "office" },
-			{ "data": "extn" },
-			{ "data": "start_date" },
-			{ "data": "salary" }
-		],
-		select: {
-			mode: 'row',
-			style: 'os',
-			idSrc: 'name'
-		},
 		buttons: [
-			'selected', 'selectedSingle', 'selectAll', 'selectNone',
-			'selectRows', 'selectColumns', 'selectCells'
-		]
-	} );
-
-	 $('#example').on( 'select.dt', function ( e, type, indexes ) {
-		console.log( 'select event listener', type, indexes );
-	} );
-
-	 $('#example').on( 'deselect.dt', function ( e, type, indexes ) {
-		console.log( 'deselect event listener', type, indexes );
+			'selected',
+			'selectedSingle',
+			'selectAll',
+			'selectNone',
+			'selectRows',
+			'selectColumns',
+			'selectCells'
+		],
+		select: true
 	} );
 } );
 ]]></js>
 
 <info><![CDATA[
 
+Select provides a number of buttons that can be used with the [Buttons extension](https://datatables.net/extensions/buttons) for DataTables. Buttons is a framework providing common options, styling and API methods for buttons that can control a DataTable.
 
+The buttons made available by Select are:
+
+* `se-button selected` - Enabled only when one or more items are selected
+* `se-button selectedSingle` - Enabled only when a single item is selected
+* `se-button selectAll` - Select all rows
+* `se-button selectNone` - Deselect all rows
+* `se-button selectRows` - Select rows
+* `se-button selectColumns` - Select columns
+* `se-button selectCells` - Select cells
+
+All of these button types are demonstrated in this example.
 
 ]]></info>
 

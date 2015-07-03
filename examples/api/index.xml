@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<dt-example order="0">
+
+<title lib="Select">API</title>
+
+<info><![CDATA[
+
+The Select API is tightly integrated with DataTables own API, building on the same style and interaction. With the API it is possible to manipulate Select's configuration options, select items programmatically and retrieve selected items augmented DataTables methods.
+
+The examples in this section show how the Select API can be used.
+
+]]></info>
+
+</dt-example>

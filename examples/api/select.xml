@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<dt-example table-type="html" order="2">
+
+<css lib="datatables select buttons"/>
+<js lib="jquery datatables select buttons">
+<![CDATA[
+
+$(document).ready(function() {
+	var table = $('#example').DataTable( {
+		dom: 'Bfrtip',
+		select: true,
+		buttons: [
+			{
+				text: 'Select all',
+				action: function () {
+					table.rows().select();
+				}
+			},
+			{
+				text: 'Select none',
+				action: function () {
+					table.rows().deselect();
+				}
+			}
+		]
+	} );
+} );
+
+]]>
+</js>
+
+<title lib="Select">Select items</title>
+
+<info><![CDATA[
+
+When using Select row selection will typically be performed by the actions of an end user, but it also possible to programmatically select items in a table using the API methods presented by the library. `se-api rows().select()` and `se-api rows().deselect()` plus their singular counterparts along with similar columns and cells methods provide this ability.
+
+As they are based on the DataTables item selector methods, any of the selector options can be used to select the item to act upon. For example, `table.rows( ':eq(0)' ).select()` will select the first row shown on the page.
+
+This example uses the [Buttons extension](https://datatables.net/extensions/buttons) to present two buttons for the table which use the API to add select all and deselect all buttons. It is worth noting that Select provides `se-button selectAll` and `se-button selectNone` button types that have this ability built in, but this example is used to demonstrate the API rather than the buttons.
+
+]]></info>
+
+</dt-example>
+

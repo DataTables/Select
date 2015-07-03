@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<dt-example table-type="html-index" order="5">
+
+<css lib="datatables select"/>
+<js lib="jquery datatables select">
+<![CDATA[
+
+$(document).ready(function() {
+	$('#example').DataTable( {
+		columnDefs: [ {
+			orderable: false,
+			className: 'select-checkbox',
+			targets:   0
+		} ],
+		select: {
+			style:    'os',
+			selector: 'td:first-child'
+		},
+		order: [[ 1, 'asc' ]]
+	} );
+} );
+
+]]>
+</js>
+
+<title lib="Select">Checkbox selection</title>
+
+<info><![CDATA[
+
+A selected row is typically shown in a DataTable by using a highlight background colour - however, it can also be useful to use other styling options to convey the selected state of items in a table to the end user.
+
+A common option is to use a checkbox which can be clicked on to toggle row selection, which can be particularly useful if you wish to restrict row selection activation to a particular column, so other actions can be performed on the other cells in the table (such as [inline editing](//editor.datatables.net/examples/inline-editing/simple)).
+
+A column can be shown with a checkbox that reflects the row's selected status simply through use of the `-string select-checkbox` CSS class for that column (`dt-init columns.className`). Row selection can be restricted to that column using the `s-init select.selector` option.
+
+The checkbox is not an `<input type="checkbox">` element, but rather a CSS that uses the `:before` and `:after` pseudo elements of the cell to draw a box and the tick. This can therefore be easily modified to suit the style of your site / app.
+
+]]></info>
+
+</dt-example>
+

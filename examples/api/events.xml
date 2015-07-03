@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<dt-example table-type="html" order="2">
+
+<css lib="datatables select">
+	#events {
+		margin-bottom: 1em;
+		padding: 1em;
+		background-color: #f6f6f6;
+		border: 1px solid #999;
+		border-radius: 3px;
+		height: 100px;
+		overflow: auto;
+	}
+</css>
+<js lib="jquery datatables select"/>
+
+<js><![CDATA[
+$(document).ready(function() {
+	var events = $('#events');
+	var table = $('#example').DataTable( {
+		select: true
+	} );
+
+	table
+		.on( 'select', function ( e, dt, type, indexes ) {
+			var rowData = table.rows( indexes ).data().toArray();
+			events.prepend( '<div><b>'+type+' selection</b> - '+JSON.stringify( rowData )+'</div>' );
+		} )
+		.on( 'deselect', function ( e, dt, type, indexes ) {
+			var rowData = table.rows( indexes ).data().toArray();
+			events.prepend( '<div><b>'+type+' <i>de</i>selection</b> - '+JSON.stringify( rowData )+'</div>' );
+		} );
+} );
+]]></js>
+
+<title>Events</title>
+
+<info><![CDATA[
+
+It can be very useful to know when an end user has selected or deselected an item in a DataTable. Select provides this information through the `se-event select` and `se-event deselect` events. There two events are given information about the item selected in the form of what item type it is (`-string row`, `-string column` or `-string cell`) and its data index (see `dt-api row().index()`, `dt-api column().index()` and `dt-api cell().index()`).
+
+In this trivial example the `se-event select` and `se-event deselect` events are used simply to show the data for the row(s) that have been selected or deselected.
+
+]]></info>
+
+<demo-html>
+	<div id="events">Event summary - new events added at the top</div>
+</demo-html>
+
+</dt-example>

@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<dt-example table-type="html" order="6">
+
+<css lib="datatables select"/>
+<js lib="jquery datatables select">
+<![CDATA[
+
+$(document).ready(function() {
+	$('#example').DataTable( {
+		select: true,
+		language: {
+			select: {
+				rows: {
+					_: "You have selected %d rows",
+					0: "Click a row to select it",
+					1: "Only 1 row selected"
+				}
+			}
+		}
+	} );
+} );
+
+]]>
+</js>
+
+<title lib="Select">Internationalisation</title>
+
+<info><![CDATA[
+
+The DataTables information element (`dt-init info`) shows the end user summary information about the tables state. Generally this is information about the table's paging state, but Select has the ability to augment that information with details about the items selected in the table.
+
+By default Select will show a count for the number of rows, columns and cells selected in the table (only if one or more items are selected). The text shown can be configured through the `se-init language.select.rows`,  `se-init language.select.columns` and  `se-init language.select.cells` options allowing it to be fully internationalised or simply customised to your needs.
+
+The value for each option can be given as a simple string, but more usefully as an object with parameters for the strings to be used the number of items selected. This example uses a default string of `-string Selected %d rows` (`%d` is replaced by the number) for all but 0 and 1 rows selected which have their own custom strings.
+
+The display of selected item summary information can be disabled using the `se-init select.info` option.
+
+]]></info>
+
+</dt-example>
+

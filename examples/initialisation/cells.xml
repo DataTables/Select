@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<dt-example table-type="html" order="4">
+
+<css lib="datatables select"/>
+<js lib="jquery datatables select">
+<![CDATA[
+
+$(document).ready(function() {
+	$('#example').DataTable( {
+		select: {
+			style: 'os',
+			items: 'cell'
+		}
+	} );
+} );
+
+]]>
+</js>
+
+<title lib="Select">Cell selection</title>
+
+<info><![CDATA[
+
+Select has the ability to select rows, columns and / or cells in a table. Row selection is the default behaviour as it is the most commonly used selection item type, but the items to be selected can be easily changed using the `se-init select.items` initialisation option, or after initialisation using the `se-api select.items()` API method.
+
+This example shows cell selection using the `se-init select.items` option. Note that the `-string os` selection style to select multiple items will work equally well with cell selection as it does with row selection. Use shift click to select a range of cells and ctrl/cmd click to toggle the selection of individual cells.
+
+]]></info>
+
+</dt-example>
+

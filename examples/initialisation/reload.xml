@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<dt-example table-type="ajax" order="10">
+
+<css lib="datatables select buttons"/>
+<js lib="jquery datatables select buttons"/>
+
+<js><![CDATA[
+$(document).ready(function() {
+	var table = $('#example').DataTable( {
+		ajax: '../../../../examples/ajax/data/objects.txt',
+		deferRender: true,
+		columns: [
+			{ data: 'name' },
+			{ data: 'position' },
+			{ data: 'office' },
+			{ data: 'extn' },
+			{ data: 'start_date' },
+			{ data: 'salary' }
+		],
+		rowId: 'extn',
+		select: true,
+		dom: 'Bfrtip',
+		buttons: [
+			{
+				text: 'Reload table',
+				action: function () {
+					table.ajax.reload();
+				}
+			}
+		]
+	} );
+} );
+]]></js>
+
+<title>Retain selection on reload</title>
+
+<info><![CDATA[
+
+DataTables has the ability to use a property in the data source for each row as that row's unique identifier through the `dt-init rowId` option. This is typically used in DataTables to assign an `id` attribute to the `-tag tr` elements in the table, but it can also be used by Select and other libraries to retain a unique identifier for each row over data reloads.
+
+Select uses this information to be able to retain row selection over a data reload. Generally, if a table is reloaded, the state of each row is lost (since the old rows are deleted and new rows added), but this can be undesirable, particularly if performing frequent data updates. Setting the `dt-init rowId` option of DataTables will address this.
+
+This example uses the `extn` property of the row as the `dt-init rowId` option (normally a database primary key might be used). A reload button is also available through the [Buttons extension](https://datatables.net/extensions/buttons) which will call the `dt-api ajax.reload()` method when activated.
+
+To demonstrate Select's ability to retain the selected rows over a data reload, select a number of rows and then click the _Reload table_ button.
+
+]]></info>
+
+</dt-example>

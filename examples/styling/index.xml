@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<dt-example order="0">
+
+<title lib="Select">Styling</title>
+
+<info><![CDATA[
+
+Select, like all other DataTables extensions fully supports being themed by external styling frameworks. Styling using the core frameworks supported by DataTables are demonstrated in this section.
+
+]]></info>
+
+</dt-example>
