@@ -203,7 +203,7 @@ function disableMouseSelection( dt )
 		.off( 'mouseup.dtSelect', selector )
 		.off( 'click.dtSelect', selector );
 
-	$('body').on( 'click.dtSelect' );
+	$('body').off( 'click.dtSelect' );
 }
 
 /**
@@ -270,14 +270,19 @@ function enableMouseSelection ( dt )
 		} );
 
 	// Blurable
-	// xxx DON'T BLUR IN EDITOR FORM
-	// Is blurrable detfault true? It shouldn't be
-	// 
 	$('body').on( 'click.dtSelect', function ( e ) {
 		if ( ctx._select.blurable ) {
-			if ( $.inArray( dt.table().node(), $(e.target).parents('table').toArray() ) === -1 ) {
-				clear( ctx, true );
+			// If the click was inside the DataTables container, don't blur
+			if ( $(e.target).parents().filter( dt.table().container() ).length ) {
+				return;
 			}
+
+			// Don't blur in Editor form
+			if ( $(e.target).parents('div.DTE').length ) {
+				return;
+			}
+
+			clear( ctx, true );
 		}
 	} );
 }
@@ -387,34 +392,32 @@ function init ( ctx ) {
 
 	// On Ajax reload we want to reselect all rows which are currently selected,
 	// if there is an rowId (i.e. a unique value to identify each row with)
-	api.on( 'preXhr.dtSelect', function () {
+	api.on( 'preXhr.dt.dtSelect', function () {
 		// note that column selection doesn't need to be cached and then
 		// reselected, as they are already selected
-		var rows = api.rows( { selected: true } ).ids( true );
+		var rows = api.rows( { selected: true } ).ids( true ).filter( function ( d ) {
+			return d !== undefined;
+		} );
+
 		var cells = api.cells( { selected: true } ).eq(0).map( function ( cellIdx ) {
 			var id = api.row( cellIdx.row ).id( true );
 			return id ?
 				{ row: id, column: cellIdx.column } :
 				undefined;
+		} ).filter( function ( d ) {
+			return d !== undefined;
 		} );
 
 		// On the next draw, reselect the currently selected items
-		api.one( 'draw.dtSelect', function () {
-			rows.each( function ( id ) {
-				if ( id === undefined ) {
-					return;
-				}
+		api.one( 'draw.dt.dtSelect', function () {
+			api.rows( rows ).select();
 
-				api.row( id ).select();
-			} );
-
-			cells.each( function ( id ) {
-				if ( id === undefined ) {
-					return;
-				}
-
-				api.cells( id.row, id.column ).select();
-			} );
+			// `cells` is not a cell index selector, so it needs a loop
+			if ( cells.any() ) {
+				cells.each( function ( id ) {
+					api.cells( id.row, id.column ).select();
+				} );
+			}
 		} );
 	} );
 
