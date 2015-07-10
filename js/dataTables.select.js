@@ -332,7 +332,7 @@ function info ( api )
 
 	add( 'row',    api.rows( { selected: true } ).flatten().length );
 	add( 'column', api.columns( { selected: true } ).flatten().length );
-	add( 'cells',  api.cells( { selected: true } ).flatten().length );
+	add( 'cell',   api.cells( { selected: true } ).flatten().length );
 
 	// Internal knowledge of DataTables to loop over all information elements
 	$.each( ctx.aanFeatures.i, function ( i, el ) {
