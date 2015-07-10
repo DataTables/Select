@@ -293,11 +293,13 @@ function enableMouseSelection ( dt )
  * @param {DataTable.Api} api      DataTable to trigger events on
  * @param  {boolean}      selected true if selected, false if deselected
  * @param  {string}       type     Item type acting on
+ * @param  {boolean}      any      Require that there are values before
+ *     triggering
  * @private
  */
-function eventTrigger ( api, type, args )
+function eventTrigger ( api, type, args, any )
 {
-	if ( ! api.length || ! api[0].length ) {
+	if ( any && ! api.flatten().length ) {
 		return;
 	}
 
@@ -712,7 +714,7 @@ apiRegisterPlural( 'rows().select()', 'row().select()', function ( select ) {
 	} );
 
 	this.iterator( 'table', function ( ctx, i ) {
-		eventTrigger( api, 'select', [ 'row', api[i] ] );
+		eventTrigger( api, 'select', [ 'row', api[i] ], true );
 	} );
 
 	return this;
@@ -739,7 +741,7 @@ apiRegisterPlural( 'columns().select()', 'column().select()', function ( select 
 	} );
 
 	this.iterator( 'table', function ( ctx, i ) {
-		eventTrigger( api, 'select', [ 'column', api[i] ] );
+		eventTrigger( api, 'select', [ 'column', api[i] ], true );
 	} );
 
 	return this;
@@ -769,7 +771,7 @@ apiRegisterPlural( 'cells().select()', 'cell().select()', function ( select ) {
 	} );
 
 	this.iterator( 'table', function ( ctx, i ) {
-		eventTrigger( api, 'select', [ 'cell', api[i] ] );
+		eventTrigger( api, 'select', [ 'cell', api[i] ], true );
 	} );
 
 	return this;
@@ -785,7 +787,7 @@ apiRegisterPlural( 'rows().deselect()', 'row().deselect()', function () {
 	} );
 
 	this.iterator( 'table', function ( ctx, i ) {
-		eventTrigger( api, 'deselect', [ 'row', api[i] ] );
+		eventTrigger( api, 'deselect', [ 'row', api[i] ], true );
 	} );
 
 	return this;
@@ -817,7 +819,7 @@ apiRegisterPlural( 'columns().deselect()', 'column().deselect()', function () {
 	} );
 
 	this.iterator( 'table', function ( ctx, i ) {
-		eventTrigger( api, 'deselect', [ 'column', api[i] ] );
+		eventTrigger( api, 'deselect', [ 'column', api[i] ], true );
 	} );
 
 	return this;
@@ -840,7 +842,7 @@ apiRegisterPlural( 'cells().deselect()', 'cell().deselect()', function () {
 	} );
 
 	this.iterator( 'table', function ( ctx, i ) {
-		eventTrigger( api, 'deselect', [ 'cell', api[i] ] );
+		eventTrigger( api, 'deselect', [ 'cell', api[i] ], true );
 	} );
 
 	return this;
