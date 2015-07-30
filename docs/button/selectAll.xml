@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<dt-button group="core">
+<dt-button group="select">
 	<name>selectAll</name>
 	<summary>Select all items in the table based on the current item select mode</summary>
 	<since>1.0.0</since>

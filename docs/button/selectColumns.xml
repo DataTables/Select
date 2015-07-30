@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<dt-button group="core">
+<dt-button group="select">
 	<name>selectColumns</name>
 	<summary>Change the item selection mode to `column`.</summary>
 	<since>1.0.0</since>

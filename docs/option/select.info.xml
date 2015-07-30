@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<dt-option group="core">
+<dt-option group="select">
 	<name>select.info</name>
 	<summary>Enable / disable the display for item selection information in the table summary.</summary>
 	<since>1.0.0</since>

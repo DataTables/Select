@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<dt-option group="core">
+<dt-option group="select">
 	<name>select.style</name>
 	<summary>Set the selection style for end user interaction with the table</summary>
 	<since>1.0.0</since>

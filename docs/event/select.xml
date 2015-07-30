@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<dt-event>
+<dt-event group="select">
 	<name>select</name>
 	<summary>Items (rows, columns or cells) have been selected</summary>
 	<since>1.0.0</since>
