@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<dt-api group="select">
+<dt-api library="Select">
 	<name>cell().deselect()</name>
 	<summary>Deselect a single cell</summary>
 	<since>1.0.0</since>

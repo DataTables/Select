@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<dt-event group="select">
+<dt-event library="Select">
 	<name>selectStyle</name>
 	<summary>Select style change event.</summary>
 	<since>1.0.0</since>

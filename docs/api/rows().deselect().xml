@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<dt-api group="select">
+<dt-api library="Select">
 	<name>rows().deselect()</name>
 	<summary>Deselect rows</summary>
 	<since>1.0.0</since>

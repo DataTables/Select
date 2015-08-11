@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<dt-button group="select">
+<dt-button library="Select">
 	<name>selectRows</name>
 	<summary>Change the item selection mode to `row`.</summary>
 	<since>1.0.0</since>

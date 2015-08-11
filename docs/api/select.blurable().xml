@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<dt-api group="select">
+<dt-api library="Select">
 	<name>select.blurable()</name>
 	<summary>Get / set the blurable state of the table's item selection options</summary>
 	<since>1.0.0</since>

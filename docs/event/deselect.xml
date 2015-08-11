@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<dt-event group="select">
+<dt-event library="Select">
 	<name>deselect</name>
 	<summary>Items (rows, columns or cells) have been deselected</summary>
 	<since>1.0.0</since>

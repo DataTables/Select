@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<dt-option group="select">
+<dt-option library="Select">
 	<name>select.items</name>
 	<summary>Set which table items to select (rows, columns or cells)</summary>
 	<since>1.0.0</since>
