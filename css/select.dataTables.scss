@@ -88,7 +88,7 @@ table.dataTable {
 		&:after {
 			display: block;
 			position: absolute;
-			top: 50%;
+			top: 1.2em; // Should be 50% but IE doesn't like it
 			left: 50%;
 			width: 12px;
 			height: 12px;
@@ -109,7 +109,7 @@ table.dataTable {
 			content: '\2714';
 
 			margin-top: -11px;
-			margin-left: -3px;
+			margin-left: -4px;
 
 			text-align: center;
 			text-shadow:
