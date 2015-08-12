@@ -3,7 +3,7 @@
 	"version": "1.0.0",
 	"main": [
 		"js/dataTables.select.js",
-		"css/select.dataTables.css"
+		"css/select.dataTables.scss"
 	],
 	"dependencies": {
 		"jquery": ">=1.7.0",
