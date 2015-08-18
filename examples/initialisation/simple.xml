@@ -18,7 +18,7 @@ $(document).ready(function() {
 
 <info><![CDATA[
 
-Select is an extension for DataTables that provides table item selection capabilities. In its most simple form it can be enabled on a DataTable by setting the `se-init select` option to be `true`. This will enable Select will all of its default options - row selection which is performed using the `-string os` method (click to select a single item, cmd/ctrl to add and remove items or shift to select a range of items) - see the `se-init style` option.
+Select is an extension for DataTables that provides table item selection capabilities. In its most simple form it can be enabled on a DataTable by setting the `se-init select` option to be `true`. This will enable Select will all of its default options - row selection which is performed using the `-string os` method (click to select a single item, cmd/ctrl to add and remove items or shift to select a range of items) - see the `se-init select.style` option.
 
 This example simply shows a table with selectable rows. For examples that actually do something with those selected rows, please see the other examples in this section!
 
