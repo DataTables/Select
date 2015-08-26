@@ -868,7 +868,7 @@ $.extend( DataTable.ext.buttons, {
 
 			// .DT namespace listeners are removed by DataTables automatically
 			// on table destroy
-			dt.on( 'select.dt.DT deselect.dt.DT', function () {
+			dt.on( 'draw.dt.DT select.dt.DT deselect.dt.DT', function () {
 				var enable = that.rows( { selected: true } ).any() ||
 				             that.columns( { selected: true } ).any() ||
 				             that.cells( { selected: true } ).any();
@@ -885,7 +885,7 @@ $.extend( DataTable.ext.buttons, {
 		init: function ( dt, button, config ) {
 			var that = this;
 
-			dt.on( 'select.dt.DT deselect.dt.DT', function () {
+			dt.on( 'draw.dt.DT select.dt.DT deselect.dt.DT', function () {
 				var count = dt.rows( { selected: true } ).flatten().length +
 				            dt.columns( { selected: true } ).flatten().length +
 				            dt.cells( { selected: true } ).flatten().length;
