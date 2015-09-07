@@ -10,9 +10,9 @@
 		<description>
 			This option can take one of the following values:
 
-			* `-string rows` - select rows
-			* `-string columns` - select columns
-			* `-string cells` - select cells
+			* `-string row` - select rows
+			* `-string column` - select columns
+			* `-string cell` - select cells
 		</description>
 	</type>
 
@@ -26,7 +26,7 @@
 
 $('#example').DataTable( {
 	select: {
-		items: 'columns'
+		items: 'column'
 	}
 } );
 
@@ -36,7 +36,7 @@ $('#example').DataTable( {
 
 $('#example').DataTable( {
 	select: {
-		items: 'cells'
+		items: 'cell'
 	}
 } );
 
