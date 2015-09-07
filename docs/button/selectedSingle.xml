@@ -27,7 +27,7 @@
 $('#myTable').DataTable( {
 	buttons: [
 		{
-			extends: 'selectedSingle',
+			extend: 'selectedSingle',
 			text: 'Log selected data'
 			action: function ( e, dt, button, config ) {
 				console.log( dt.row( { selected: true } ).data() );
