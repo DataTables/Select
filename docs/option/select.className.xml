@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<dt-option library="Select">
+	<name>select.className</name>
+	<summary>Set the class name that will be applied to selected items</summary>
+	<since>1.0.2</since>
+
+	<default value="selected"/>
+
+	<type type="string">
+		<description>
+			The class name that will be applied to the items selected in the DataTable. This can be multiple classes, separated by a space if required.
+		</description>
+	</type>
+
+	<description>
+		Which items are selected in a table, Select will add a class to the item so it can be appropriately highlighted by CSS to show the end user that the item has been selected
+
+		The Select and DataTables style sheets have appropriate classes to perform this action, however it can often be useful to be able to specify your own class to perform your own custom highlighting. This option provides that ability.
+	</description>
+
+	<example title="Set a custom class name for the item selection class"><![CDATA[
+
+$('#example').DataTable( {
+	select: {
+		select: {
+			style:     'os',
+			className: 'row-selected'
+		}
+	}
+} );
+
+]]></example>
+</dt-option>

@@ -1,4 +1,4 @@
-/*! Select for DataTables 1.0.1
+/*! Select for DataTables 1.0.2-dev
  * 2015 SpryMedia Ltd - datatables.net/license/mit
  */
 
@@ -6,7 +6,7 @@
  * @summary     Select for DataTables
  * @description A collection of API methods, events and buttons for DataTables
  *   that provides selection options of the items in a DataTable
- * @version     1.0.1
+ * @version     1.0.2-dev
  * @file        dataTables.select.js
  * @author      SpryMedia Ltd (www.sprymedia.co.uk)
  * @contact     datatables.net/forums
@@ -29,7 +29,7 @@ var factory = function( $, DataTable ) {
 
 // Version information for debugger
 DataTable.select = {};
-DataTable.select.version = '1.0.1';
+DataTable.select.version = '1.0.2-dev';
 
 /*
 
@@ -378,14 +378,14 @@ function init ( ctx ) {
 
 			// Row
 			if ( d._select_selected ) {
-				$( row ).addClass( 'selected' );
+				$( row ).addClass( ctx._select.className );
 			}
 
 			// Cells and columns - if separated out, we would need to do two
 			// loops, so it makes sense to combine them into a single one
 			for ( i=0, ien=ctx.aoColumns.length ; i<ien ; i++ ) {
 				if ( ctx.aoColumns[i]._select_selected || (d._selected_cells && d._selected_cells[i]) ) {
-					$(d.anCells[i]).addClass( 'selected' );
+					$(d.anCells[i]).addClass( ctx._select.className );
 				}
 			}
 		},
@@ -710,7 +710,7 @@ apiRegisterPlural( 'rows().select()', 'row().select()', function ( select ) {
 		clear( ctx );
 
 		ctx.aoData[ idx ]._select_selected = true;
-		$( ctx.aoData[ idx ].nTr ).addClass( 'selected' );
+		$( ctx.aoData[ idx ].nTr ).addClass( ctx._select.className );
 	} );
 
 	this.iterator( 'table', function ( ctx, i ) {
@@ -734,10 +734,10 @@ apiRegisterPlural( 'columns().select()', 'column().select()', function ( select 
 
 		var column = new DataTable.Api( ctx ).column( idx );
 
-		$( column.header() ).addClass( 'selected' );
-		$( column.footer() ).addClass( 'selected' );
+		$( column.header() ).addClass( ctx._select.className );
+		$( column.footer() ).addClass( ctx._select.className );
 
-		column.nodes().to$().addClass( 'selected' );
+		column.nodes().to$().addClass( ctx._select.className );
 	} );
 
 	this.iterator( 'table', function ( ctx, i ) {
@@ -766,7 +766,7 @@ apiRegisterPlural( 'cells().select()', 'cell().select()', function ( select ) {
 		data._selected_cells[ colIdx ] = true;
 
 		if ( data.anCells ) {
-			$( data.anCells[ colIdx ] ).addClass( 'selected' );
+			$( data.anCells[ colIdx ] ).addClass( ctx._select.className );
 		}
 	} );
 
@@ -783,7 +783,7 @@ apiRegisterPlural( 'rows().deselect()', 'row().deselect()', function () {
 
 	this.iterator( 'row', function ( ctx, idx ) {
 		ctx.aoData[ idx ]._select_selected = false;
-		$( ctx.aoData[ idx ].nTr ).removeClass( 'selected' );
+		$( ctx.aoData[ idx ].nTr ).removeClass( ctx._select.className );
 	} );
 
 	this.iterator( 'table', function ( ctx, i ) {
@@ -802,8 +802,8 @@ apiRegisterPlural( 'columns().deselect()', 'column().deselect()', function () {
 		var api = new DataTable.Api( ctx );
 		var column = api.column( idx );
 
-		$( column.header() ).removeClass( 'selected' );
-		$( column.footer() ).removeClass( 'selected' );
+		$( column.header() ).removeClass( ctx._select.className );
+		$( column.footer() ).removeClass( ctx._select.className );
 
 		// Need to loop over each cell, rather than just using
 		// `column().nodes()` as cells which are individually selected should
@@ -813,7 +813,7 @@ apiRegisterPlural( 'columns().deselect()', 'column().deselect()', function () {
 			var cellSelected = data._selected_cells;
 
 			if ( data.anCells && (! cellSelected || ! cellSelected[ cellIdx.column ]) ) {
-				$( data.anCells[ cellIdx.column  ] ).removeClass( 'selected' );
+				$( data.anCells[ cellIdx.column  ] ).removeClass( ctx._select.className );
 			}
 		} );
 	} );
@@ -837,7 +837,7 @@ apiRegisterPlural( 'cells().deselect()', 'cell().deselect()', function () {
 		// selected, in which case the class should remain (since it is selected
 		// in the column)
 		if ( data.anCells && ! ctx.aoColumns[ colIdx ]._select_selected ) {
-			$( data.anCells[ colIdx ] ).removeClass( 'selected' );
+			$( data.anCells[ colIdx ] ).removeClass( ctx._select.className );
 		}
 	} );
 
@@ -956,6 +956,7 @@ $(document).on( 'init.dt.dtSelect', function (e, ctx, json) {
 	var blurable = false;
 	var info = true;
 	var selector = 'td, th';
+	var className = 'selected';
 
 	ctx._select = {};
 
@@ -986,6 +987,10 @@ $(document).on( 'init.dt.dtSelect', function (e, ctx, json) {
 		if ( opts.selector !== undefined ) {
 			selector = opts.selector;
 		}
+
+		if ( opts.className !== undefined ) {
+			className = opts.className;
+		}
 	}
 
 	dt.select.selector( selector );
@@ -993,6 +998,7 @@ $(document).on( 'init.dt.dtSelect', function (e, ctx, json) {
 	dt.select.style( style );
 	dt.select.blurable( blurable );
 	dt.select.info( info );
+	ctx._select.className = className;
 
 	// If the init options haven't enabled select, but there is a selectable
 	// class name, then enable
