@@ -243,13 +243,13 @@ function enableMouseSelection ( dt )
 			var ctx = dt.settings()[0];
 
 			// Ignore clicks inside a sub-table
-			if ( $(e.target).closest('tbody')[0] != body[0] ) {
+			if ( $(this).closest('tbody')[0] != body[0] ) {
 				return;
 			}
 
 			// Check the cell actually belongs to the host DataTable (so child rows,
 			// etc, are ignored)
-			if ( ! dt.cell( e.target ).any() ) {
+			if ( ! dt.cell( this ).any() ) {
 				return;
 			}
 
@@ -258,11 +258,11 @@ function enableMouseSelection ( dt )
 				typeSelect( e, dt, ctx, 'row', idx );
 			}
 			else if ( items === 'column' ) {
-				idx = dt.cell( e.target ).index().column;
+				idx = dt.cell( this ).index().column;
 				typeSelect( e, dt, ctx, 'column', idx );
 			}
 			else if ( items === 'cell' ) {
-				idx = dt.cell( e.target ).index();
+				idx = dt.cell( this ).index();
 				typeSelect( e, dt, ctx, 'cell', idx );
 			}
 
@@ -273,12 +273,12 @@ function enableMouseSelection ( dt )
 	$('body').on( 'click.dtSelect', function ( e ) {
 		if ( ctx._select.blurable ) {
 			// If the click was inside the DataTables container, don't blur
-			if ( $(e.target).parents().filter( dt.table().container() ).length ) {
+			if ( $(this).parents().filter( dt.table().container() ).length ) {
 				return;
 			}
 
 			// Don't blur in Editor form
-			if ( $(e.target).parents('div.DTE').length ) {
+			if ( $(this).parents('div.DTE').length ) {
 				return;
 			}
 
