@@ -237,7 +237,6 @@ function enableMouseSelection ( dt )
 		} )
 		.on( 'click.dtSelect', selector, function ( e ) {
 			var items = dt.select.items();
-			var cellIndex = dt.cell( this ).index();
 			var idx;
 
 			var ctx = dt.settings()[0];
@@ -247,9 +246,12 @@ function enableMouseSelection ( dt )
 				return;
 			}
 
+			var cell = $(e.target).closest('td, th');
+			var cellIndex = dt.cell( cell ).index();
+
 			// Check the cell actually belongs to the host DataTable (so child rows,
 			// etc, are ignored)
-			if ( ! dt.cell( e.target ).any() ) {
+			if ( ! dt.cell( cell ).any() ) {
 				return;
 			}
 
@@ -258,11 +260,11 @@ function enableMouseSelection ( dt )
 				typeSelect( e, dt, ctx, 'row', idx );
 			}
 			else if ( items === 'column' ) {
-				idx = dt.cell( e.target ).index().column;
+				idx = dt.cell( cell ).index().column;
 				typeSelect( e, dt, ctx, 'column', idx );
 			}
 			else if ( items === 'cell' ) {
-				idx = dt.cell( e.target ).index();
+				idx = dt.cell( cell ).index();
 				typeSelect( e, dt, ctx, 'cell', idx );
 			}
 
