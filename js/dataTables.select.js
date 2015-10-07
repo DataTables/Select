@@ -961,7 +961,7 @@ $.each( [ 'Row', 'Column', 'Cell' ], function ( i, item ) {
 // they will have been if the `B` option was used in `dom`, otherwise we should
 // create the buttons instance here so they can be inserted into the document
 // using the API
-$(document).on( 'init.dt.dtSelect', function (e, ctx, json) {
+$(document).on( 'preInit.dt.dtSelect', function (e, ctx, json) {
 	if ( e.namespace !== 'dt' ) {
 		return;
 	}
