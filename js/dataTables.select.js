@@ -1027,5 +1027,5 @@ $(document).on( 'preInit.dt.dtSelect', function (e, ctx, json) {
 } );
 
 
-DataTable.select;
+return DataTable.select;
 }));
