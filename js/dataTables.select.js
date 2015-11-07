@@ -1,4 +1,4 @@
-/*! Select for DataTables 1.1.0-dev
+/*! Select for DataTables 1.1.0
  * 2015 SpryMedia Ltd - datatables.net/license/mit
  */
 
@@ -6,7 +6,7 @@
  * @summary     Select for DataTables
  * @description A collection of API methods, events and buttons for DataTables
  *   that provides selection options of the items in a DataTable
- * @version     1.1.0-dev
+ * @version     1.1.0
  * @file        dataTables.select.js
  * @author      SpryMedia Ltd (www.sprymedia.co.uk)
  * @contact     datatables.net/forums
@@ -53,7 +53,7 @@ var DataTable = $.fn.dataTable;
 
 // Version information for debugger
 DataTable.select = {};
-DataTable.select.version = '1.1.0-dev';
+DataTable.select.version = '1.1.0';
 
 /*
 
