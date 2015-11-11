@@ -2,7 +2,7 @@
 <dt-option library="Select">
 	<name>select.className</name>
 	<summary>Set the class name that will be applied to selected items</summary>
-	<since>1.0.2</since>
+	<since>1.1.0</since>
 
 	<default value="selected"/>
 
