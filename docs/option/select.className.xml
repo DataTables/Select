@@ -21,11 +21,9 @@
 	<example title="Set a custom class name for the item selection class"><![CDATA[
 
 $('#example').DataTable( {
-	select: {
-		select: {
-			style:     'os',
-			className: 'row-selected'
-		}
+	select: 
+		style:     'os',
+		className: 'row-selected'
 	}
 } );
 
