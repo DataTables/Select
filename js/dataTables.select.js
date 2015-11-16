@@ -935,6 +935,19 @@ $.extend( DataTable.ext.buttons, {
 		className: 'buttons-select-none',
 		action: function () {
 			clear( this.settings()[0], true );
+		},
+		init: function ( dt, button, config ) {
+			var that = this;
+
+			dt.on( 'draw.dt.DT select.dt.DT deselect.dt.DT', function () {
+				var count = dt.rows( { selected: true } ).flatten().length +
+				            dt.columns( { selected: true } ).flatten().length +
+				            dt.cells( { selected: true } ).flatten().length;
+
+				that.enable( count > 0 );
+			} );
+
+			this.disable();
 		}
 	}
 } );
