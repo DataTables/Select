@@ -37,7 +37,7 @@
 		* `-string multi` - Multiple items can be selected. Selection is performed by simply clicking on the items to be selected
 		* `-string os` - _Operating System_ (OS) style selection. This is the most comprehensive option and provides complex behaviours such as ctrl/cmd clicking to select / deselect individual items, shift clicking to select ranges and an unmodified click to select a single item.
 
-		Each of these options can be used with the three table items that can be selected (`e-api select.items()`).
+		Each of these options can be used with the three table items that can be selected (`se-api select.items()`).
 	</description>
 
 	<example title="Let the user select items using the _os_ selection style"><![CDATA[

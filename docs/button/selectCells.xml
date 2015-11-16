@@ -7,7 +7,7 @@
 	<description>
 		Select's ability to dynamically change between what items can be selected in the table (`s-api select.items()`) can be controlled by this button, and its counterparts: `s-button selectRows` and `s-button selectColumns` providing the end user with the ability to switch between item selection type.
 
-		If the item selection mode is set to `cell`, this button will show as _active_ (see `s-api select.active()`.
+		If the item selection mode is set to `cell`, this button will show as _active_ (see `b-api button().active()`).
 	</description>
 
 	<defaults>
