@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<dt-api library="Select">
+	<name>select()</name>
+	<summary>Initialise Select from outside of the constructor</summary>
+	<since>1.1.1</since>
+
+	<type type="function">
+		<signature>select()</signature>
+		<returns type="DataTables.Api">
+			API instance, unmodified.
+		</returns>
+		<description>
+			Initialise Select for a DataTable after the DataTable has been constructed.
+		</description>
+	</type>
+
+	<description>
+		When a DataTable is constructed it emits the `dt-event preInit` event which Select can normally listen for and initialise the library for use on the table. However, if the table is constructed before being entered into the DOM this event does not trigger on the document so we need a different method to initialise Select. This method provides that ability.
+
+		This method should only be used for cases where the table is initialised before it is inserted into the DOM. It is not required at any other point.
+	</description>
+
+	<example title="Use of the `se-api select()` method:"><![CDATA[
+
+var table = $('#myTable').DataTable( {
+	select: true
+} );
+
+table.select();
+
+]]></example>
+
+</dt-api>
