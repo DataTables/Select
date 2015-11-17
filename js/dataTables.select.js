@@ -977,10 +977,10 @@ $.each( [ 'Row', 'Column', 'Cell' ], function ( i, item ) {
  * Initialisation
  */
 
-// DataTables creation - check if the buttons have been defined for this table,
-// they will have been if the `B` option was used in `dom`, otherwise we should
-// create the buttons instance here so they can be inserted into the document
-// using the API
+// DataTables creation - check if select has been defined in the options. Note
+// this required that the table be in the document! If it isn't then something
+// needs to trigger this method unfortunately. The next major release of
+// DataTables will rework the events and address this.
 $(document).on( 'preInit.dt.dtSelect', function (e, ctx, json) {
 	if ( e.namespace !== 'dt' ) {
 		return;
