@@ -56,7 +56,7 @@ $('#example').DataTable( {
 
 ]]></example>
 
-	<example title="Selelect cells with no summary information shown"><![CDATA[
+	<example title="Select cells with no summary information shown"><![CDATA[
 
 $('#example').DataTable( {
 	select: {
