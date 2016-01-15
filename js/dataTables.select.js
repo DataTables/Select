@@ -110,6 +110,19 @@ DataTable.select.init = function ( dt ) {
 	dt.select.info( info );
 	ctx._select.className = className;
 
+
+	// Sort table based on selected rows. Requires Select Datatables extension
+	$.fn.dataTable.ext.order['select-checkbox'] = function ( settings, col ) {
+		return this.api().column( col, {order: 'index'} ).nodes().map( function ( td ) {
+			if ( settings._select.items === 'row' ) {
+				return $( td ).parent().hasClass( settings._select.className );
+			} else if ( settings._select.items === 'cell' ) {
+				return $( td ).hasClass( settings._select.className );
+			}
+			return false;
+		});
+	};
+
 	// If the init options haven't enabled select, but there is a selectable
 	// class name, then enable
 	if ( $( dt.table().node() ).hasClass( 'selectable' ) ) {
