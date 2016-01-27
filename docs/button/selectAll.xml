@@ -24,7 +24,7 @@ $('#myTable').DataTable( {
 	buttons: [
 		'selectAll',
 		'selectNone'
-	},
+	],
 	language: {
 		buttons: {
 			selectAll: "Select all items",
