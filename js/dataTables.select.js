@@ -347,7 +347,7 @@ function enableMouseSelection ( dt )
 			var ctx = dt.settings()[0];
 
 			// Ignore clicks inside a sub-table
-			if ( $(e.target).closest('tbody')[0] != body[0] ) {
+			if ( $(e.target).closest('div.dataTables_wrapper')[0] != dt.table().container() ) {
 				return;
 			}
 
