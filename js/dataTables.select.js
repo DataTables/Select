@@ -58,7 +58,11 @@ DataTable.select.version = '1.1.1-dev';
 
 DataTable.select.init = function ( dt ) {
 	var ctx = dt.settings()[0];
-	var opts = ctx.oInit.select || DataTable.defaults.select;
+	var init = settings.oInit.select;
+	var defaults = DataTable.defaults.select;
+	var opts = init === undefined ?
+		defaults :
+		init;
 
 	// Set defaults
 	var items = 'row';
