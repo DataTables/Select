@@ -654,8 +654,8 @@ function typeSelect ( e, dt, ctx, type, idx )
 				dt[type]( idx ).select();
 			}
 		}
-	} else if ( style == 'shift-only' ) {
-	  if ( e.shiftKey ) {
+	} else if ( style == 'multi+shift' ) {
+		if ( e.shiftKey ) {
 			if ( type === 'cell' ) {
 				cellRange( dt, idx, ctx._select_lastCell || null );
 			}
@@ -665,7 +665,8 @@ function typeSelect ( e, dt, ctx, type, idx )
 					null
 				);
 			}
-		} else {
+		}
+		else {
 		  dt[ type ]( idx ).select( ! isSelected );
 		}
 	}
