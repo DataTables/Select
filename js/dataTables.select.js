@@ -654,6 +654,21 @@ function typeSelect ( e, dt, ctx, type, idx )
 				dt[type]( idx ).select();
 			}
 		}
+	} else if ( style == 'multi+shift' ) {
+		if ( e.shiftKey ) {
+			if ( type === 'cell' ) {
+				cellRange( dt, idx, ctx._select_lastCell || null );
+			}
+			else {
+				rowColumnRange( dt, type, idx, ctx._select_lastCell ?
+					ctx._select_lastCell[type] :
+					null
+				);
+			}
+		}
+		else {
+		  dt[ type ]( idx ).select( ! isSelected );
+		}
 	}
 	else {
 		dt[ type ]( idx ).select( ! isSelected );
