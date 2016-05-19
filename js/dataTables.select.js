@@ -1,4 +1,4 @@
-/*! Select for DataTables 1.1.3-dev
+/*! Select for DataTables 1.2.0-dev
  * 2015-2016 SpryMedia Ltd - datatables.net/license/mit
  */
 
@@ -6,7 +6,7 @@
  * @summary     Select for DataTables
  * @description A collection of API methods, events and buttons for DataTables
  *   that provides selection options of the items in a DataTable
- * @version     1.1.3-dev
+ * @version     1.2.0-dev
  * @file        dataTables.select.js
  * @author      SpryMedia Ltd (www.sprymedia.co.uk)
  * @contact     datatables.net/forums
@@ -54,7 +54,7 @@ var DataTable = $.fn.dataTable;
 // Version information for debugger
 DataTable.select = {};
 
-DataTable.select.version = '1.1.3-dev';
+DataTable.select.version = '1.2.0-dev';
 
 DataTable.select.init = function ( dt ) {
 	var ctx = dt.settings()[0];
@@ -355,25 +355,32 @@ function enableMouseSelection ( dt )
 				return;
 			}
 
-			var cell = $(e.target).closest('td, th');
-			var cellIndex = dt.cell( cell ).index();
+			var cell = dt.cell( $(e.target).closest('td, th') );
 
-			// Check the cell actually belongs to the host DataTable (so child rows,
-			// etc, are ignored)
-			if ( ! dt.cell( cell ).any() ) {
+			// Check the cell actually belongs to the host DataTable (so child
+			// rows, etc, are ignored)
+			if ( ! cell.any() ) {
 				return;
 			}
 
+			var event = $.Event('user-select.dt');
+			eventTrigger( dt, event, [ items, cell, e ] );
+
+			if ( event.isDefaultPrevented() ) {
+				return;
+			}
+
+			var cellIndex = cell.index();
 			if ( items === 'row' ) {
 				idx = cellIndex.row;
 				typeSelect( e, dt, ctx, 'row', idx );
 			}
 			else if ( items === 'column' ) {
-				idx = dt.cell( cell ).index().column;
+				idx = cell.index().column;
 				typeSelect( e, dt, ctx, 'column', idx );
 			}
 			else if ( items === 'cell' ) {
-				idx = dt.cell( cell ).index();
+				idx = cell.index();
 				typeSelect( e, dt, ctx, 'cell', idx );
 			}
 
@@ -414,9 +421,13 @@ function eventTrigger ( api, type, args, any )
 		return;
 	}
 
+	if ( typeof type === 'string' ) {
+		type = type +'.dt';
+	}
+
 	args.unshift( api );
 
-	$(api.table().node()).triggerHandler( type+'.dt', args );
+	$(api.table().node()).triggerHandler( type, args );
 }
 
 /**
@@ -667,7 +678,7 @@ function typeSelect ( e, dt, ctx, type, idx )
 			}
 		}
 		else {
-		  dt[ type ]( idx ).select( ! isSelected );
+			dt[ type ]( idx ).select( ! isSelected );
 		}
 	}
 	else {

@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<dt-example table-type="html" order="4">
+
+<css lib="datatables select">
+	#events {
+		margin-bottom: 1em;
+		padding: 1em;
+		background-color: #f6f6f6;
+		border: 1px solid #999;
+		border-radius: 3px;
+		height: 100px;
+		overflow: auto;
+	}
+</css>
+<js lib="jquery datatables select"/>
+
+<js><![CDATA[
+$(document).ready(function() {
+	var table = $('#example').DataTable( {
+		select: true
+	} );
+
+	table
+		.on( 'user-select', function ( e, dt, type, cell, originalEvent ) {
+			if ( $(originalEvent.target).index() === 0 ) {
+				e.preventDefault();
+			}
+		} );
+} );
+]]></js>
+
+<title>Events (cancellable)</title>
+
+<info><![CDATA[
+
+There are occasions where you might find it useful to be able to stop the selection of an item in a DataTable from happening when the user takes some action. This can be, for example, when they click on an icon in the row to edit or delete the row - instead of selecting the row it should perform whatever other task is required.
+
+This can be done with the `se-event user-select` event which is cancellable. The `se-event user-select` event will occur when the event defined by `se-init select.selector` is triggered -typically a mouse click on a cell in the table. The event is cancelled by using `e.preventDefault()` or `return false;` from the event handler.
+
+This example demonstrates that ability by disallowing selection events from occurring on the first column in the table.
+
+]]></info>
+
+</dt-example>
