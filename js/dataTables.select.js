@@ -325,7 +325,7 @@ function enableMouseSelection ( dt )
 		.on( 'mousedown.dtSelect', selector, function(e) {
 			// Disallow text selection for shift clicking on the table so multi
 			// element selection doesn't look terrible!
-			if ( e.shiftKey ) {
+			if ( e.shiftKey || e.metaKey || e.ctrlKey ) {
 				body
 					.css( '-moz-user-select', 'none' )
 					.one('selectstart.dtSelect', selector, function () {

@@ -119,13 +119,6 @@ table.dataTable {
 				-1px 1px #B0BED9;
 		}
 	}
-
-	// Firefox will select cells if cmd-clicked, which we don't want when OS
-	// selection method is employed.
-	tbody th,
-	tbody td {
-		-moz-user-select: none;
-	}
 }
 
 div.dataTables_wrapper {
