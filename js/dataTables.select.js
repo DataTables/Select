@@ -333,7 +333,7 @@ function enableMouseSelection ( dt )
 					} );
 			}
 		} )
-		.on( 'mouseup.dtSelect', selector, function(e) {
+		.on( 'mouseup.dtSelect', selector, function() {
 			// Allow text selection to occur again, Mozilla style (tested in FF
 			// 35.0.1 - still required)
 			body.css( '-moz-user-select', '' );
@@ -712,7 +712,7 @@ $.each( [
 			data = settings[ o.prop ][ indexes[i] ];
 
 			if ( (selected === true && data._select_selected === true) ||
-				 (selected === false && ! data._select_selected )
+			     (selected === false && ! data._select_selected )
 			) {
 				out.push( indexes[i] );
 			}
@@ -735,7 +735,7 @@ DataTable.ext.selector.cell.push( function ( settings, opts, cells ) {
 		rowData = settings.aoData[ cells[i].row ];
 
 		if ( (selected === true && rowData._selected_cells && rowData._selected_cells[ cells[i].column ] === true) ||
-			 (selected === false && ( ! rowData._selected_cells || ! rowData._selected_cells[ cells[i].column ] ) )
+		     (selected === false && ( ! rowData._selected_cells || ! rowData._selected_cells[ cells[i].column ] ) )
 		) {
 			out.push( cells[i] );
 		}
@@ -1004,7 +1004,7 @@ $.extend( DataTable.ext.buttons, {
 	selected: {
 		text: i18n( 'selected', 'Selected' ),
 		className: 'buttons-selected',
-		init: function ( dt, button, config ) {
+		init: function ( dt ) {
 			var that = this;
 
 			// .DT namespace listeners are removed by DataTables automatically
@@ -1023,7 +1023,7 @@ $.extend( DataTable.ext.buttons, {
 	selectedSingle: {
 		text: i18n( 'selectedSingle', 'Selected single' ),
 		className: 'buttons-selected-single',
-		init: function ( dt, button, config ) {
+		init: function ( dt ) {
 			var that = this;
 
 			dt.on( 'draw.dt.DT select.dt.DT deselect.dt.DT', function () {
@@ -1051,7 +1051,7 @@ $.extend( DataTable.ext.buttons, {
 		action: function () {
 			clear( this.settings()[0], true );
 		},
-		init: function ( dt, button, config ) {
+		init: function ( dt ) {
 			var that = this;
 
 			dt.on( 'draw.dt.DT select.dt.DT deselect.dt.DT', function () {
@@ -1076,7 +1076,7 @@ $.each( [ 'Row', 'Column', 'Cell' ], function ( i, item ) {
 		action: function () {
 			this.select.items( lc );
 		},
-		init: function ( dt, button, config ) {
+		init: function ( dt ) {
 			var that = this;
 
 			dt.on( 'selectItems.dt.DT', function ( e, ctx, items ) {
