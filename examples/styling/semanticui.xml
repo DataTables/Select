@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<dt-example table-type="html" order="4" framework="semanticui">
+
+<css lib="datatables select"/>
+<js lib="jquery datatables select">
+<![CDATA[
+
+$(document).ready(function() {
+	$('#example').DataTable( {
+		select: true
+	} );
+} );
+
+]]>
+</js>
+
+<title lib="Select">Semantic UI</title>
+
+<info><![CDATA[
+
+This example shows DataTables and the Select extension being used with the [Semantic UI](http://semantic-ui.com/) styling framework. The DataTables / Semantic UI integration provides seamless integration for DataTables to be used in a Semantic UI page.
+
+]]></info>
+
+</dt-example>
+

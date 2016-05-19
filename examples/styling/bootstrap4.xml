@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<dt-example table-type="html" table-class="table table-striped table-bordered" order="2" framework="bootstrap4">
+
+<css lib="datatables select"/>
+<js lib="jquery datatables select">
+<![CDATA[
+
+$(document).ready(function() {
+	$('#example').DataTable( {
+		select: true
+	} );
+} );
+
+]]>
+</js>
+
+<title lib="Select">Bootstrap 4</title>
+
+<info><![CDATA[
+
+This example shows DataTables and the Select extension being used with [Bootstrap 4](http://getbootstrap.com) providing the styling. The DataTables / Bootstrap 4 integration provides seamless integration for DataTables to be used in a Bootstrap 4 page.
+
+]]></info>
+
+</dt-example>
+
