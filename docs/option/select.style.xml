@@ -14,6 +14,7 @@
 			* `-string single` - Only a single item can be selected, any other selected items will be automatically deselected when a new item is selected
 			* `-string multi` - Multiple items can be selected. Selection is performed by simply clicking on the items to be selected
 			* `-string os` - _Operating System_ (OS) style selection. This is the most comprehensive option and provides complex behaviours such as ctrl/cmd clicking to select / deselect individual items, shift clicking to select ranges and an unmodified click to select a single item.
+			* `-string multi+shift` - a hybrid between the `os` style and `multi`, allowing easy multi-row selection without immediate de-selection when clicking on a row. 
 		</description>
 	</type>
 
