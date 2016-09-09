@@ -13,7 +13,7 @@
 			DataTables API instance
 		</parameter>
 		<parameter type="string" name="type">
-			Items being selected. This can be `-string rows`, `-string columns` or `-string cells`.
+			Items being selected. This can be `-string row`, `-string column` or `-string cell`.
 		</parameter>
 		<parameter type="array" name="indexes">
 			The DataTables' indexes of the selected items. This can be used with the table selector methods (`dt-api rows()` for example). For further information about the item indexes used by DataTables, please refer to `dt-api row().index()`, `dt-api column().index()` and `dt-api cell().index()` as appropriate.
