@@ -34,7 +34,7 @@
 var table = $('#example').DataTable();
 
 table.on( 'select', function ( e, dt, type, indexes ) {
-	if ( type === 'rows' ) {
+	if ( type === 'row' ) {
 		var data = table.rows( indexes ).data().pluck( 'id' );
 
 		// do something with the ID of the selected items
