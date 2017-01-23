@@ -26,12 +26,12 @@ $('#myTable').DataTable( {
 	buttons: [
 		{
 			extend: 'selected',
-			text: 'Count selected rows'
+			text: 'Count selected rows',
 			action: function ( e, dt, button, config ) {
 				alert( dt.rows( { selected: true } ).indexes().length +' row(s) selected' );
 			}
 		}
-	}
+	]
 } );
 
 ]]></example>
