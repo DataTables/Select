@@ -348,7 +348,7 @@ function enableMouseSelection ( dt )
 
 			// If text was selected (click and drag), then we shouldn't change
 			// the row's selected state
-			if ( window.getSelection && window.getSelection().toString() ) {
+			if ( window.getSelection && $.trim( window.getSelection().toString() ) ) {
 				return;
 			}
 
