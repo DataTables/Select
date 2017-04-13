@@ -399,6 +399,12 @@ function enableMouseSelection ( dt )
 				return;
 			}
 
+			// Ignore elements which have been removed from the DOM (i.e. paging
+			// buttons)
+			if ( e.target.getRootNode() !== document ) {
+				return;
+			}
+
 			// Don't blur in Editor form
 			if ( $(e.target).parents('div.DTE').length ) {
 				return;
