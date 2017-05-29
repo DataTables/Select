@@ -482,7 +482,7 @@ function info ( api )
 		}
 
 		if ( output.text() !== '' ) {
-			el.append( output );
+			el.append( output.clone() );
 		}
 	} );
 }
