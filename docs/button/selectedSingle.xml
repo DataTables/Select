@@ -28,12 +28,12 @@ $('#myTable').DataTable( {
 	buttons: [
 		{
 			extend: 'selectedSingle',
-			text: 'Log selected data'
+			text: 'Log selected data',
 			action: function ( e, dt, button, config ) {
 				console.log( dt.row( { selected: true } ).data() );
 			}
 		}
-	}
+	]
 } );
 
 ]]></example>
