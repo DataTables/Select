@@ -455,6 +455,10 @@ function info ( api )
 		return;
 	}
 
+	if ( api.select.style() === 'api' ) {
+		return;
+	}
+
 	var rows    = api.rows( { selected: true } ).flatten().length;
 	var columns = api.columns( { selected: true } ).flatten().length;
 	var cells   = api.cells( { selected: true } ).flatten().length;
