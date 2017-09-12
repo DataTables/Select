@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 
 DT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )/../.."
 if [ "$1" = "debug" ]; then
