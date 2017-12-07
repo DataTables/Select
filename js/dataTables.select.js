@@ -348,8 +348,16 @@ function enableMouseSelection ( dt )
 
 			// If text was selected (click and drag), then we shouldn't change
 			// the row's selected state
-			if ( window.getSelection && $.trim( window.getSelection().toString() ) ) {
-				return;
+			if ( window.getSelection ) {
+				var selection = window.getSelection();
+
+				// If the element that contains the selection is not in the table, we can ignore it
+				// This can happen if the developer selects text from the click event
+				if ( ! selection.anchorNode || $(selection.anchorNode).closest('table')[0] === dt.table().node() ) {
+					if ( $.trim(selection.toString()) !== '' ) {
+						return;
+					}
+				}
 			}
 
 			var ctx = dt.settings()[0];
