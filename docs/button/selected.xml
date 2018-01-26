@@ -18,6 +18,9 @@
 		<parameter name="init" value="function">
 			Add event handlers to enable / disable the button as the table's selected items change.
 		</parameter>
+		<parameter name="limitTo" value="['rows', 'columns', 'cells']" since="1.2.5">
+			Limit the enablement of this button to one or more of the item types that can be selected. For example, in a CRUD application you might wish to limit deletion of data to row selection only.
+		</parameter>
 	</defaults>
 
 	<example title="DataTables initialisation: Count the number of selected rows"><![CDATA[

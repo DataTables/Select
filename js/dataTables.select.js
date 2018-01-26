@@ -1033,12 +1033,29 @@ function namespacedEvents ( config ) {
 	return 'draw.dt.DT'+unique+' select.dt.DT'+unique+' deselect.dt.DT'+unique;
 }
 
+function enabled ( dt, config ) {
+	if ( $.inArray( 'rows', config.limitTo ) !== -1 && dt.rows( { selected: true } ).any() ) {
+		return true;
+	}
+
+	if ( $.inArray( 'columns', config.limitTo ) !== -1 && dt.columns( { selected: true } ).any() ) {
+		return true;
+	}
+
+	if ( $.inArray( 'cells', config.limitTo ) !== -1 && dt.cells( { selected: true } ).any() ) {
+		return true;
+	}
+
+	return false;
+}
+
 var _buttonNamespace = 0;
 
 $.extend( DataTable.ext.buttons, {
 	selected: {
 		text: i18n( 'selected', 'Selected' ),
 		className: 'buttons-selected',
+		limitTo: [ 'rows', 'columns', 'cells' ],
 		init: function ( dt, node, config ) {
 			var that = this;
 			config._eventNamespace = '.select'+(_buttonNamespace++);
@@ -1046,11 +1063,7 @@ $.extend( DataTable.ext.buttons, {
 			// .DT namespace listeners are removed by DataTables automatically
 			// on table destroy
 			dt.on( namespacedEvents(config), function () {
-				var enable = that.rows( { selected: true } ).any() ||
-				             that.columns( { selected: true } ).any() ||
-				             that.cells( { selected: true } ).any();
-
-				that.enable( enable );
+				that.enable( enabled(dt, config) );
 			} );
 
 			this.disable();
