@@ -4,7 +4,7 @@
 	<summary>Set which table items to select (rows, columns or cells)</summary>
 	<since>1.0.0</since>
 
-	<default value="rows"/>
+	<default value="row"/>
 
 	<type type="string">
 		<description>

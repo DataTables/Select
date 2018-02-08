@@ -18,7 +18,7 @@ $(document).ready(function() {
 
 <info><![CDATA[
 
-This example shows DataTables and Select being used with [jQuery UI](http://jqueryui.com/) providing the base styling information. The [DataTables / jQuery UI integration](//datatables.net/manual/styling/foundation) prove seamless integration for DataTables to be used in a jQuery UI page.
+This example shows DataTables and Select being used with [jQuery UI](http://jqueryui.com/) providing the base styling information. The [DataTables / jQuery UI integration](//datatables.net/manual/styling/foundation) provides seamless integration for DataTables to be used in a jQuery UI page.
 
 ]]></info>
 

@@ -33,7 +33,7 @@ $(document).ready(function() {
 
 <info><![CDATA[
 
-When using Select row selection will typically be performed by the actions of an end user, but it also possible to programmatically select items in a table using the API methods presented by the library. `se-api rows().select()` and `se-api rows().deselect()` plus their singular counterparts along with similar columns and cells methods provide this ability.
+When using Select, row selection will typically be performed by the actions of an end user, but it also possible to programmatically select items in a table using the API methods presented by the library. `se-api rows().select()` and `se-api rows().deselect()` plus their singular counterparts along with similar columns and cells methods provide this ability.
 
 As they are based on the DataTables item selector methods, any of the selector options can be used to select the item to act upon. For example, `table.rows( ':eq(0)' ).select()` will select the first row shown on the page.
 

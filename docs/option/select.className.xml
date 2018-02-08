@@ -13,7 +13,7 @@
 	</type>
 
 	<description>
-		Which items are selected in a table, Select will add a class to the item so it can be appropriately highlighted by CSS to show the end user that the item has been selected
+		When table items are selected, Select will add a class to those items so it can be appropriately highlighted by CSS to show the end user that selection.
 
 		The Select and DataTables style sheets have appropriate classes to perform this action, however it can often be useful to be able to specify your own class to perform your own custom highlighting. This option provides that ability.
 	</description>

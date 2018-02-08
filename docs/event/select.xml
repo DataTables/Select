@@ -22,7 +22,7 @@
 	</type>
 
 	<description>
-		This event is triggered whenever an item (rows, columns or cells) are selected in a DataTable, and provides information about which item(s) have been selected.
+		This event is triggered whenever items (rows, columns or cells) are selected in a DataTable, and provides information about which item(s) have been selected.
 
 		Please note that for performance reasons only a single event is triggered for each selection action. The result is that if multiple items are selected in a single action (shift click in the `os` selection style for example) each item selected does not receive its own event, but rather the information about the selected items is conveyed in an array.
 

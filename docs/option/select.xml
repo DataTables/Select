@@ -27,7 +27,7 @@
 
 		When Select has been loaded on a page, all DataTables on that page have the ability to have items selected, but by default this can only be done through the API - i.e. the end user will have no ability to select items in a table by default. To enable end user selection, this option should be used (the `s-api select.style()` method can also be used after initialisation).
 
-		Exactly what selection the user can make and how depends upon the options selected.
+		Exactly what selection the user can make, and how, depends upon the options selected.
 	</description>
 
 	<example title="Enable selection of rows in the OS style"><![CDATA[
