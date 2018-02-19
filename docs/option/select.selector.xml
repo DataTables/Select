@@ -35,7 +35,7 @@ $('#example').DataTable( {
 $('#example').DataTable( {
 	select: {
 		style:    'os',
-		selector: ':not(:last-child)'
+		selector: 'td:not(:last-child)'
 	}
 } );
 
