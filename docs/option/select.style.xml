@@ -21,9 +21,9 @@
 	<description>
 		Select provides a number of different built in ways that an end user can interact with the selection of items in the table, which is controlled by this parameter (and `s-api select.style()` after initialisation).
 
-		The default mode of operation is based on the selection of files in modern operating systems with the ctrl/cmd and shift keys can be user to provide complex operations.
+		The default mode of operation is based on the selection of files in modern operating systems where the ctrl/cmd and shift keys can be used to provide complex operations.
 
-		Note that while the `-string api` option disables item selection via Select's built in event handler, it is quote possible to use the API to still provide the end user with the ability to select / deselect items based on your own event handlers.
+		Note that while the `-string api` option disables item selection via Select's built in event handler, it is quite possible to use the API to still provide the end user with the ability to select / deselect items based on your own event handlers.
 	</description>
 
 	<example title="Disable end user selection via Select's click event handler"><![CDATA[

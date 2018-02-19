@@ -15,9 +15,9 @@
 	</type>
 
 	<description>
-		Select make use of a number of strings that are displayed to the end user to explain what action will be performed based on the user input.
+		Select makes use of a number of strings that are displayed to the end user to explain what action will be performed based on the user input.
 
-		A parameters of this object provide the ability to customise those strings to suit your needs. This can be a full translation or a tweak of just one or two strings to match the styling of your site / app.
+		Parameters of this object provide the ability to customise those strings to suit your needs. This can be a full translation or a tweak of just one or two strings to match the styling of your site / app.
 	</description>
 
 	<example title="Set the strings to be used for row selection"><![CDATA[

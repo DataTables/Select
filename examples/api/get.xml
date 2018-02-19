@@ -52,7 +52,7 @@ table.cells( { selected: true } );
 
 If you wish to get the unselected items you can use `{selected: false}`.
 
-This example shows a simple use case for this selector option - a button is presented (using the [Buttons extension](https://datatables.net/extensions/buttons)) which when activated will count the number of rows selected and display that information. 
+This example shows a simple use case for this selector option - a button is presented (using the [Buttons extension](https://datatables.net/extensions/buttons)) which when activated will display a count of the selected rows. 
 
 ]]></info>
 

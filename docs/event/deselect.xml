@@ -22,7 +22,7 @@
 	</type>
 
 	<description>
-		This event is triggered whenever an item (rows, columns or cells) are deselected in a DataTable, and provides information about which item(s) have been deselected.
+		This event is triggered whenever items (rows, columns or cells) are deselected in a DataTable, and provides information about which item(s) have been deselected.
 
 		Please note that for performance reasons only a single event is triggered for each deselection action. The result is that if multiple items are deselected in a single action, each item deselected does not receive its own event, but rather the information about the deselected items is conveyed in an array.
 

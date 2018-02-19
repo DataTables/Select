@@ -7,7 +7,7 @@
 	<type type="function">
 		<signature>select.items()</signature>
 		<returns type="string">
-			The current item that will be selected when the user interacts with Select's event listeners - this will be the value `-string rows`, `-string columns` or `-string cells`.
+			The current item that will be selected when the user interacts with Select's event listeners - this will be the value `-string row`, `-string column` or `-string cell`.
 		</returns>
 		<description>
 			Get the items that will be selected by user interaction (i.e. a click on the table).
@@ -17,7 +17,7 @@
 	<type type="function">
 		<signature>select.items( set )</signature>
 		<parameter type="string" name="set">
-			Items to select - this must be one of `-string rows`, `-string columns` or `-string cells`.
+			Items to select - this must be one of `-string row`, `-string column` or `-string cels`.
 		</parameter>
 		<returns type="DataTables.Api">
 			DataTables API instance for chaining.
@@ -38,7 +38,7 @@
 var table = $('#myTable').DataTable();
 
 table.select.style( 'os' );
-table.select.items( 'cells' );
+table.select.items( 'cell' );
 
 ]]></example>
 
