@@ -30,7 +30,7 @@ $('#myTable').DataTable( {
 		'selectRows',
 		'selectColumns',
 		'selectCells'
-	}
+	]
 } );
 
 ]]></example>
