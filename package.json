@@ -1,0 +1,48 @@
+{
+	"name": "datatables-select",
+	"version": "1.2.7",
+	"title": "DataTables extension select",
+	"main": "js/dataTables.select",
+	"license": "MIT",
+	"dependencies": {
+		"jquery": ">=1.7",
+		"datatables.net": ">=1.2.7"
+	},
+	"author": {
+		"name": "Allan Jardine",
+		"url": "http://sprymedia.co.uk"
+	},
+	"description": "DataTables extension select.",
+	"keywords": [
+		"DataTables",
+		"DataTable",
+		"table",
+		"grid",
+		"filter",
+		"sort",
+		"page",
+		"internationalisable",
+		"jquery-plugin",
+		"extension",
+		"select"
+	],
+	"repository": {
+		"type": "git",
+		"url": "https://github.com/DataTables/Select.git"
+	},
+	"homepage": "http://datatables.net",
+
+	"jspm": {
+		"dependencies": {
+			"css": "^0.1.5",
+			"jquery": "*"
+		},
+		"registry": "jspm",
+		"shim": {
+			"js/dataTables.select": {
+				"deps": ["jquery", "../css/select.dataTables.css!"],
+				"exports": "$"
+			}
+		}
+	}
+}
