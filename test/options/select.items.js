@@ -1,4 +1,4 @@
-describe('Select - select.items', function() {
+describe('Select - select.items()', function() {
 	var table;
 
 	dt.libs({
