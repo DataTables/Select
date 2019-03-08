@@ -101,6 +101,10 @@ DataTable.select.init = function ( dt ) {
 			style = opts.style;
 			setStyle = true;
 		}
+		else {
+			style = 'os';
+			setStyle = true;
+		}
 
 		if ( opts.selector !== undefined ) {
 			selector = opts.selector;
