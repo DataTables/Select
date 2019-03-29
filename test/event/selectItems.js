@@ -1,4 +1,4 @@
-describe('Select - Events - selectStyle', function() {
+describe('Select - Events - selectItems', function() {
 	let table;
 
 	dt.libs({
@@ -13,14 +13,14 @@ describe('Select - Events - selectStyle', function() {
 		it('Set stuff up', function() {
 			table = $('#example')
 				.DataTable()
-				.on('selectStyle', function() {
+				.on('selectItems', function() {
 					params = arguments;
 				});
 
 			expect(params).toBe(undefined);
 		});
 		it('Is called with the right parameters', function() {
-			table.select.style('multi');
+			table.select.items('columns');
 
 			expect(params.length).toBe(3);
 			expect(params[0] instanceof $.Event).toBe(true);
@@ -40,34 +40,26 @@ describe('Select - Events - selectStyle', function() {
 						style: 'api'
 					}
 				})
-				.on('selectStyle', function() {
+				.on('selectItems', function() {
 					params = arguments;
 				});
 
 			expect(params).toBe(undefined);
 		});
-		it('Set to api', function() {
-			table.select.style('api');
-			expect(params[2]).toBe('api');
+		it('Set to column', function() {
+			table.select.items('column');
+			expect(params[2]).toBe('column');
 		});
-		it('Set to single', function() {
-			table.select.style('single');
-			expect(params[2]).toBe('single');
+		it('Set to row', function() {
+			table.select.items('row');
+			expect(params[2]).toBe('row');
 		});
-		it('Set to multi', function() {
-			table.select.style('multi');
-			expect(params[2]).toBe('multi');
-		});
-		it('Set to os', function() {
-			table.select.style('os');
-			expect(params[2]).toBe('os');
-		});
-		it('Set to multi+shift', function() {
-			table.select.style('multi+shift');
-			expect(params[2]).toBe('multi+shift');
+		it('Set to cell', function() {
+			table.select.items('cell');
+			expect(params[2]).toBe('cell');
 		});
 		it('Set to unknown', function() {
-			table.select.style('unknown');
+			table.select.items('unknown');
 			expect(params[2]).toBe('unknown');
 		});
 	});

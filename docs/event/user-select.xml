@@ -13,7 +13,7 @@
 			DataTables API instance
 		</parameter>
 		<parameter type="string" name="type">
-			Item type that will be selected. This can be `-string rows`, `-string columns` or `-string cells`.
+			Item type that will be selected. This can be `-string row`, `-string column` or `-string cell`.
 		</parameter>
 		<parameter type="DataTables.Api" name="cell">
 			A `dt-api cell()` result for the cell that the event was activated by.

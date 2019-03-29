@@ -1,4 +1,4 @@
-describe('Select - select.items()', function() {
+describe('Select - select.items', function() {
 	var table;
 
 	dt.libs({
@@ -7,13 +7,8 @@ describe('Select - select.items()', function() {
 	});
 
 	describe('Functional tests', function() {
-		dt.html('basic');
 		let table;
-		it('Exists and is a function', function() {
-			table = $('#example').DataTable({ select: true });
-			expect(table.select.items()).toBe('row');
-		});
-
+		
 		dt.html('basic');
 		it('Check row', function() {
 			table = $('#example').DataTable({
