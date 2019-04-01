@@ -21,6 +21,7 @@
 	<example title="DataTables initialisation: Show select all and select none buttons with language options in the DataTables language object"><![CDATA[
 
 $('#myTable').DataTable( {
+	dom: 'Blfrtip',
 	buttons: [
 		'selectAll',
 		'selectNone'
