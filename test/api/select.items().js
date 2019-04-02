@@ -1,5 +1,5 @@
 describe('Select - select.items()', function() {
-	var table;
+	let  table;
 
 	dt.libs({
 		js: ['jquery', 'datatables', 'select'],
@@ -8,7 +8,6 @@ describe('Select - select.items()', function() {
 
 	describe('Check the defaults', function() {
 		dt.html('basic');
-		let table;
 		it('Exists and is a function', function() {
 			table = $('#example').DataTable({ select: true });
 			expect(typeof table.select.items).toBe('function');
@@ -25,8 +24,6 @@ describe('Select - select.items()', function() {
 	});
 
 	describe('Check the behaviour - rows', function() {
-		let table;
-
 		dt.html('basic');
 		it('Nothing selected initially', function() {
 			table = $('#example').DataTable({
