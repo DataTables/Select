@@ -69,5 +69,8 @@ describe('Select - rows().select()', function() {
 			expect($('tr.selected:eq(1) td:eq(0)').text()).toBe('Ashton Cox');
 			expect($('tr.selected:eq(2) td:eq(0)').text()).toBe('Cedric Kelly');
 		});
+		it('Tidy up', function() {
+			table.rows().deselect();
+		});
 	});
 });

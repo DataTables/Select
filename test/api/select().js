@@ -23,7 +23,7 @@ describe('Select - select()', function() {
 			var el = $(
 				'<table id="second"><thead><th>H</th></thead><tbody><tr><td>First</td></tr><tr><td>Second</td></tr></tbody></table>'
 			);
-			
+
 			table = el.DataTable({
 				select: true
 			});
@@ -33,10 +33,14 @@ describe('Select - select()', function() {
 			$('#second tbody tr:eq(0) td:eq(0)').click();
 			expect($('tr.selected').length).toBe(0);
 		});
-		it('NCan select after method called', function() {
+		it('Can select after method called', function() {
 			table.select();
 			$('#second tbody tr:eq(0) td:eq(0)').click();
 			expect($('tr.selected').length).toBe(1);
+		});
+		it('Tidy up', function() {
+			$(table.table().container()).remove();
+			table.destroy();
 		});
 	});
 });
