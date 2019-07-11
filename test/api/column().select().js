@@ -22,7 +22,7 @@ describe('Select - column().select()', function() {
 	describe('Check the behaviour', function() {
 		dt.html('basic');
 		let table;
-		it('No rows selected initially', function() {
+		it('Nothing selected initially', function() {
 			table = $('#example').DataTable({
 				select: {
 					style: 'single',
