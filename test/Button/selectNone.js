@@ -46,7 +46,6 @@ describe('Select - Button - selectNone', function() {
 		it('Enabled when row selected', function() {
 			table.row(2).select();
 			expect(table.rows({ selected: true }).count()).toBe(1);
-			console.log(table.button(0).active())
 			expect($('button.buttons-select-none').hasClass('disabled')).toBe(false);
 		});
 		it('Deselects single row', function() {

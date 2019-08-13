@@ -13,8 +13,6 @@ describe('Select - type - select-checkbox', function() {
 			cols[5].data = null;
 			cols[5].defaultContent = '';
 
-			console.log(cols);
-
 			table = $('#example').DataTable({
 				ajax: '/base/test/data/data.txt',
 				select: {
