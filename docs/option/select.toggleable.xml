@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<dt-option library="Select">
+	<name>select.toggleable</name>
+	<summary>Disable the deselection of selected rows when clicked</summary>
+	<since>1.0.0</since>
+
+	<default value="false"/>
+
+	<type type="boolean">
+		<description>
+			 Enable the toggleable option of Select (`true`) or not (`false`).
+		</description>
+	</type>
+
+	<description>
+		This option provides the ability to disable the deselection of selected rows when they are clicked. As standard when a selected row is clicked it will be deselected. When the `-init toggleable` option is set to `false` then it will disable this feature and selected rows will not deselect when they are clicked.
+	</description>
+
+	<example title="Disable the deselection of selected rows when clicked"><![CDATA[
+
+$(document).ready(function() {
+	let table = $('#example').DataTable( {
+		select: {
+            toggleable: false
+        }
+	} );
+    table.row(2).select();
+} );
+
+]]></example>
+</dt-option>

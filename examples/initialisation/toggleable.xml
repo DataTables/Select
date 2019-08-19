@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<dt-example table-type="html" order="1">
+
+<css lib="datatables select"/>
+<js lib="jquery datatables select">
+<![CDATA[
+
+$(document).ready(function() {
+	let table = $('#example').DataTable( {
+		select: {
+            toggleable: false
+        }
+	} );
+    table.row(2).select();
+} );
+
+]]>
+</js>
+
+<title lib="Select">Disable Element Deselection</title>
+
+<info><![CDATA[
+
+Select is an extension for DataTables that provides table item selection capabilities. In its most simple form it can be enabled on a DataTable by setting the `se-init select` option to be `true`. This will enable Select's default options - row selection which is performed using the `-string os` method (click to select a single item, cmd/ctrl to add and remove items or shift to select a range of items) - see the `se-init select.style` option.
+
+This example shows how to disable the deselection of rows by clicking on them by using the `-init toggleable` option. `-init toggleable` is `true` by default, meaning that clicking a selected rows will deselect it. By setting `-init toggleable` to `false` when a selected row is clicked it will remain selected rather than deselecting.  
+
+On initialisation this example will preselect a row, meaning that at least 1 row will always have to have been selected at any given time.
+
+]]></info>
+
+</dt-example>
