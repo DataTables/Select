@@ -17,7 +17,7 @@
 	<type type="function">
 		<signature>select.items( set )</signature>
 		<parameter type="string" name="set">
-			Items to select - this must be one of `-string row`, `-string column` or `-string cels`.
+			Items to select - this must be one of `-string row`, `-string column` or `-string cells`.
 		</parameter>
 		<returns type="DataTables.Api">
 			DataTables API instance for chaining.
