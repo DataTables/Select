@@ -123,6 +123,24 @@ table.dataTable {
 			}
 		}
 	}
+
+	&.compact {
+		tbody td.select-checkbox,
+		tbody th.select-checkbox {
+			&:before {
+				margin-top: -12px;
+			}
+		}
+
+		tr.selected {
+			td.select-checkbox,
+			th.select-checkbox {
+				&:after {
+					margin-top: -16px;
+				}
+			}
+		}
+	}
 }
 
 div.dataTables_wrapper {
