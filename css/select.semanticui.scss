@@ -2,6 +2,7 @@
 
 $table-selected: rgba(0, 0, 0, 0.05) !default;
 $table-text-selected: rgba(0, 0, 0, 0.95) !default;
+$checkbox-margin-top: -3px !default;
 
 @import 'select.dataTables.scss';
 

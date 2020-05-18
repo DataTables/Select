@@ -5,6 +5,9 @@ $table-selected: #B0BED9 !default;
 // Colour to use when shading
 $table-shade: black !default;
 
+// Checkbox absolute positioning correction
+$checkbox-margin-top: -6px !default;
+
 @function shade( $color, $percent ) {
 	@return mix($table-shade, $color, $percent);
 }
@@ -98,7 +101,7 @@ table.dataTable {
 
 		&:before {
 			content: ' ';
-			margin-top: -6px;
+			margin-top: $checkbox-margin-top;
 			margin-left: -6px;
 			border: 1px solid black;
 			border-radius: 3px;
