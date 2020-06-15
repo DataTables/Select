@@ -16,10 +16,9 @@ describe('Select - select.info()', function() {
 			});
 			expect(typeof table.select.info).toBe('function');
 		});
-		// DD-859 disabled as getter having side effects
-		// it('Getter returns a boolean', function() {
-		// 	expect(typeof table.select.info()).toBe('boolean');
-		// });
+		it('Getter returns a boolean', function() {
+			expect(typeof table.select.info()).toBe('boolean');
+		});
 		it('Setter returns API instance', function() {
 			expect(table.select.info(false) instanceof $.fn.dataTable.Api).toBe(true);
 		});
@@ -37,18 +36,17 @@ describe('Select - select.info()', function() {
 			$('#example tbody tr:eq(2) td:eq(1)').click();
 			expect($('div.dataTables_info span.select-info').length).toBe(1);
 		});
-		// DD-859 disabled as getter having side effects
-		// it('Getter', function() {
-		// 	expect(table.select.info()).toBe(true);
-		// });
+		it('Getter', function() {
+			expect(table.select.info()).toBe(true);
+		});
 		it('... then disable', function() {
 			table.select.info(false).draw();
 			expect($('div.dataTables_info span.select-info').length).toBe(0);
 		});
 		// DD-859 disabled as getter having side effects
-		// it('Getter', function() {
-		// 	expect(table.select.info()).toBe(false);
-		// });
+		it('Getter', function() {
+			expect(table.select.info()).toBe(false);
+		});
 		it('... and click a row', function() {
 			$('#example tbody tr:eq(3) td:eq(1)').click();
 			expect($('div.dataTables_info span.select-info').length).toBe(0);
@@ -65,18 +63,16 @@ describe('Select - select.info()', function() {
 			$('#example tbody tr:eq(2) td:eq(1)').click();
 			expect($('div.dataTables_info span.select-info').length).toBe(0);
 		});
-		// DD-859 disabled as getter having side effects
-		// it('Getter', function() {
-		// 	expect(table.select.info()).toBe(false);
-		// });
+		it('Getter', function() {
+			expect(table.select.info()).toBe(false);
+		});
 		it('... then enable', function() {
 			table.select.info(true).draw();
 			expect($('div.dataTables_info span.select-info').length).toBe(1);
 		});
-		// DD-859 disabled as getter having side effects
-		// it('Getter', function() {
-		// 	expect(table.select.info()).toBe(true);
-		// });
+		it('Getter', function() {
+			expect(table.select.info()).toBe(true);
+		});
 		it('... and click a row', function() {
 			$('#example tbody tr:eq(3) td:eq(1)').click();
 			expect($('div.dataTables_info span.select-info').length).toBe(1);

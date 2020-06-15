@@ -839,7 +839,7 @@ apiRegister( 'select.toggleable()', function ( flag ) {
 } );
 
 apiRegister( 'select.info()', function ( flag ) {
-	if ( info === undefined ) {
+	if ( flag === undefined ) {
 		return this.context[0]._select.info;
 	}
 
