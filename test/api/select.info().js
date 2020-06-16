@@ -43,7 +43,6 @@ describe('Select - select.info()', function() {
 			table.select.info(false).draw();
 			expect($('div.dataTables_info span.select-info').length).toBe(0);
 		});
-		// DD-859 disabled as getter having side effects
 		it('Getter', function() {
 			expect(table.select.info()).toBe(false);
 		});
