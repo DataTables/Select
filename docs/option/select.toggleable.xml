@@ -13,7 +13,7 @@
 	</type>
 
 	<description>
-		This option provides the ability to disable the deselection of selected rows when they are clicked. As standard when a selected row is clicked it will be deselected. When the `-init toggleable` option is set to `false` then it will disable this feature and selected rows will not deselect when they are clicked.
+		This option provides the ability to disable the deselection of selected rows when they are clicked. As standard when a selected row is clicked it will be deselected. When the `-init select.toggleable` option is set to `false` then it will disable this feature and selected rows will not deselect when they are clicked.
 	</description>
 
 	<example title="Disable the deselection of selected rows when clicked"><![CDATA[
