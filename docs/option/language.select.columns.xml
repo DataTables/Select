@@ -16,7 +16,7 @@
 		<description>
 			As an object this option can be used to define different strings to use for the various singular, plural, dual, etc options required by many languages. If the number of columns selected matches a parameter name in the object, the value of that parameter will be used. If there is no match the `_` (which **must** be defined) is used as the default.
 
-			As with the string case above, any of the parameter values defined in this object can contain the string `%d` which will be replace with the number of columns selected.
+			As with the string case above, any of the parameter values defined in this object can contain the string `%d` which will be replaced with the number of columns selected.
 		</description>
 	</type>
 

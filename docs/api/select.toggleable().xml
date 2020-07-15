@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <dt-api library="Select">
 	<name>select.toggleable()</name>
-	<summary>Get / set the if items can be deselected when a selected item is clicked on</summary>
+	<summary>Get / set the behaviour if items can be deselected when a selected item is clicked on</summary>
 	<since>1.0.0</since>
 
 	<type type="function">
@@ -28,7 +28,7 @@
 	</type>
 
 	<description>
-		This method provides the ability to allow the end user to deselect a previously selected item by clicking on it or not. This can be useful if you wish to ensure that there is at least one row selected in the DataTable.
+		This method provides the ability to allow the end user to deselect a previously selected item by clicking on it or not. This can be useful if you wish to ensure there is at least one row selected in the DataTable.
 	</description>
 
 	<related>s-init select.toggleable</related>
