@@ -85,7 +85,7 @@ table.dataTable {
 	}
 
 	tbody td.select-checkbox,
-	tbody th.select-checkbox {
+	thead th.select-checkbox {
 		position: relative;
 
 		&:before,
@@ -129,7 +129,7 @@ table.dataTable {
 
 	&.compact {
 		tbody td.select-checkbox,
-		tbody th.select-checkbox {
+		thead th.select-checkbox {
 			&:before {
 				margin-top: -12px;
 			}
