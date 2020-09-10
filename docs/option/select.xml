@@ -60,7 +60,7 @@ $('#example').DataTable( {
 
 $('#example').DataTable( {
 	select: {
-		items: 'cells',
+		items: 'cell',
 		info: false
 	}
 } );
