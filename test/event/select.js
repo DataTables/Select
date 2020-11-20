@@ -1,4 +1,4 @@
-describe('Select - Events - select', function() {
+describe('Select - Events - select', function () {
 	let table;
 
 	dt.libs({
@@ -6,24 +6,24 @@ describe('Select - Events - select', function() {
 		css: ['datatables', 'select']
 	});
 
-	describe('Check the defaults', function() {
+	describe('Check the defaults', function () {
 		let params = undefined;
 		let selected = undefined;
 
 		dt.html('basic_id');
-		it('Set stuff up', function() {
+		it('Set stuff up', function () {
 			table = $('#example')
 				.DataTable({
 					select: true
 				})
-				.on('select', function() {
+				.on('select', function () {
 					params = arguments;
 					selected = $('.selected');
 				});
 
 			expect(params).toBe(undefined);
 		});
-		it('Is called with the right parameters', function() {
+		it('Is called with the right parameters', function () {
 			table.row(2).select();
 
 			expect(params.length).toBe(4);
@@ -32,53 +32,55 @@ describe('Select - Events - select', function() {
 			expect(typeof params[2]).toBe('string');
 			expect(params[3] instanceof Array).toBe(true);
 		});
-		it('Called after selection', function() {
+		it('Called after selection', function () {
 			expect(selected.length).toBe(1);
 		});
 	});
 
-	describe('Functional tests - api', function() {
+	describe('Functional tests - api', function () {
 		let params = undefined;
 
 		dt.html('basic_id');
-		it('Set stuff up', function() {
+		it('Set stuff up', function () {
 			table = $('#example')
 				.DataTable({
 					select: {
 						style: 'multi'
 					}
 				})
-				.on('select', function() {
+				.on('select', function () {
 					params = arguments;
 				});
 
 			expect(params).toBe(undefined);
 		});
-		it('cell', function() {
+		it('cell', function () {
 			table.cell(2, 1).select();
 			expect(params[2]).toBe('cell');
-			expect(params[3]).toEqual([{ row: 2, column: 1 }]);
+			expect(params[3]).toEqual([{row: 2, column: 1, columnVisible: 1}]);
 		});
 		it('same cell (event triggered again)', function() {
 			table.cell(2, 1).select();
 			expect(params[2]).toBe('cell');
-			expect(params[3]).toEqual([{ row: 2, column: 1 }]);
+			expect(params[3]).toEqual([{ row: 2, column: 1, columnVisible: 1 }]);
 		});
-		it('cells', function() {
-			table.cells([{ row: 2, column: 2 }, { row: 2, column: 0 }]).select();
-			expect(params[2]).toBe('cell');
-			expect(params[3]).toEqual([{ row: 2, column: 2 }, { row: 2, column: 0 }]);
-		});
+		// DD-856
+		// it('cells', function() {
+		// 	table.cells([{ row: 2, column: 2 }, { row: 2, column: 0 }]).select();
+		// 	expect(params[2]).toBe('cell');
+		// 	expect(params[3]).toEqual([{ row: 2, column: 2, columnVisible: 1 }, { row: 2, column: 0, columnVisible: 1 }]);
+		// });
 		it('row', function() {
 			table.row(3).select();
 			expect(params[2]).toBe('row');
 			expect(params[3]).toEqual([3]);
 		});
-		it('rows', function() {
-			table.rows([5, 50]).select();
-			expect(params[2]).toBe('row');
-			expect(params[3]).toEqual([5, 50]);
-		});
+		// DD-856
+		// it('rows', function() {
+		// 	table.rows([5, 50]).select();
+		// 	expect(params[2]).toBe('row');
+		// 	expect(params[3]).toEqual([5, 50]);
+		// });
 		it('column', function() {
 			table.column(3).select();
 			expect(params[2]).toBe('column');

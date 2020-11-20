@@ -51,7 +51,7 @@ describe('Select - Events - deselect', function() {
 						style: 'multi'
 					}
 				})
-				.on('select', function() {
+				.on('deselect', function() {
 					params = arguments;
 				});
 
