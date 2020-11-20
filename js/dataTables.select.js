@@ -1,4 +1,4 @@
-/*! Select for DataTables 1.4.0-dev
+/*! Select for DataTables 1.3.2-dev
  * 2015-2019 SpryMedia Ltd - datatables.net/license/mit
  */
 
@@ -6,7 +6,7 @@
  * @summary     Select for DataTables
  * @description A collection of API methods, events and buttons for DataTables
  *   that provides selection options of the items in a DataTable
- * @version     1.4.0-dev
+ * @version     1.3.2-dev
  * @file        dataTables.select.js
  * @author      SpryMedia Ltd (www.sprymedia.co.uk)
  * @contact     datatables.net/forums
@@ -54,7 +54,7 @@ var DataTable = $.fn.dataTable;
 // Version information for debugger
 DataTable.select = {};
 
-DataTable.select.version = '1.4.0-dev';
+DataTable.select.version = '1.3.2-dev';
 
 DataTable.select.init = function ( dt ) {
 	var ctx = dt.settings()[0];
@@ -925,12 +925,7 @@ apiRegisterPlural( 'rows().select()', 'row().select()', function ( select ) {
 	} );
 
 	this.iterator( 'table', function ( ctx, i ) {
-		eventTrigger(
-			api,
-			'select',
-			[ 'row', api.rows({selected:true}).indexes().toArray() ],
-			true
-		);
+		eventTrigger( api, 'select', [ 'row', api[i] ], true );
 	} );
 
 	return this;
@@ -957,12 +952,7 @@ apiRegisterPlural( 'columns().select()', 'column().select()', function ( select 
 	} );
 
 	this.iterator( 'table', function ( ctx, i ) {
-		eventTrigger(
-			api,
-			'select',
-			[ 'column', api.columns({selected:true}).indexes().toArray() ],
-			true
-		);
+		eventTrigger( api, 'select', [ 'column', api[i] ], true );
 	} );
 
 	return this;
@@ -992,12 +982,7 @@ apiRegisterPlural( 'cells().select()', 'cell().select()', function ( select ) {
 	} );
 
 	this.iterator( 'table', function ( ctx, i ) {
-		eventTrigger(
-			api,
-			'select',
-			[ 'cell', api.cells({selected:true}).indexes().toArray() ],
-			true
-		);
+		eventTrigger( api, 'select', [ 'cell', api[i] ], true );
 	} );
 
 	return this;
