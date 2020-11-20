@@ -925,7 +925,12 @@ apiRegisterPlural( 'rows().select()', 'row().select()', function ( select ) {
 	} );
 
 	this.iterator( 'table', function ( ctx, i ) {
-		eventTrigger( api, 'select', [ 'row', api[i] ], true );
+		eventTrigger(
+			api,
+			'select',
+			[ 'row', api.rows({selected:true}).indexes().toArray() ],
+			true
+		);
 	} );
 
 	return this;
@@ -952,7 +957,12 @@ apiRegisterPlural( 'columns().select()', 'column().select()', function ( select 
 	} );
 
 	this.iterator( 'table', function ( ctx, i ) {
-		eventTrigger( api, 'select', [ 'column', api[i] ], true );
+		eventTrigger(
+			api,
+			'select',
+			[ 'column', api.columns({selected:true}).indexes().toArray() ],
+			true
+		);
 	} );
 
 	return this;
@@ -982,7 +992,12 @@ apiRegisterPlural( 'cells().select()', 'cell().select()', function ( select ) {
 	} );
 
 	this.iterator( 'table', function ( ctx, i ) {
-		eventTrigger( api, 'select', [ 'cell', api[i] ], true );
+		eventTrigger(
+			api,
+			'select',
+			[ 'cell', api.cells({selected:true}).indexes().toArray() ],
+			true
+		);
 	} );
 
 	return this;
