@@ -57,12 +57,12 @@ describe('Select - Events - select', function () {
 		it('cell', function () {
 			table.cell(2, 1).select();
 			expect(params[2]).toBe('cell');
-			expect(params[3]).toEqual([{row: 2, column: 1}]);
+			expect(params[3]).toEqual([{row: 2, column: 1, columnVisible: 1}]);
 		});
 		it('same cell (event triggered again)', function () {
 			table.cell(2, 1).select();
 			expect(params[2]).toBe('cell');
-			expect(params[3]).toEqual([{row: 2, column: 1}]);
+			expect(params[3]).toEqual([{row: 2, column: 1, columnVisible: 1}]);
 		});
 		it('cells', function () {
 			table
@@ -73,8 +73,8 @@ describe('Select - Events - select', function () {
 				.select();
 			expect(params[2]).toBe('cell');
 			expect(params[3]).toEqual([
-				{row: 2, column: 2},
-				{row: 2, column: 0}
+				{row: 2, column: 2, columnVisible: 2},
+				{row: 2, column: 0, columnVisible: 0}
 			]);
 		});
 		it('row', function () {
