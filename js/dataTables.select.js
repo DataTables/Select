@@ -534,6 +534,7 @@ function info ( api )
  */
 function init ( ctx ) {
 	var api = new DataTable.Api( ctx );
+	ctx._select_init = true;
 
 	// Row callback so that classes can be added to rows and cells if the item
 	// was selected before the element was created. This will happen with the
@@ -880,6 +881,10 @@ apiRegister( 'select.style()', function ( style ) {
 	return this.iterator( 'table', function ( ctx ) {
 		if ( ! ctx._select ) {
 			DataTable.select.init( new DataTable.Api(ctx) );
+		}
+
+		if ( ! ctx._select_init ) {
+			init(ctx);
 		}
 
 		ctx._select.style = style;
