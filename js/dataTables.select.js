@@ -611,6 +611,7 @@ function init ( ctx ) {
 
 		disableMouseSelection( api );
 		api.off( '.dtSelect' );
+		$('body').off('.dtSelect' + _safeId(api.table().node()));
 	} );
 }
 
