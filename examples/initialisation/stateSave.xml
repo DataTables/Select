@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<dt-example table-type="html" order="5">
+
+<css lib="datatables select"/>
+<js lib="jquery datatables select">
+<![CDATA[
+
+$(document).ready(function() {
+	$('#example').DataTable( {
+		select: true,
+		stateSave: true
+	} );
+} );
+
+]]>
+</js>
+
+<title lib="Select">State Save</title>
+
+<info><![CDATA[
+
+This example shows how select integrates with the `-init stateSave` initialisation option.
+]]></info>
+
+</dt-example>
+
