@@ -76,7 +76,9 @@ DataTable.select.init = function ( dt ) {
 			dt.columns(data.select.columns).select();
 		}
 		if (data.select.cells !== undefined) {
-			dt.cells(data.select.cells).select();
+			for(var i = 0; i < data.select.cells.length; i++) {
+				dt.cell(data.select.cells[i].row, data.select.cells[i].column).select();
+			}
 		}
 		dt.state.save();
 	}
@@ -84,9 +86,11 @@ DataTable.select.init = function ( dt ) {
 	dt.one('init', function() {
 		dt.on('stateSaveParams', function(e, settings, data) {
 			data.select = {};
-			data.select.rows = dt.rows({selected:true})[0];
+			data.select.rows = dt.rows({selected:true}).ids(true).toArray();
 			data.select.columns = dt.columns({selected:true})[0];
-			data.select.cells = dt.cells({selected:true})[0];
+			data.select.cells = dt.cells({selected:true})[0].map(function(coords) {
+				return {row: dt.row(coords.row).id(true), column: coords.column}
+			});
 		})
 		
 		selectAndSave(undefined, undefined, savedSelected)

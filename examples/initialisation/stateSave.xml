@@ -7,8 +7,16 @@
 
 $(document).ready(function() {
 	$('#example').DataTable( {
-		select: true,
-		stateSave: true
+		"ajax": "../data/objects.txt",
+		"rowId": 'id',
+		"columns": [
+			{ "data": "name" },
+			{ "data": "position" },
+			{ "data": "office" },
+			{ "data": "salary" }
+		],
+		stateSave: true,
+		select: true
 	} );
 } );
 
@@ -21,6 +29,27 @@ $(document).ready(function() {
 
 This example shows how select integrates with the `-init stateSave` initialisation option.
 ]]></info>
+
+<custom-table>
+<table id="example" class="display" style="width:100%">
+    <thead>
+        <tr>
+            <th>Name</th>
+            <th>Position</th>
+            <th>Office</th>
+            <th>Salary</th>
+        </tr>
+    </thead>
+    <tfoot>
+        <tr>
+            <th>Name</th>
+            <th>Position</th>
+            <th>Office</th>
+            <th>Salary</th>
+        </tr>
+    </tfoot>
+</table>
+</custom-table>
 
 </dt-example>
 
