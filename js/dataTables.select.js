@@ -1092,7 +1092,9 @@ apiRegisterPlural( 'cells().deselect()', 'cell().deselect()', function () {
 	this.iterator( 'cell', function ( ctx, rowIdx, colIdx ) {
 		var data = ctx.aoData[ rowIdx ];
 
-		data._selected_cells[ colIdx ] = false;
+		if(data._selected_cells !== undefined) {
+			data._selected_cells[ colIdx ] = false;
+		}
 
 		// Remove class only if the cells exist, and the cell is not column
 		// selected, in which case the class should remain (since it is selected
