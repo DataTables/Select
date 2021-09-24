@@ -70,13 +70,16 @@ DataTable.select.init = function ( dt ) {
 			return;
 		}
 		if (data.select.rows !== undefined) {
+			dt.rows().deselect();
 			dt.rows(data.select.rows).select();
 		}
 		if (data.select.columns !== undefined) {
+			dt.columns().deselect();
 			dt.columns(data.select.columns).select();
 		}
 		if (data.select.cells !== undefined) {
 			for(var i = 0; i < data.select.cells.length; i++) {
+				dt.cells().deselect();
 				dt.cell(data.select.cells[i].row, data.select.cells[i].column).select();
 			}
 		}
