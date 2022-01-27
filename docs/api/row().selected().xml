@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<dt-api library="Select">
+	<name>row().selected()</name>
+	<summary>Determine if a row has been selected</summary>
+	<since>1.4.0</since>
+
+	<type type="function">
+		<signature>row().selected()</signature>
+		<returns type="boolean">
+			Selection flag indicator.
+		</returns>
+		<description>
+			Determine if a row has been selected.
+		</description>
+	</type>
+
+	<description>
+		This method can be used to determine the selection state of an individual row.
+	</description>
+
+	<example title="Check if the first row in the table is selected or not"><![CDATA[
+
+var table = $('#myTable').DataTable();
+
+if (table.row( ':eq(0)' ).selected()) {
+	console.log('Row is selected');
+}
+else {
+	console.log('Row is not selected');
+}
+
+]]></example>
+
+	<related>-api row().select()</related>
+	<related>-api row().deselect()</related>
+</dt-api>

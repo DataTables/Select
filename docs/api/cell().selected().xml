@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<dt-api library="Select">
+	<name>cell().selected()</name>
+	<summary>Determine if a cell has been selected</summary>
+	<since>1.4.0</since>
+
+	<type type="function">
+		<signature>cell().selected()</signature>
+		<returns type="boolean">
+			Selection flag indicator.
+		</returns>
+		<description>
+			Determine if a cell has been selected.
+		</description>
+	</type>
+
+	<description>
+		This method can be used to determine the selection state of an individual cell.
+	</description>
+
+	<example title="Check if the first cell in the table is selected or not"><![CDATA[
+
+var table = $('#myTable').DataTable();
+
+if (table.cell( ':eq(0)', 0 ).selected()) {
+	console.log('Cell is selected');
+}
+else {
+	console.log('Cell is not selected');
+}
+
+]]></example>
+
+	<related>-api cell().select()</related>
+	<related>-api cell().deselect()</related>
+</dt-api>

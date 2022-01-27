@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<dt-api library="Select">
+	<name>column().selected()</name>
+	<summary>Determine if a column has been selected</summary>
+	<since>1.4.0</since>
+
+	<type type="function">
+		<signature>column().selected()</signature>
+		<returns type="boolean">
+			Selection flag indicator.
+		</returns>
+		<description>
+			Determine if a column has been selected.
+		</description>
+	</type>
+
+	<description>
+		This method can be used to determine the selection state of an individual column.
+	</description>
+
+	<example title="Check if the first column in the table is selected or not"><![CDATA[
+
+var table = $('#myTable').DataTable();
+
+if (table.column( ':eq(0)' ).selected()) {
+	console.log('Column is selected');
+}
+else {
+	console.log('Column is not selected');
+}
+
+]]></example>
+
+	<related>-api column().select()</related>
+	<related>-api column().deselect()</related>
+</dt-api>

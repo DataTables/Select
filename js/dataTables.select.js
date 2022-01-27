@@ -1,4 +1,4 @@
-/*! Select for DataTables 1.3.4
+/*! Select for DataTables 1.4.0-dev
  * 2015-2021 SpryMedia Ltd - datatables.net/license/mit
  */
 
@@ -6,7 +6,7 @@
  * @summary     Select for DataTables
  * @description A collection of API methods, events and buttons for DataTables
  *   that provides selection options of the items in a DataTable
- * @version     1.3.4
+ * @version     1.4.0-dev
  * @file        dataTables.select.js
  * @author      SpryMedia Ltd (www.sprymedia.co.uk)
  * @contact     datatables.net/forums
@@ -54,7 +54,7 @@ var DataTable = $.fn.dataTable;
 // Version information for debugger
 DataTable.select = {};
 
-DataTable.select.version = '1.3.4';
+DataTable.select.version = '1.4.0-dev';
 
 DataTable.select.init = function ( dt ) {
 	var ctx = dt.settings()[0];
@@ -980,6 +980,21 @@ apiRegisterPlural( 'rows().select()', 'row().select()', function ( select ) {
 	return this;
 } );
 
+apiRegister( 'row().selected()', function () {
+	var ctx = this.context[0];
+
+	if (
+		ctx &&
+		this.length &&
+		ctx.aoData[this[0]] &&
+		ctx.aoData[this[0]]._select_selected
+	) {
+		return true;
+	}
+
+	return false;
+} );
+
 apiRegisterPlural( 'columns().select()', 'column().select()', function ( select ) {
 	var api = this;
 
@@ -1005,6 +1020,21 @@ apiRegisterPlural( 'columns().select()', 'column().select()', function ( select 
 	} );
 
 	return this;
+} );
+
+apiRegister( 'column().selected()', function () {
+	var ctx = this.context[0];
+
+	if (
+		ctx &&
+		this.length &&
+		ctx.aoColumns[this[0]] &&
+		ctx.aoColumns[this[0]]._select_selected
+	) {
+		return true;
+	}
+
+	return false;
 } );
 
 apiRegisterPlural( 'cells().select()', 'cell().select()', function ( select ) {
@@ -1035,6 +1065,20 @@ apiRegisterPlural( 'cells().select()', 'cell().select()', function ( select ) {
 	} );
 
 	return this;
+} );
+
+apiRegister( 'cell().selected()', function () {
+	var ctx = this.context[0];
+
+	if (ctx && this.length) {
+		var row = ctx.aoData[this[0][0].row];
+
+		if (row && row._selected_cells && row._selected_cells[this[0][0].column]) {
+			return true;
+		}
+	}
+
+	return false;
 } );
 
 
