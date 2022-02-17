@@ -115,12 +115,9 @@ DataTable.select.init = function ( dt ) {
 	var selector = 'td, th';
 	var className = 'selected';
 	var setStyle = false;
-
+	var maxSelected = Infinity;
+	var selected = [];
 	ctx._select = {};
-	ctx._select.selection = {
-		mode: 'include',
-		items: new Set()
-	};
 
 	// Initialisation customisations
 	if ( opts === true ) {
@@ -164,6 +161,15 @@ DataTable.select.init = function ( dt ) {
 		if ( opts.className !== undefined ) {
 			className = opts.className;
 		}
+
+		if ( opts.maxSelected !== undefined ) {
+		 	maxSelected = opts.maxSelected;
+		}
+		if ( opts.selected !== undefined ) {
+			if ($.isArray(opts.selected)) {
+				selected = opts.selected.splice(0, maxSelected);
+			}
+		}
 	}
 
 	dt.select.selector( selector );
@@ -172,8 +178,11 @@ DataTable.select.init = function ( dt ) {
 	dt.select.blurable( blurable );
 	dt.select.toggleable( toggleable );
 	dt.select.info( info );
-	ctx._select.className = className;
 
+	ctx._select.selection = new Set(selected);
+
+	ctx._select.className = className;
+	ctx._select.maxSelected = maxSelected;
 
 	// Sort table based on selected rows. Requires Select Datatables extension
 	$.fn.dataTable.ext.order['select-checkbox'] = function ( settings, col ) {
@@ -408,7 +417,7 @@ function enableMouseSelection ( dt )
 		.on( 'click.dtSelect', selector, function ( e ) {
 			var items = dt.select.items();
 			var idx;
-
+			var actualIdx;
 			// If text was selected (click and drag), then we shouldn't change
 			// the row's selected state
 			if ( matchSelection ) {
@@ -449,7 +458,9 @@ function enableMouseSelection ( dt )
 			var cellIndex = cell.index();
 			if ( items === 'row' ) {
 				idx = cellIndex.row;
+				actualIdx = dt.page.info().start + idx;
 				typeSelect( e, dt, ctx, 'row', idx );
+				ctx._select_lastRowIndex = actualIdx;
 			}
 			else if ( items === 'column' ) {
 				idx = cell.index().column;
@@ -513,6 +524,14 @@ function eventTrigger ( api, type, args, any )
 }
 
 /**
+ *
+ * @private
+ */
+function getSelectedRowsCount ( ctx ) {
+	return ctx._select.selection.size;
+}
+
+/**
  * Update the information element of the DataTable showing information about the
  * items selected. This is done by adding tags to the existing text
  *
@@ -531,11 +550,7 @@ function info ( api )
 		return;
 	}
 
-	var selection = ctx._select.selection
-	var rows = selection.items.size;
-	if (selection.mode === 'exclude') {
-		rows = api.page.info()['recordsDisplay'] - rows;
-	}
+	var rows = getSelectedRowsCount( ctx );
 	var columns = api.columns( { selected: true } ).flatten().length;
 	var cells   = api.cells( { selected: true } ).flatten().length;
 
@@ -609,71 +624,31 @@ function init ( ctx ) {
 		sName: 'select-deferRender'
 	} );
 
-	api.on( 'draw.dt.dtSelect', function () {
+    api.on( 'draw.dt.dtSelect', function () {
 		var selection = ctx._select.selection;
+		var ids = Array.from( selection ).map( function (id) { return `#${id}`; } );
+
 		ctx._select.skipSelectDeselect = true;
-
-		if (selection.mode === 'include') {
-			if (selection.items.size > 0) {
-				api.rows( Array.from(selection.items) ).select();
-			}
-		} else {
-			api.rows().select();
-			if (ctx._select.selection.items.size > 0) {
-				api.rows( Array.from(selection.items) ).deselect();
-			}
-		}
+		api.rows( ids ).select();
 		ctx._select.skipSelectDeselect = false;
-	} );
+    } );
 
-	api.on( 'select.dt.dtSelect', function (e, dt, type, indexes) {
-		if (ctx._select.skipSelectDeselect) {
-			return;
-		}
-		var items = ctx._select.selection.items;
-		if (type === 'row') {
-			if (ctx._select.selection.mode === 'include') {
-					for (let i = 0; i < indexes.length; i++) {
-						let index = indexes[i];
-						var rowId = api.row(index).id();
-						if (rowId !== 'undefined' && !items.has(`#${rowId}`)) {
-							items.add(`#${rowId}`);
-						}
-					}
-			} else {
-				for (let i = 0; i < indexes.length; i++) {
-					let index = indexes[i];
-					var rowId = api.row(index).id();
-					items.delete(`#${rowId}`);
-				}
+    api.on( 'select.dt.dtSelect deselect.dt.dtSelect', function ( e, dt, type, indexes ) {
+        if ( ctx._select.skipSelectDeselect ) {
+            return;
+        }
+		ctx._select.lastSelectionAction = e.type;
+
+		if ( type === 'row' ) {
+			for ( let i = 0; i < indexes.length; i++ ) {
+				let index = indexes[i];
+				var rowId = api.row( index ).id();
+				if ( !handleSelectDeselectRow( dt, rowId, e.type ) ) {
+					break;
+				};
 			}
 		}
-	} );
-
-	api.on( 'deselect.dt.dtSelect', function (e, dt, type, indexes) {
-		if (ctx._select.skipSelectDeselect) {
-			return;
-		}
-		var items = ctx._select.selection.items;
-		if (type === 'row') {
-			if (ctx._select.selection.mode === 'include') {
-				for (let i = 0; i < indexes.length; i++) {
-					let index = indexes[i];
-					var rowId = api.row(index).id();
-					items.delete(`#${rowId}`);
-				}
-			} else {
-				for (let i = 0; i < indexes.length; i++) {
-					let index = indexes[i];
-					var rowId = api.row(index).id();
-					if (rowId !== 'undefined' && !items.has(`#${rowId}`)) {
-						items.add(`#${rowId}`);
-					}
-				}
-			}
-		}
-	} );
-
+    } );
 
 	// Update the table information element with selected item summary
 	api.on( 'draw.dtSelect.dt select.dtSelect.dt deselect.dtSelect.dt info.dt', function () {
@@ -691,17 +666,16 @@ function init ( ctx ) {
 	} );
 }
 
+
 /**
- * Add one or more items (rows or columns) to the selection when shift clicking
- * in OS selection style
- *
  * @param  {DataTable.Api} dt   DataTable
  * @param  {string}        type Row or column range selector
- * @param  {object}        idx  Item index to select to
- * @param  {object}        last Item index to select from
+ * @param  {object}        idx  Item index to select / deselect to
+ * @param  {object}        last Item index to select / deselect from
+ * @param  {string}        selectionAction one of select deselect
  * @private
  */
-function rowColumnRange( dt, type, idx, last )
+function rowColumnRange( dt, type, idx, last,  selectionAction)
 {
 	// Add a range of rows from the last selected row to this one
 	var indexes = dt[type+'s']( { search: 'applied' } ).indexes();
@@ -725,17 +699,14 @@ function rowColumnRange( dt, type, idx, last )
 		indexes.splice( 0, idx1 );
 	}
 
-	if ( ! dt[type]( idx, { selected: true } ).any() ) {
-		// Select range
-		dt[type+'s']( indexes ).select();
-	}
-	else {
-		// Deselect range - need to keep the clicked on row selected
-		indexes.splice( $.inArray( idx, indexes ), 1 );
-		dt[type+'s']( indexes ).deselect();
+	var ids = dt[type+'s']( indexes ).ids();
+
+	for ( var i = 0; i < ids.length; i ++ ) {
+		if ( !handleSelectDeselectRow( dt, ids[i], selectionAction ) ) {
+			break;
+		}
 	}
 }
-
 
 /**
  * Select all items
@@ -746,15 +717,25 @@ function rowColumnRange( dt, type, idx, last )
 function selectAll( api )
 {
 	var ctx = api['context'][0];
-	var selection = ctx._select.selection;
-
-	selection.mode = 'exclude';
-	selection.items.clear();
-
 	var items = api['select'].items();
-	ctx._select.skipSelectDeselect = true;
-	api[ items+'s' ]().select();
-	ctx._select.skipSelectDeselect = false;
+
+	if (items === 'row') {
+		var pageInfo = api.page.info();
+		var pageLength = pageInfo['length'];
+		var recordsDisplay = pageInfo['recordsDisplay'];
+
+		var maxSelected = ctx._select.maxSelected;
+		if (recordsDisplay > maxSelected) {
+			raiseMaxSelectedRowsReached( api, ctx );
+		} else  {
+			if (recordsDisplay <= pageLength) {
+				rowColumnRange( api, 'row', recordsDisplay - 1, 0, 'select' );
+			}
+			else {
+				updateSelectionFromAjax( api, ctx, recordsDisplay - 1, 0, 'select' );
+			}
+		}
+	}
 }
 
 /**
@@ -766,14 +747,13 @@ function selectAll( api )
 function selectNone( api )
 {
 	var ctx = api['context'][0];
-	var selection = ctx._select.selection;
 
-	selection.mode = 'include';
-	selection.items.clear();
-
+	ctx._select.selection.clear();
 	ctx._select.skipSelectDeselect = true;
 	clear( ctx, true );
 	ctx._select.skipSelectDeselect = false;
+
+	info ( api );
 }
 
 /**
@@ -793,6 +773,141 @@ function clear( ctx, force )
 		api.columns( { selected: true } ).deselect();
 		api.cells( { selected: true } ).deselect();
 	}
+}
+
+function raiseMaxSelectedRowsReached ( dt, ctx ) {
+	$(dt.table().node()).trigger( 'maxSelectionExceeded.dt', [ctx._select.maxSelected] );
+}
+/**
+ * Store information of selected rows
+ *
+ * @private
+ */
+function handleSelectDeselectRow ( api, rowId, selectionAction, apply = true ) {
+	var ctx = api.settings()[0];
+	var selection = ctx._select.selection;
+	var selectedCount = getSelectedRowsCount( ctx );
+	var maxSelected = ctx._select.maxSelected;
+
+	if ( rowId === 'undefined') {
+		return false;
+	}
+
+	if ( selectionAction === 'select' ) {
+		if ( selectedCount === maxSelected ) {
+			raiseMaxSelectedRowsReached( api, ctx );
+			setTimeout(function ( ) {
+				ctx._select.skipSelectDeselect = true;
+				api.row(`#${rowId}`).deselect();
+				ctx._select.skipSelectDeselect = false;
+			}, 0);
+			return false;
+		}
+		else {
+			selection.add(rowId);
+		}
+	}
+	else {
+		selection.delete(rowId);
+	}
+
+	if (apply) {
+		ctx._select.skipSelectDeselect = true;
+		if (selection.has(rowId)) {
+			api.row( `#${rowId}` ).select();
+		} else {
+			api.row( `#${rowId}` ).deselect();
+		}
+		ctx._select.skipSelectDeselect = false;
+	}
+
+	return true;
+}
+
+function applySelection ( dt ) {
+	var ctx = dt.settings()[0];
+	var selection = ctx._select.selection;
+	var id;
+	var localIds = dt.rows().ids().toArray();
+
+	ctx._select.skipSelectDeselect = true;
+	dt.rows().deselect();
+	for (var i = 0; i < localIds.length; i++ ) {
+		id = localIds[i];
+		if (selection.has(id)) {
+			dt.row( `#${id}` ).select();
+		}
+	}
+	ctx._select.skipSelectDeselect = false;
+}
+/**
+ * Update selection from ajax
+ * @param  {DataTables.Api}     dt   DataTable
+ * @param  {DataTable.settings} ctx  Settings object of the host DataTable
+ * @private
+ */
+function updateSelectionFromAjax(dt, ctx, actualIdx, lastActualIdx, selectionAction)
+{
+	var start = lastActualIdx < actualIdx ? lastActualIdx : actualIdx;
+	var length = Math.abs(actualIdx - lastActualIdx);
+	var ajaxParams = DataTable.ext.internal._fnAjaxParameters( ctx );
+
+	if (length > ctx._select.maxSelected) {
+		length = ctx._select.maxSelected;
+		if ( actualIdx < lastActualIdx ) {
+			start = lastActualIdx - length;
+		}
+	}
+	//Just so that we hit the limit
+	length += 1;
+
+	ajaxParams.start = start;
+	ajaxParams.length = length;
+	ajaxParams.draw = -1;
+
+	$(dt.table().node()).trigger( 'fetching.select.dt', [true]);
+	DataTable.ext.internal._fnBuildAjax( ctx, ajaxParams, function ( json ) {
+		var data = DataTable.ext.internal._fnAjaxDataSrc( ctx, json );
+		var rowIds = data[0]['ids'];
+		var rowId;
+
+		// Code to use when data is generic
+		// if (actualIdx < lastActualIdx) {
+		// 	for ( var i = data.length - 1 ; i >= 0 ; i-- ) {
+		// 		rowId = ctx.rowIdFn( data[i] );
+		// 		if ( !handleSelectDeselectRow( dt, rowId, selectionAction ) ) {
+		// 			break;
+		// 		};
+		// 	}
+		// } else {
+		// 	for ( var i = 0 ; i < data.length ; i++ ) {
+		// 		rowId = ctx.rowIdFn( data[i] );
+		// 		if ( !handleSelectDeselectRow( dt, rowId, selectionAction ) ) {
+		// 			break;
+		// 		};
+		// 	}
+		// }
+
+
+		if (actualIdx < lastActualIdx) {
+			for ( var i = rowIds.length - 1 ; i >= 0 ; i-- ) {
+				rowId = rowIds[i];
+				if ( !handleSelectDeselectRow( dt, rowId, selectionAction, false) ) {
+					break;
+				};
+			}
+		} else {
+			for ( var i = 0 ; i < rowIds.length ; i++ ) {
+				rowId = rowIds[i];
+				if ( !handleSelectDeselectRow( dt, rowId, selectionAction, false) ) {
+					break;
+				};
+			}
+		}
+
+		applySelection( dt );
+		$(dt.table().node()).trigger( 'fetching.select.dt', [false]);
+    });
 }
 
 /**
@@ -846,14 +961,41 @@ function typeSelect ( e, dt, ctx, type, idx )
 		}
 	} else if ( style == 'multi+shift' ) {
 		if ( e.shiftKey ) {
-			if ( type === 'cell' ) {
-				cellRange( dt, idx, ctx._select_lastCell || null );
-			}
-			else {
-				rowColumnRange( dt, type, idx, ctx._select_lastCell ?
-					ctx._select_lastCell[type] :
-					null
-				);
+			if ( type === 'row' ) {
+				var pageInfo = dt.page.info();
+				var actualIdx = pageInfo.start + idx;
+				var lastActualIdx = ctx._select_lastRowIndex;
+				var selectionAction = ctx._select.lastSelectionAction ? ctx._select.lastSelectionAction : 'select';
+				var inPage = function (idx) {
+					return (idx >= pageInfo.start) && (idx < pageInfo.start + pageInfo.length);
+				};
+
+				if (lastActualIdx === undefined) {
+					if (actualIdx < pageInfo.length) {
+						//Both entries exist in client
+						rowColumnRange( dt, type, idx, ctx._select_lastCell ?
+							ctx._select_lastCell[type] :
+							null,
+							selectionAction
+						);
+					}
+					else {
+						updateSelectionFromAjax( dt, ctx, actualIdx, 0, selectionAction );
+					}
+				}
+				else {
+ 					if ( inPage(lastActualIdx) && inPage(actualIdx)) {
+						//Both entries exist in client
+						rowColumnRange( dt, type, idx, ctx._select_lastCell ?
+							ctx._select_lastCell[type] :
+							null,
+							selectionAction
+						);
+					}
+					else {
+						updateSelectionFromAjax( dt, ctx, actualIdx, lastActualIdx, selectionAction );
+					}
+				}
 			}
 		}
 		else {
@@ -895,7 +1037,7 @@ $.each( [
 			data = settings[ o.prop ][ indexes[i] ];
 
 			if ( (selected === true && data._select_selected === true) ||
-				(selected === false && ! data._select_selected )
+			     (selected === false && ! data._select_selected )
 			) {
 				out.push( indexes[i] );
 			}
@@ -918,7 +1060,7 @@ DataTable.ext.selector.cell.push( function ( settings, opts, cells ) {
 		rowData = settings.aoData[ cells[i].row ];
 
 		if ( (selected === true && rowData._selected_cells && rowData._selected_cells[ cells[i].column ] === true) ||
-			 (selected === false && ( ! rowData._selected_cells || ! rowData._selected_cells[ cells[i].column ] ) )
+		     (selected === false && ( ! rowData._selected_cells || ! rowData._selected_cells[ cells[i].column ] ) )
 		) {
 			out.push( cells[i] );
 		}
@@ -954,14 +1096,12 @@ apiRegister( 'select.deselectAll()', function () {
 	selectNone(this);
 } );
 
-apiRegister( 'select.getSelection()', function () {
-	var selection = this.context[0]._select.selection;
-	var items = Array.from(selection.items);
+apiRegister( 'select.removeRow()', function (rowId) {
+	this.context[0]._select.selection.delete(rowId);
+} );
 
-	return {
-		mode: selection.mode,
-		ids: items
-	}
+apiRegister( 'select.getSelection()', function () {
+	return Array.from(this.context[0]._select.selection);
 });
 
 apiRegister( 'select.blurable()', function ( flag ) {
@@ -1052,8 +1192,6 @@ apiRegister( 'select.selector()', function ( selector ) {
 		}
 	} );
 } );
-
-
 
 apiRegisterPlural( 'rows().select()', 'row().select()', function ( select ) {
 	var api = this;
@@ -1273,8 +1411,8 @@ $.extend( DataTable.ext.buttons, {
 
 			dt.on( namespacedEvents(config), function () {
 				var count = dt.rows( { selected: true } ).flatten().length +
-							dt.columns( { selected: true } ).flatten().length +
-							dt.cells( { selected: true } ).flatten().length;
+				            dt.columns( { selected: true } ).flatten().length +
+				            dt.cells( { selected: true } ).flatten().length;
 
 				that.enable( count === 1 );
 			} );
@@ -1304,8 +1442,8 @@ $.extend( DataTable.ext.buttons, {
 
 			dt.on( namespacedEvents(config), function () {
 				var count = dt.rows( { selected: true } ).flatten().length +
-							dt.columns( { selected: true } ).flatten().length +
-							dt.cells( { selected: true } ).flatten().length;
+				            dt.columns( { selected: true } ).flatten().length +
+				            dt.cells( { selected: true } ).flatten().length;
 
 				that.enable( count > 0 );
 			} );
