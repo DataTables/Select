@@ -69,14 +69,25 @@ DataTable.select.init = function ( dt ) {
 		if(data === null || data.select === undefined) {
 			return;
 		}
-		dt.rows().deselect();
-		dt.columns().deselect();
-		dt.cells().deselect();
+
+		// Clear any currently selected rows, before restoring state
+		// None will be selected on first initialisation
+		if (dt.rows({selected: true}).any()) {
+			dt.rows().deselect();
+		}
 		if (data.select.rows !== undefined) {
 			dt.rows(data.select.rows).select();
 		}
+
+		if (dt.columns({selected: true}).any()) {
+			dt.columns().deselect();
+		}
 		if (data.select.columns !== undefined) {
 			dt.columns(data.select.columns).select();
+		}
+
+		if (dt.cells({selected: true}).any()) {
+			dt.cells().deselect();
 		}
 		if (data.select.cells !== undefined) {
 			for(var i = 0; i < data.select.cells.length; i++) {

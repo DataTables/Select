@@ -1,7 +1,7 @@
 
 
 $table-selected: #0d6efd !default;
-$checkbox-margin-top: -2px !default;
+$checkbox-margin-top: -5px !default;
 
 @import 'select.dataTables.scss';
 
@@ -16,4 +16,8 @@ table.dataTable tbody {
 			color: #a2d4ed;
 		}
 	}
+}
+
+table.dataTable.table-sm tbody td.select-checkbox::before {
+	margin-top: -9px;
 }
