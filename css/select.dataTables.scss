@@ -16,7 +16,9 @@ $checkbox-margin-top: -6px !default;
 table.dataTable {
 	// Body styles
 	tbody > tr.selected,
-	tbody > tr > .selected {
+	tbody > tr > .selected,
+	tbody > tr.selected > td.dtfc-fixed-left,
+	tbody > tr.selected > td.dtfc-fixed-right {
 		background-color: $table-selected;
 	}
 
@@ -25,7 +27,9 @@ table.dataTable {
 	&.stripe tbody,
 	&.display tbody {
 		> tr.odd.selected,
-		> tr.odd > .selected {
+		> tr.odd > .selected,
+		> tr.selected > td.dtfc-fixed-left,
+		> tr.selected > td.dtfc-fixed-right {
 			background-color: shade($table-selected, 2.35%);
 		}
 	}
@@ -35,7 +39,9 @@ table.dataTable {
 	&.hover tbody,
 	&.display tbody {
 		> tr.selected:hover,
-		> tr > .selected:hover {
+		> tr > .selected:hover,
+		> tr.selected > td.dtfc-fixed-left,
+		> tr.selected > td.dtfc-fixed-right {
 			background-color: shade($table-selected, 3.6%);
 		}
 	}
@@ -47,7 +53,9 @@ table.dataTable {
 		> tr.selected > .sorting_1,
 		> tr.selected > .sorting_2,
 		> tr.selected > .sorting_3,
-		> tr > .selected {
+		> tr > .selected,
+		> tr.selected > td.dtfc-fixed-left,
+		> tr.selected > td.dtfc-fixed-right {
 			background-color: shade($table-selected, 2%);
 		}
 	}

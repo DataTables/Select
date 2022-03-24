@@ -7,9 +7,10 @@ $checkbox-margin-top: -2px !default;
 
 table.dataTable tbody {
 	tr.selected,
+	tr.selected > *,
 	th.selected,
 	td.selected {
-		color: white;
+		color: white !important;
 
 		a {
 			color: #a2d4ed;
