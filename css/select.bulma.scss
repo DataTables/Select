@@ -1,20 +1,5 @@
 
-
-$table-selected: #00d1b2 !default;
+$selected-background-color: rgba(0, 209, 178, 0.9) !default;
 $checkbox-margin-top: -2px !default;
 
 @import 'select.dataTables.scss';
-
-table.dataTable tbody {
-	tr.selected {
-		th,
-		td {
-			color: white;
-			background-color: $table-selected;
-
-			a {
-				color: white;
-			}
-		}
-	}
-}

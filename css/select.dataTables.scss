@@ -1,95 +1,17 @@
 
-// Row colour, when selected
-$table-selected: #B0BED9 !default;
+// NOTE The styling for row selection is part of the core DataTables stylesheet
 
-// Colour to use when shading
-$table-shade: black !default;
+// Selection colour
+$selected-background-color: rgba(13, 110, 253, 0.9) !default;
+$selected-text-color: white;
 
 // Checkbox absolute positioning correction
 $checkbox-margin-top: -6px !default;
 
-@function shade( $color, $percent ) {
-	@return mix($table-shade, $color, $percent);
-}
-
-
 table.dataTable {
-	// Body styles
-	tbody > tr.selected,
-	tbody > tr > .selected,
-	tbody > tr.selected > td.dtfc-fixed-left,
-	tbody > tr.selected > td.dtfc-fixed-right {
-		background-color: $table-selected;
-	}
-
-
-	// Stripe classes - add "stripe" class to the table to activate
-	&.stripe tbody,
-	&.display tbody {
-		> tr.odd.selected,
-		> tr.odd > .selected,
-		> tr.selected > td.dtfc-fixed-left,
-		> tr.selected > td.dtfc-fixed-right {
-			background-color: shade($table-selected, 2.35%);
-		}
-	}
-
-
-	// Hover classes - add "hover" class to the table to activate
-	&.hover tbody,
-	&.display tbody {
-		> tr.selected:hover,
-		> tr > .selected:hover,
-		> tr.selected > td.dtfc-fixed-left,
-		> tr.selected > td.dtfc-fixed-right {
-			background-color: shade($table-selected, 3.6%);
-		}
-	}
-
-
-	// Sort column highlighting - add "order-column" class to the table to activate
-	&.order-column tbody,
-	&.display tbody {
-		> tr.selected > .sorting_1,
-		> tr.selected > .sorting_2,
-		> tr.selected > .sorting_3,
-		> tr > .selected,
-		> tr.selected > td.dtfc-fixed-left,
-		> tr.selected > td.dtfc-fixed-right {
-			background-color: shade($table-selected, 2%);
-		}
-	}
-
-	&.display tbody,
-	&.order-column.stripe tbody {
-		> tr.odd.selected {
-			>.sorting_1 { background-color: shade($table-selected, 5.4%); }
-			>.sorting_2 { background-color: shade($table-selected, 4.7%); }
-			>.sorting_3 { background-color: shade($table-selected, 3.9%); }
-		}
-
-		> tr.even.selected {
-			>.sorting_1 { background-color: shade($table-selected, 2%); }
-			>.sorting_2 { background-color: shade($table-selected, 1.2%); }
-			>.sorting_3 { background-color: shade($table-selected, 0.4%); }
-		}
-
-		> tr.odd > .selected { background-color: shade($table-selected, 5.4%); }
-		> tr.even > .selected { background-color: shade($table-selected, 2%); }
-	}
-
-	&.display tbody,
-	&.order-column.hover tbody {
-		> tr.selected:hover {
-			>.sorting_1 { background-color: shade($table-selected, 8.2%); }
-			>.sorting_2 { background-color: shade($table-selected, 7.5%); }
-			>.sorting_3 { background-color: shade($table-selected, 6.3%); }
-		}
-
-		> tr:hover > .selected,
-		> tr > .selected:hover {
-			background-color: shade($table-selected, 8.2%);
-		}
+	> tbody > tr > .selected {
+		background-color: $selected-background-color;
+		color: $selected-text-color;
 	}
 
 	tbody td.select-checkbox,
@@ -119,6 +41,10 @@ table.dataTable {
 	tr.selected {
 		td.select-checkbox,
 		th.select-checkbox {
+			&:before {
+				border: 1px solid $selected-text-color;
+			}
+
 			&:after {
 				content: '\2713';
 				font-size: 20px;

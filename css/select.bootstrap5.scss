@@ -1,22 +1,8 @@
 
-
-$table-selected: #0d6efd !default;
+$selected-background-color: rgba(13, 110, 253, 0.9) !default;
 $checkbox-margin-top: -5px !default;
 
 @import 'select.dataTables.scss';
-
-table.dataTable tbody {
-	tr.selected,
-	tr.selected > *,
-	th.selected,
-	td.selected {
-		color: white !important;
-
-		a {
-			color: #a2d4ed;
-		}
-	}
-}
 
 table.dataTable.table-sm tbody td.select-checkbox::before {
 	margin-top: -9px;
