@@ -489,6 +489,13 @@ function enableMouseSelection ( dt )
 				return;
 			}
 
+			var event = $.Event('select-blur.dt');
+			eventTrigger( dt, event, [ e.target, e ] );
+
+			if ( event.isDefaultPrevented() ) {
+				return;
+			}
+
 			clear( ctx, true );
 		}
 	} );

@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<dt-event library="Select">
+	<name>select-blur</name>
+	<summary>Prior to blurring item selection in the DataTable (cancellable)</summary>
+	<since>1.4.0</since>
+
+	<type type="function">
+		<signature>function( e, dt, target, originalEvent )</signature>
+		<parameter type="object" name="e">
+			jQuery event object
+		</parameter>
+		<parameter type="DataTables.Api" name="dt">
+			DataTables API instance
+		</parameter>
+		<parameter type="node" name="target">
+			The element that was clicked on to activate this event.
+		</parameter>
+		<parameter type="object" name="originalEvent">
+			The original event that triggered this event.
+		</parameter>
+		<scope>HTML table element</scope>
+	</type>
+
+	<description>
+		The `-init select.blurable` option can be used to have Select automatically remove row selection from the table when set, however, there are times when you might wish to retain focus depending on where the click landed on the page (e.g. inside a model). This event provides that ability. You can call `.preventDefault()` on the event object to stop the table from being blurred.
+	</description>
+
+	<example title="Don't blur if the click was inside a Bootstrap modal"><![CDATA[
+
+var table = $('#example').DataTable({
+	select: {
+		blurable: true,
+		style: 'os',
+	},
+});
+
+table.on('select-blur', function (e, dt, target, originalEvent) {
+	if ($(e.target).parents('div.modal').length) {
+		e.preventDefault();
+	}
+});
+
+]]></example>
+
+	<related>-init select.blurable</related>
+</dt-event>
