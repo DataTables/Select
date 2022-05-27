@@ -14,8 +14,8 @@ table.dataTable {
 		color: $selected-text-color;
 	}
 
-	tbody td.select-checkbox,
-	tbody th.select-checkbox {
+	> tbody > tr > td.select-checkbox,
+	> tbody > tr > th.select-checkbox {
 		position: relative;
 
 		&:before,
@@ -38,9 +38,9 @@ table.dataTable {
 		}
 	}
 
-	tr.selected {
-		td.select-checkbox,
-		th.select-checkbox {
+	> tbody > tr.selected {
+		> td.select-checkbox,
+		> th.select-checkbox {
 			&:before {
 				border: 1px solid $selected-text-color;
 			}
@@ -63,16 +63,16 @@ table.dataTable {
 	}
 
 	&.compact {
-		tbody td.select-checkbox,
-		tbody th.select-checkbox {
+		> tbody > tr > td.select-checkbox,
+		> tbody > tr > th.select-checkbox {
 			&:before {
 				margin-top: -12px;
 			}
 		}
 
-		tr.selected {
-			td.select-checkbox,
-			th.select-checkbox {
+		> tbody > tr.selected {
+			> td.select-checkbox,
+			> th.select-checkbox {
 				&:after {
 					margin-top: -16px;
 				}
