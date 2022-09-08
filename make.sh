@@ -32,8 +32,8 @@ css_frameworks select $OUT_DIR/css
 
 # Copy JS
 rsync -r js $OUT_DIR
-js_compress $OUT_DIR/js/dataTables.select.js
-js_frameworks select $OUT_DIR/js
+js_wrap $OUT_DIR/js/dataTables.select.js "jquery datatables.net"
+js_frameworks select $OUT_DIR/js "jquery datatables.net-FW datatables.net-select"
 
 # Copy Types
 if [ -d $OUT_DIR/types ]; then
