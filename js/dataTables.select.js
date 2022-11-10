@@ -614,7 +614,8 @@ function init ( ctx ) {
 
 	// Clean up and release
 	api.on( 'destroy.dtSelect', function () {
-		api.rows({selected: true}).deselect();
+		// Remove class directly rather than calling deselect - which would trigger events
+		$(api.rows({selected: true}).nodes()).removeClass(api.settings()[0]._select.className);
 
 		disableMouseSelection( api );
 		api.off( '.dtSelect' );
