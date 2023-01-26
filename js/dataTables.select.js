@@ -45,11 +45,12 @@ DataTable.select.init = function ( dt ) {
 				dt.cell(data.select.cells[i].row, data.select.cells[i].column).select();
 			}
 		}
+
 		dt.state.save();
 	}
 	
-	dt.one('init', function() {
-		dt.on('stateSaveParams', function(e, settings, data) {
+	dt
+		.on('stateSaveParams', function(e, settings, data) {
 			data.select = {};
 			data.select.rows = dt.rows({selected:true}).ids(true).toArray();
 			data.select.columns = dt.columns({selected:true})[0];
@@ -57,10 +58,10 @@ DataTable.select.init = function ( dt ) {
 				return {row: dt.row(coords.row).id(true), column: coords.column}
 			});
 		})
-		
-		selectAndSave(undefined, undefined, savedSelected)
-		dt.on('stateLoaded stateLoadParams', selectAndSave)
-	})
+		.on('stateLoadParams', selectAndSave)
+		.one('init', function() {
+			selectAndSave(undefined, undefined, savedSelected);
+		});
 
 	var init = ctx.oInit.select;
 	var defaults = DataTable.defaults.select;

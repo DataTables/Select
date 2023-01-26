@@ -5,20 +5,20 @@
 <js lib="jquery datatables select">
 <![CDATA[
 
-$(document).ready(function() {
-	$('#example').DataTable( {
-		"ajax": "../data/objects.txt",
-		"rowId": 'id',
-		"columns": [
-			{ "data": "name" },
-			{ "data": "position" },
-			{ "data": "office" },
-			{ "data": "salary" }
+$(document).ready(function () {
+	$('#example').DataTable({
+		ajax: '../data/objects.txt',
+		columns: [
+			{ data: 'name' },
+			{ data: 'position' },
+			{ data: 'office' },
+			{ data: 'salary' },
 		],
+		rowId: 'id',
 		stateSave: true,
-		select: true
-	} );
-} );
+		select: true,
+	});
+});
 
 ]]>
 </js>
@@ -28,6 +28,9 @@ $(document).ready(function() {
 <info><![CDATA[
 
 This example shows how select integrates with the `-init stateSave` initialisation option.
+
+Note that for the selection state of rows to be saved, the rows _must_ have a unique identifier available. You can tell DataTables where to find the id property through the `-init rowId` option.
+
 ]]></info>
 
 <custom-table>
