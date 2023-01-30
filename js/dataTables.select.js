@@ -1235,6 +1235,44 @@ $.extend( DataTable.ext.buttons, {
 		destroy: function ( dt, node, config ) {
 			dt.off( config._eventNamespace );
 		}
+	},
+	showSelected: {
+		text: i18n( 'showSelected.activate', 'Show only selected' ),
+		className: 'buttons-show-selected',
+		action: function (e, dt, node, conf) {
+			// Works by having a filtering function which will reduce to the selected
+			// items only. So we can re-reference the function it gets stored in the
+			// `conf` object
+			if (conf._filter) {
+				var idx = DataTable.ext.search.indexOf(conf._filter);
+
+				if (idx !== -1) {
+					DataTable.ext.search.splice(idx, 1);
+					conf._filter = null;
+				}
+
+				this.active(false);
+			}
+			else {
+				var fn = function (s, data, idx) {
+					// Need to be sure we are operating on our table!
+					if (s !== dt.settings()[0]) {
+						return true;
+					}
+
+					let row = s.aoData[idx];
+
+					return row._select_selected;
+				}
+
+				conf._filter = fn;
+				DataTable.ext.search.push(fn);
+
+				this.active(true);
+			}
+
+			dt.draw();
+		}
 	}
 } );
 

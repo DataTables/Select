@@ -4,7 +4,7 @@
 <css lib="datatables select buttons"/>
 <js lib="jquery datatables select buttons"/>
 
-<title>Buttons</title>
+<title>Buttons - selection control</title>
 <js><![CDATA[
 $(document).ready(function() {
 	var table = $('#example').DataTable( {
@@ -27,7 +27,7 @@ $(document).ready(function() {
 
 Select provides a number of buttons that can be used with the [Buttons extension](https://datatables.net/extensions/buttons) for DataTables. Buttons is a framework providing common options, styling and API methods for buttons that can control a DataTable.
 
-The buttons made available by Select are:
+The selection control buttons made available by Select are:
 
 * `se-button selected` - Enabled only when one or more items are selected
 * `se-button selectedSingle` - Enabled only when a single item is selected

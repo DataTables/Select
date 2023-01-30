@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<dt-button library="Select">
+	<name>showSelected</name>
+	<summary>Toggle a filter that will reduce the rows displayed to just those which are selected.</summary>
+	<since>1.6.0</since>
+
+	<description>
+		It can be useful to give your end users the ability to filter a table just to the rows that are currently selected, particularly when working with larger data sets. This button provides that ability by toggling a filter when activated. Toggling it a second time will remove the filter and show all rows again.
+
+		Note that when in the filtered state, changing the selection does not automatically update the filter - the table will remain showing the rows that were selected when the button was activated until the next table redraw.
+
+		Please note that this button **does not** work with server-side processing enabled. It uses client-side processing specific mechanisms to operate.
+	</description>
+
+	<defaults>
+		<parameter name="text" value="Show only selected">
+			This can be configured using the `buttons.showSelected` option of the DataTables `dt-init language` object, or using the `b-init buttons.buttons.text` option for this button.
+		</parameter>
+		<parameter name="className" value="buttons-show-selected"/>
+	</defaults>
+
+	<example title="Show a button which will toggle a filter to show selected rows only"><![CDATA[
+
+$('#myTable').DataTable( {
+	buttons: ['showSelected']
+} );
+
+]]></example>
+</dt-button>

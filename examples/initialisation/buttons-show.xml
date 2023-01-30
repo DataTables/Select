@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<dt-example table-type="html" order="9">
+
+<css lib="datatables select buttons"/>
+<js lib="jquery datatables select buttons"/>
+
+<title>Buttons - search toggle</title>
+<js><![CDATA[
+$(document).ready(function() {
+	var table = $('#example').DataTable( {
+		dom: 'Bfrtip',
+		buttons: [
+			'showSelected',
+		],
+		select: true
+	} );
+} );
+]]></js>
+
+<info><![CDATA[
+
+As well as the [selection control buttons](./buttons.html), Select also provides a button that can be used to toggle a filter that will reduce the display to just those rows in the table which are selected: `-button showSelected`.
+
+This example demonstrates this button. To see it in action, select one or more rows and then toggle the button by clicking on it. The display will reduce to just the selected rows. Toggle the button again and the filter will be removed.
+
+]]></info>
+
+</dt-example>
