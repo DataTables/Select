@@ -1237,7 +1237,7 @@ $.extend( DataTable.ext.buttons, {
 		}
 	},
 	showSelected: {
-		text: i18n( 'showSelected.activate', 'Show only selected' ),
+		text: i18n( 'showSelected', 'Show only selected' ),
 		className: 'buttons-show-selected',
 		action: function (e, dt, node, conf) {
 			// Works by having a filtering function which will reduce to the selected
