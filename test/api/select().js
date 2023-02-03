@@ -19,7 +19,7 @@ describe('Select - select()', function() {
 
 	describe('Check the behaviour', function() {
 		dt.html('basic');
-		it('No rows selectable initially', function() {
+		it('Rows are selectable even when initialised not in the document', function() {
 			var el = $(
 				'<table id="second"><thead><th>H</th></thead><tbody><tr><td>First</td></tr><tr><td>Second</td></tr></tbody></table>'
 			);
@@ -31,11 +31,11 @@ describe('Select - select()', function() {
 			$('body').append(table.table().container());
 
 			$('#second tbody tr:eq(0) td:eq(0)').click();
-			expect($('tr.selected').length).toBe(0);
+			expect($('tr.selected').length).toBe(1);
 		});
 		it('Can select after method called', function() {
 			table.select();
-			$('#second tbody tr:eq(0) td:eq(0)').click();
+			$('#second tbody tr:eq(1) td:eq(0)').click();
 			expect($('tr.selected').length).toBe(1);
 		});
 		it('Tidy up', function() {

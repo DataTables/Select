@@ -15,6 +15,8 @@
 	</type>
 
 	<description>
+		**Note: When used with DataTables 1.13.2, this method is no longer required to initialise Select for a table that was created when not attached to the DOM.** As of 1.13.2 DataTables as the ability to signal that a new table has been created on the page, regardless of if it is in the document's DOM or not. With 1.13.2+ this method now has no effect, but is still available for use with older versions of DataTables.
+
 		When a DataTable is constructed it emits the `dt-event preInit` event which Select can normally listen for and initialise the library for use on the table. However, if the table is constructed before being entered into the DOM this event does not trigger on the document so we need a different method to initialise Select. This method provides that ability.
 
 		This method should only be used for cases where the table is initialised before it is inserted into the DOM. It is not required at any other point.
