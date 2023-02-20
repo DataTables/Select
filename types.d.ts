@@ -25,6 +25,10 @@ declare module 'datatables.net' {
 		select: ApiSelect<Api<T>>
 	}
 
+	interface ApiSelectorModifier {
+		selected?: boolean | undefined;
+	}
+
 	interface ApiRowMethods<T> {
 		/**
 		 * Select a row
