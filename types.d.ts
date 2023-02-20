@@ -26,6 +26,9 @@ declare module 'datatables.net' {
 	}
 
 	interface ApiSelectorModifier {
+		/**
+		 * Pick rows / columns / cells which are selected
+		 */
 		selected?: boolean | undefined;
 	}
 
