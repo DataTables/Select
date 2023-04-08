@@ -18,7 +18,7 @@ describe('Select - Button - selectRows', function() {
 			expect($('button.buttons-select-rows').length).toBe(1);
 			expect($('button.buttons-select-rows').text()).toBe('Select rows');
 		});
-		it('Active originally (default is rows', function() {
+		it('Active originally (default is rows)', function() {
 			expect($('button.buttons-select-rows').hasClass('active')).toBe(true);
 		});
 	});
