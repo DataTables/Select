@@ -4,17 +4,25 @@
 <css lib="datatables select"/>
 <js lib="jquery datatables select">
 <![CDATA[
-
-$(document).ready(function() {
-	$('#example').DataTable( {
-		select: {
-			style: 'multi'
-		}
-	} );
-} );
+$('#example').DataTable({
+	select: {
+		style: 'multi'
+	}
+});
 
 ]]>
 </js>
+
+<js-vanilla>
+<![CDATA[
+new DataTable('#example', {
+	select: {
+		style: 'multi'
+	}
+});
+
+]]>
+</js-vanilla>
 
 <title lib="Select">Multi item selection</title>
 

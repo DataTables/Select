@@ -4,24 +4,43 @@
 <css lib="datatables select"/>
 <js lib="jquery datatables select">
 <![CDATA[
-
-$(document).ready(function() {
-	$('#example').DataTable( {
-		columnDefs: [ {
+$('#example').DataTable({
+	columnDefs: [
+		{
 			orderable: false,
 			className: 'select-checkbox',
-			targets:   0
-		} ],
-		select: {
-			style:    'os',
-			selector: 'td:first-child'
-		},
-		order: [[ 1, 'asc' ]]
-	} );
-} );
+			targets: 0
+		}
+	],
+	select: {
+		style: 'os',
+		selector: 'td:first-child'
+	},
+	order: [[1, 'asc']]
+});
 
 ]]>
 </js>
+
+<js-vanilla>
+<![CDATA[
+new DataTable('#example', {
+	columnDefs: [
+		{
+			orderable: false,
+			className: 'select-checkbox',
+			targets: 0
+		}
+	],
+	select: {
+		style: 'os',
+		selector: 'td:first-child'
+	},
+	order: [[1, 'asc']]
+});
+
+]]>
+</js-vanilla>
 
 <title lib="Select">Checkbox selection</title>
 

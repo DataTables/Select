@@ -4,18 +4,27 @@
 <css lib="datatables select"/>
 <js lib="jquery datatables select">
 <![CDATA[
-
-$(document).ready(function() {
-	$('#example').DataTable( {
-		select: {
-			style: 'os',
-			items: 'cell'
-		}
-	} );
-} );
+$('#example').DataTable({
+	select: {
+		style: 'os',
+		items: 'cell'
+	}
+});
 
 ]]>
 </js>
+
+<js-vanilla>
+<![CDATA[
+new DataTable('#example', {
+	select: {
+		style: 'os',
+		items: 'cell'
+	}
+});
+
+]]>
+</js-vanilla>
 
 <title lib="Select">Cell selection</title>
 

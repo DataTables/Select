@@ -5,17 +5,27 @@
 <js lib="jquery datatables select buttons"/>
 
 <title>Buttons - search toggle</title>
-<js><![CDATA[
-$(document).ready(function() {
-	var table = $('#example').DataTable( {
-		dom: 'Bfrtip',
-		buttons: [
-			'showSelected',
-		],
-		select: true
-	} );
-} );
-]]></js>
+<js>
+<![CDATA[
+$('#example').DataTable({
+	buttons: ['showSelected'],
+	dom: 'Bfrtip',
+	select: true
+});
+
+]]>
+</js>
+
+<js-vanilla>
+<![CDATA[
+new DataTable('#example', {
+	buttons: ['showSelected'],
+	dom: 'Bfrtip',
+	select: true
+});
+
+]]>
+</js-vanilla>
 
 <info><![CDATA[
 

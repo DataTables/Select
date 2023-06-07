@@ -5,14 +5,22 @@
 <js lib="jquery datatables select">
 <![CDATA[
 
-$(document).ready(function() {
-	$('#example').DataTable( {
-		select: true
-	} );
-} );
+$('#example').DataTable({
+	select: true
+});
 
 ]]>
 </js>
+
+<js-vanilla>
+<![CDATA[
+
+new DataTable('#example', {
+	select: true
+});
+
+]]>
+</js-vanilla>
 
 <title lib="Select">Bulma</title>
 

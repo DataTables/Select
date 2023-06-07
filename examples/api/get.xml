@@ -1,40 +1,56 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <dt-example table-type="html" order="1">
 
-<css lib="datatables select buttons">
-	#events {
-		margin-bottom: 1em;
-		padding: 1em;
-		background-color: #f6f6f6;
-		border: 1px solid #999;
-		border-radius: 3px;
-		height: 100px;
-		overflow: auto;
-	}
-</css>
+<css lib="datatables select buttons"/>
 <js lib="jquery datatables select buttons">
 <![CDATA[
 
-$(document).ready(function() {
-	var events = $('#events');
-	var table = $('#example').DataTable( {
-		dom: 'Bfrtip',
-		select: true,
-		buttons: [
-			{
-				text: 'Get selected data',
-				action: function () {
-					var count = table.rows( { selected: true } ).count();
+var events = $('#events');
+var table = $('#example').DataTable({
+	dom: 'Bfrtip',
+	select: true,
+	buttons: [
+		{
+			text: 'Get selected data',
+			action: function () {
+				var count = table.rows({ selected: true }).count();
 
-					events.prepend( '<div>'+count+' row(s) selected</div>' );
-				}
+				events.prepend('<div>' + count + ' row(s) selected</div>');
 			}
-		]
-	} );
-} );
+		}
+	]
+});
 
 ]]>
 </js>
+
+<js-vanilla>
+<![CDATA[
+function message(message) {
+	let el = document.querySelector('#events');
+	let div = document.createElement('div');
+
+	div.textContent = message;
+	el.prepend(div);
+}
+
+let table = new DataTable('#example', {
+	dom: 'Bfrtip',
+	select: true,
+	buttons: [
+		{
+			text: 'Get selected data',
+			action: function () {
+				let count = table.rows({ selected: true }).count();
+
+				message(count + ' row(s) selected');
+			}
+		}
+	]
+});
+
+]]>
+</js-vanilla>
 
 <title lib="Select">Get selected items</title>
 
@@ -57,7 +73,7 @@ This example shows a simple use case for this selector option - a button is pres
 ]]></info>
 
 <demo-html>
-	<div id="events">Row selected count - new information added at the top</div>
+	<div id="events" class="box">Row selected count - new information added at the top</div>
 </demo-html>
 
 </dt-example>

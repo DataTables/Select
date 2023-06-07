@@ -4,30 +4,52 @@
 <css lib="datatables select buttons"/>
 <js lib="jquery datatables select buttons">
 <![CDATA[
-
-$(document).ready(function() {
-	var table = $('#example').DataTable( {
-		dom: 'Bfrtip',
-		select: true,
-		buttons: [
-			{
-				text: 'Select all',
-				action: function () {
-					table.rows().select();
-				}
-			},
-			{
-				text: 'Select none',
-				action: function () {
-					table.rows().deselect();
-				}
+var table = $('#example').DataTable({
+	buttons: [
+		{
+			text: 'Select all',
+			action: function () {
+				table.rows().select();
 			}
-		]
-	} );
-} );
+		},
+		{
+			text: 'Select none',
+			action: function () {
+				table.rows().deselect();
+			}
+		}
+	],
+	dom: 'Bfrtip',
+	select: true
+});
 
 ]]>
 </js>
+
+<js-vanilla>
+<![CDATA[
+
+let table = new DataTable('#example', {
+	buttons: [
+		{
+			text: 'Select all',
+			action: function () {
+				table.rows().select();
+			}
+		},
+		{
+			text: 'Select none',
+			action: function () {
+				table.rows().deselect();
+			}
+		}
+	],
+	dom: 'Bfrtip',
+	select: true
+});
+
+]]>
+</js-vanilla>
 
 <title lib="Select">Select items</title>
 

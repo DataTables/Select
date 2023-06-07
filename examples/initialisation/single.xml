@@ -4,17 +4,25 @@
 <css lib="datatables select"/>
 <js lib="jquery datatables select">
 <![CDATA[
-
-$(document).ready(function() {
-	$('#example').DataTable( {
-		select: {
-			style: 'single'
-		}
-	} );
-} );
+$('#example').DataTable({
+	select: {
+		style: 'single'
+	}
+});
 
 ]]>
 </js>
+
+<js-vanilla>
+<![CDATA[
+new DataTable('#example', {
+	select: {
+		style: 'single'
+	}
+});
+
+]]>
+</js-vanilla>
 
 <title lib="Select">Single item selection</title>
 

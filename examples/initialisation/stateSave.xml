@@ -5,23 +5,39 @@
 <js lib="jquery datatables select">
 <![CDATA[
 
-$(document).ready(function () {
-	$('#example').DataTable({
-		ajax: '../data/objects.txt',
-		columns: [
-			{ data: 'name' },
-			{ data: 'position' },
-			{ data: 'office' },
-			{ data: 'salary' },
-		],
-		rowId: 'id',
-		stateSave: true,
-		select: true,
-	});
+$('#example').DataTable({
+	ajax: '../data/objects.txt',
+	columns: [
+        { data: 'name' },
+        { data: 'position' },
+        { data: 'office' },
+        { data: 'salary' }
+    ],
+	rowId: 'id',
+	stateSave: true,
+	select: true
 });
 
 ]]>
 </js>
+
+<js-vanilla>
+<![CDATA[
+new DataTable('#example', {
+	ajax: '../data/objects.txt',
+	columns: [
+        { data: 'name' },
+        { data: 'position' },
+        { data: 'office' },
+        { data: 'salary' }
+    ],
+	rowId: 'id',
+	stateSave: true,
+	select: true
+});
+
+]]>
+</js-vanilla>
 
 <title lib="Select">State Save</title>
 

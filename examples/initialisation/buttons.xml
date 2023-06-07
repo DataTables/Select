@@ -5,23 +5,43 @@
 <js lib="jquery datatables select buttons"/>
 
 <title>Buttons - selection control</title>
-<js><![CDATA[
-$(document).ready(function() {
-	var table = $('#example').DataTable( {
-		dom: 'Bfrtip',
-		buttons: [
-			'selected',
-			'selectedSingle',
-			'selectAll',
-			'selectNone',
-			'selectRows',
-			'selectColumns',
-			'selectCells'
-		],
-		select: true
-	} );
-} );
-]]></js>
+<js>
+<![CDATA[
+$('#example').DataTable({
+	dom: 'Bfrtip',
+	buttons: [
+		'selected',
+		'selectedSingle',
+		'selectAll',
+		'selectNone',
+		'selectRows',
+		'selectColumns',
+		'selectCells'
+	],
+	select: true
+});
+
+]]>
+</js>
+
+<js-vanilla>
+<![CDATA[
+new DataTable('#example', {
+	dom: 'Bfrtip',
+	buttons: [
+		'selected',
+		'selectedSingle',
+		'selectAll',
+		'selectNone',
+		'selectRows',
+		'selectColumns',
+		'selectCells'
+	],
+	select: true
+});
+
+]]>
+</js-vanilla>
 
 <info><![CDATA[
 

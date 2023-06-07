@@ -4,24 +4,39 @@
 <css lib="datatables select"/>
 <js lib="jquery datatables select">
 <![CDATA[
-
-$(document).ready(function() {
-	$('#example').DataTable( {
-		select: true,
-		language: {
-			select: {
-				rows: {
-					_: "You have selected %d rows",
-					0: "Click a row to select it",
-					1: "Only 1 row selected"
-				}
+$('#example').DataTable({
+	select: true,
+	language: {
+		select: {
+			rows: {
+				_: 'You have selected %d rows',
+				0: 'Click a row to select it',
+				1: 'Only 1 row selected'
 			}
 		}
-	} );
-} );
+	}
+});
 
 ]]>
 </js>
+
+<js-vanilla>
+<![CDATA[
+new DataTable('#example', {
+	select: true,
+	language: {
+		select: {
+			rows: {
+				_: 'You have selected %d rows',
+				0: 'Click a row to select it',
+				1: 'Only 1 row selected'
+			}
+		}
+	}
+});
+
+]]>
+</js-vanilla>
 
 <title lib="Select">Internationalisation</title>
 

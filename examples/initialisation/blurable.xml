@@ -4,18 +4,28 @@
 <css lib="datatables select"/>
 <js lib="jquery datatables select">
 <![CDATA[
-
-$(document).ready(function() {
-	$('#example').DataTable( {
-		select: {
-			style: 'os',
-			blurable: true
-		}
-	} );
-} );
+$('#example').DataTable({
+	select: {
+		style: 'os',
+		blurable: true
+	}
+});
 
 ]]>
 </js>
+
+<js-vanilla>
+<![CDATA[
+
+new DataTable('#example', {
+	select: {
+		style: 'os',
+		blurable: true
+	}
+});
+
+]]>
+</js-vanilla>
 
 <title lib="Select">Blur selection</title>
 

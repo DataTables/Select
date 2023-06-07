@@ -4,33 +4,63 @@
 <css lib="datatables select buttons"/>
 <js lib="jquery datatables select buttons"/>
 
-<js><![CDATA[
-$(document).ready(function() {
-	var table = $('#example').DataTable( {
-		ajax: '../../../../examples/ajax/data/objects.txt',
-		deferRender: true,
-		columns: [
-			{ data: 'name' },
-			{ data: 'position' },
-			{ data: 'office' },
-			{ data: 'extn' },
-			{ data: 'start_date' },
-			{ data: 'salary' }
-		],
-		rowId: 'extn',
-		select: true,
-		dom: 'Bfrtip',
-		buttons: [
-			{
-				text: 'Reload table',
-				action: function () {
-					table.ajax.reload();
-				}
+<js>
+<![CDATA[
+var table = $('#example').DataTable({
+	ajax: '../../../../examples/ajax/data/objects.txt',
+	deferRender: true,
+	columns: [
+		{ data: 'name' },
+		{ data: 'position' },
+		{ data: 'office' },
+		{ data: 'extn' },
+		{ data: 'start_date' },
+		{ data: 'salary' }
+	],
+	rowId: 'extn',
+	select: true,
+	dom: 'Bfrtip',
+	buttons: [
+		{
+			text: 'Reload table',
+			action: function () {
+				table.ajax.reload();
 			}
-		]
-	} );
-} );
-]]></js>
+		}
+	]
+});
+
+]]>
+</js>
+
+<js-vanilla>
+<![CDATA[
+new DataTable('#example', {
+	ajax: '../../../../examples/ajax/data/objects.txt',
+	deferRender: true,
+	columns: [
+		{ data: 'name' },
+		{ data: 'position' },
+		{ data: 'office' },
+		{ data: 'extn' },
+		{ data: 'start_date' },
+		{ data: 'salary' }
+	],
+	rowId: 'extn',
+	select: true,
+	dom: 'Bfrtip',
+	buttons: [
+		{
+			text: 'Reload table',
+			action: function () {
+				table.ajax.reload();
+			}
+		}
+	]
+});
+
+]]>
+</js-vanilla>
 
 <title>Retain selection on reload</title>
 

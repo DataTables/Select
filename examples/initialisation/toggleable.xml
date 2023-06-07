@@ -5,17 +5,29 @@
 <js lib="jquery datatables select">
 <![CDATA[
 
-$(document).ready(function() {
-	let table = $('#example').DataTable( {
-		select: {
-            toggleable: false
-        }
-	} );
-    table.row(2).select();
-} );
+var table = $('#example').DataTable({
+	select: {
+		toggleable: false
+	}
+});
+
+table.row(2).select();
 
 ]]>
 </js>
+
+<js-vanilla>
+<![CDATA[
+let table = new DataTable('#example', {
+	select: {
+		toggleable: false
+	}
+});
+
+table.row(2).select();
+
+]]>
+</js-vanilla>
 
 <title lib="Select">Disable Element Deselection</title>
 

@@ -1,33 +1,39 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <dt-example table-type="html" order="4">
 
-<css lib="datatables select">
-	#events {
-		margin-bottom: 1em;
-		padding: 1em;
-		background-color: #f6f6f6;
-		border: 1px solid #999;
-		border-radius: 3px;
-		height: 100px;
-		overflow: auto;
-	}
-</css>
+<css lib="datatables select"/>
 <js lib="jquery datatables select"/>
 
-<js><![CDATA[
-$(document).ready(function() {
-	var table = $('#example').DataTable( {
-		select: true
-	} );
+<js>
+<![CDATA[
+var table = $('#example').DataTable({
+	select: true
+});
 
-	table
-		.on( 'user-select', function ( e, dt, type, cell, originalEvent ) {
-			if ( $(originalEvent.target).index() === 0 ) {
-				e.preventDefault();
-			}
-		} );
-} );
-]]></js>
+table.on('user-select', function (e, dt, type, cell, originalEvent) {
+	if ($(originalEvent.target).index() === 0) {
+		e.preventDefault();
+	}
+});
+
+]]>
+</js>
+
+<js-vanilla>
+<![CDATA[
+
+let table = new DataTable('#example', {
+	select: true
+});
+
+table.on('user-select', function (e, dt, type, cell, originalEvent) {
+	if (originalEvent.target.cellIndex === 0) {
+		e.preventDefault();
+	}
+});
+
+]]>
+</js-vanilla>
 
 <title>Events (cancellable)</title>
 
