@@ -19,7 +19,7 @@ describe('Select - Button - selectColumns', function() {
 			expect($('button.buttons-select-columns').text()).toBe('Select columns');
 		});
 		it('Not active originally (default is rows', function() {
-			expect($('button.buttons-select-columns').hasClass('active')).toBe(false);
+			expect($('button.buttons-select-columns').hasClass('dt-button-active')).toBe(false);
 		});
 	});
 
@@ -54,7 +54,7 @@ describe('Select - Button - selectColumns', function() {
 		});
 		it('Clicking makes it active', function() {
 			$('button.buttons-select-columns').click();
-			expect($('button.buttons-select-columns').hasClass('active')).toBe(true);
+			expect($('button.buttons-select-columns').hasClass('dt-button-active')).toBe(true);
 		});
 		it('Clicking on cell now selects columns', function() {
 			$('tbody tr:eq(9) td:eq(2)').click();
@@ -63,7 +63,7 @@ describe('Select - Button - selectColumns', function() {
 		});
 		it('Changing via API makes it inactive', function() {
 			table.select.items('row');
-			expect($('button.buttons-select-columns').hasClass('active')).toBe(false);
+			expect($('button.buttons-select-columns').hasClass('dt-button-active')).toBe(false);
 		});
 	});
 });

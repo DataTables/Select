@@ -19,7 +19,7 @@ describe('Select - Button - selectCells', function() {
 			expect($('button.buttons-select-cells').text()).toBe('Select cells');
 		});
 		it('Not active originally (default is rows', function() {
-			expect($('button.buttons-select-cells').hasClass('active')).toBe(false);
+			expect($('button.buttons-select-cells').hasClass('dt-button-active')).toBe(false);
 		});
 	});
 
@@ -54,7 +54,7 @@ describe('Select - Button - selectCells', function() {
 		});
 		it('Clicking makes it active', function() {
 			$('button.buttons-select-cells').click();
-			expect($('button.buttons-select-cells').hasClass('active')).toBe(true);
+			expect($('button.buttons-select-cells').hasClass('dt-button-active')).toBe(true);
 		});
 		it('Clicking on cell now selects cell', function() {
 			$('tbody tr:eq(9) td:eq(2)').click();
@@ -63,7 +63,7 @@ describe('Select - Button - selectCells', function() {
 		});
 		it('Changing via API makes it inactive', function() {
 			table.select.items('row');
-			expect($('button.buttons-select-cells').hasClass('active')).toBe(false);
+			expect($('button.buttons-select-cells').hasClass('dt-button-active')).toBe(false);
 		});
 	});
 });

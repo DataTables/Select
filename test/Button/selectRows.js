@@ -19,7 +19,7 @@ describe('Select - Button - selectRows', function() {
 			expect($('button.buttons-select-rows').text()).toBe('Select rows');
 		});
 		it('Active originally (default is rows', function() {
-			expect($('button.buttons-select-rows').hasClass('active')).toBe(true);
+			expect($('button.buttons-select-rows').hasClass('dt-button-active')).toBe(true);
 		});
 	});
 
@@ -49,7 +49,7 @@ describe('Select - Button - selectRows', function() {
 		});
 		it('Changing via API makes it inactive', function() {
 			table.select.items('cell');
-			expect($('button.buttons-select-rows').hasClass('active')).toBe(false);
+			expect($('button.buttons-select-rows').hasClass('dt-button-active')).toBe(false);
 		});
 		it('Clicking on cell selects cell', function() {
 			$('tbody tr:eq(2) td:eq(2)').click();
@@ -58,7 +58,7 @@ describe('Select - Button - selectRows', function() {
 		});
 		it('Clicking makes it active', function() {
 			$('button.buttons-select-rows').click();
-			expect($('button.buttons-select-rows').hasClass('active')).toBe(true);
+			expect($('button.buttons-select-rows').hasClass('dt-button-active')).toBe(true);
 		});
 		it('Clicking on cell selects row', function() {
 			$('tbody tr:eq(9) td:eq(2)').click();
