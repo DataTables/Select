@@ -1214,10 +1214,22 @@ $.extend(DataTable.ext.buttons, {
 	selectAll: {
 		text: i18n('selectAll', 'Select all'),
 		className: 'buttons-select-all',
-		action: function () {
+		action: function (e, dt, node, config) {
 			var items = this.select.items();
-			this[items + 's']().select();
+			var mod = config.selectorModifier;
+			
+			if (mod) {
+				if (typeof mod === 'function') {
+					mod = mod.call(dt, e, dt, node, config);
+				}
+
+				this[items + 's'](mod).select();
+			}
+			else {
+				this[items + 's']().select();
+			}
 		}
+		// selectorModifier can be specified
 	},
 	selectNone: {
 		text: i18n('selectNone', 'Deselect all'),

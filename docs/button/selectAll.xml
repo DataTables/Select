@@ -16,6 +16,9 @@
 		<parameter name="action" value="function">
 			Select all items in the table based on the current item select mode.
 		</parameter>
+		<parameter name="selectorModifier" value="function|object" since="1.7.0">
+			Provides a method to control what items should be selected through the `-type selector-modifier` option. For example you can limit the selection to the current filtered values, or the current page. This option can also be given as a function which passes the same arguments as `-init buttons.buttons.action` and expects a selector modifier in return.
+		</parameter>
 	</defaults>
 
 	<example title="DataTables initialisation: Show select all and select none buttons with language options in the DataTables language object"><![CDATA[
@@ -32,6 +35,33 @@ $('#myTable').DataTable( {
 			selectNone: "Select none"
 		}
 	}
+} );
+
+]]></example>
+
+	<example title="Using a selector modifier to select only rows matched by the current filter (first button), and those on the first page (second button)."><![CDATA[
+
+$('#myTable').DataTable( {
+	dom: 'Blfrtip',
+	buttons: [
+		{
+			text: 'Select filter applied - object',
+			extend: 'selectAll',
+			selectorModifier: {
+				search: 'applied'
+			}
+		},
+		{
+			text: 'Select current page - function',
+			extend: 'selectAll',
+			selectorModifier: function () {
+				return {
+					page: 'current'
+				}
+			}
+		}
+		'selectNone'
+	]
 } );
 
 ]]></example>
