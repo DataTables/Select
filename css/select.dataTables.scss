@@ -9,11 +9,6 @@ $selected-text-color: white;
 $checkbox-margin-top: -6px !default;
 
 table.dataTable {
-	> tbody > tr > .selected {
-		background-color: $selected-background-color;
-		color: $selected-text-color;
-	}
-
 	> tbody > tr > td.select-checkbox,
 	> tbody > tr > th.select-checkbox {
 		position: relative;
@@ -85,6 +80,18 @@ div.dataTables_wrapper {
 	span.select-info,
 	span.select-item {
 		margin-left: 0.5em;
+	}
+}
+
+html.dark,
+html[data-bs-theme="dark"] {
+	table.dataTable {
+		> tbody > tr > td.select-checkbox,
+		> tbody > tr > th.select-checkbox {
+			&:before {
+				border: 1px solid rgba(255, 255, 255, 0.6);
+			}
+		}
 	}
 }
 
