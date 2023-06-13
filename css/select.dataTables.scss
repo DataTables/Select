@@ -1,12 +1,9 @@
 
 // NOTE The styling for row selection is part of the core DataTables stylesheet
 
-// Selection colour
-$selected-background-color: rgba(13, 110, 253, 0.9) !default;
-$selected-text-color: white;
-
-// Checkbox absolute positioning correction
-$checkbox-margin-top: -6px !default;
+$dt-select-tick-margin-top: -12px !default;
+$dt-select-tick-border: 1px solid black !default;
+$dt-select-tick-border-checked: 1px solid white !default;
 
 table.dataTable {
 	> tbody > tr > td.select-checkbox,
@@ -17,7 +14,7 @@ table.dataTable {
 		&:after {
 			display: block;
 			position: absolute;
-			top: 1.2em; // Should be 50% but IE doesn't like it
+			top: 50%;
 			left: 50%;
 			width: 12px;
 			height: 12px;
@@ -26,9 +23,9 @@ table.dataTable {
 
 		&:before {
 			content: ' ';
-			margin-top: $checkbox-margin-top;
+			margin-top: -6px;
 			margin-left: -6px;
-			border: 1px solid black;
+			border: $dt-select-tick-border;
 			border-radius: 3px;
 		}
 	}
@@ -37,22 +34,17 @@ table.dataTable {
 		> td.select-checkbox,
 		> th.select-checkbox {
 			&:before {
-				border: 1px solid $selected-text-color;
+				border: $dt-select-tick-border-checked;
 			}
 
 			&:after {
 				content: '\2713';
 				font-size: 20px;
 
-				margin-top: -19px;
+				margin-top: $dt-select-tick-margin-top;
 				margin-left: -6px;
 
 				text-align: center;
-				text-shadow:
-					1px 1px #B0BED9,
-					-1px -1px #B0BED9,
-					1px -1px #B0BED9,
-					-1px 1px #B0BED9;
 			}
 		}
 	}
