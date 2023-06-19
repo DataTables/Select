@@ -3,6 +3,7 @@
 
 <title lib="Select">Styling</title>
 
+<js lib="jquery" />
 <info><![CDATA[
 
 Select, like all other DataTables extensions fully supports being themed by external styling frameworks. Styling using the core frameworks supported by DataTables are demonstrated in this section.
