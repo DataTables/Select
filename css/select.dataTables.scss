@@ -1,11 +1,21 @@
-
+ 
 // NOTE The styling for row selection is part of the core DataTables stylesheet
+
+// Selection colour for cells and columns
+$selected-background-color: rgba(13, 110, 253, 0.9) !default;
+$selected-text-color: white;
 
 $dt-select-tick-margin-top: -12px !default;
 $dt-select-tick-border: 1px solid black !default;
 $dt-select-tick-border-checked: 1px solid white !default;
 
 table.dataTable {
+	// Cell and column selector access
+	> tbody > tr > .selected {
+		background-color: $selected-background-color;
+		color: $selected-text-color;
+	}
+
 	> tbody > tr > td.select-checkbox,
 	> tbody > tr > th.select-checkbox {
 		position: relative;
