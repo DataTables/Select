@@ -80,7 +80,7 @@ declare module 'datatables.net' {
 		deselect(): Api<T>;
 	}
 
-	interface ApiStatic {
+	interface DataTablesStatic {
 		/**
 		 * Select static methods
 		 */
