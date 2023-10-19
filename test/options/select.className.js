@@ -14,7 +14,7 @@ describe('Select - select.className', function() {
 			});
 
 			$('tbody tr:eq(2) td:eq(1)').click();
-			expect($('tbody tr:eq(2)').attr('class')).toBe('odd selected');
+			expect($('tbody tr:eq(2)').attr('class')).toBe('selected');
 		});
 	});
 
@@ -29,7 +29,7 @@ describe('Select - select.className', function() {
 			});
 
 			$('tbody tr:eq(2) td:eq(1)').click();
-			expect($('tbody tr:eq(2)').attr('class')).toBe('odd unit_test');
+			expect($('tbody tr:eq(2)').attr('class')).toBe('unit_test');
 		});
 		it('Can still query selected', function() {
 			expect(table.rows({ selected: true }).count()).toBe(1);

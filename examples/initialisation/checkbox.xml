@@ -42,7 +42,7 @@ new DataTable('#example', {
 ]]>
 </js-vanilla>
 
-<title lib="Select">Checkbox selection</title>
+<title lib="Select">Checkbox selection - no ordering</title>
 
 <info><![CDATA[
 

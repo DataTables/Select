@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<dt-example table-type="html-index" order="5">
+
+<css lib="datatables select"/>
+<js lib="jquery datatables select">
+<![CDATA[
+$('#example').DataTable({
+	columnDefs: [
+		{
+			className: 'select-checkbox',
+			orderDataType: 'select-checkbox',
+			targets: 0
+		}
+	],
+	select: {
+		style: 'os',
+		selector: 'td:first-child'
+	}
+});
+
+]]>
+</js>
+
+<js-vanilla>
+<![CDATA[
+new DataTable('#example', {
+	columnDefs: [
+		{
+			className: 'select-checkbox',
+			orderDataType: 'select-checkbox',
+			targets: 0
+		}
+	],
+	select: {
+		style: 'os',
+		selector: 'td:first-child'
+	}
+});
+
+]]>
+</js-vanilla>
+
+<title lib="Select">Checkbox selection - with ordering</title>
+
+<info><![CDATA[
+
+This example demonstrates the checkbox selection of Select integrated with a custom order data type to allow ordering of rows by selection. Note that the table needs to redraw to reorder for new selections, the fastest way to do this is to click on the table header for the checkbox column. Another option would be to listen for `-event select` and redraw the table.
+
+The key here is to use `orderDataType: 'select-checkbox'` in your column definition. The `select-checkbox` data ordering plug-in is included in Select, so this assignment is all that is needed.
+
+Please note that this option will not work if using server-side processing (`-init serverSide`).
+
+]]></info>
+
+</dt-example>
+

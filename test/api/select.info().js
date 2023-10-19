@@ -34,21 +34,21 @@ describe('Select - select.info()', function() {
 			});
 
 			$('#example tbody tr:eq(2) td:eq(1)').click();
-			expect($('div.dataTables_info span.select-info').length).toBe(1);
+			expect($('div.dt-info span.select-info').length).toBe(1);
 		});
 		it('Getter', function() {
 			expect(table.select.info()).toBe(true);
 		});
 		it('... then disable', function() {
 			table.select.info(false).draw();
-			expect($('div.dataTables_info span.select-info').length).toBe(0);
+			expect($('div.dt-info span.select-info').length).toBe(0);
 		});
 		it('Getter', function() {
 			expect(table.select.info()).toBe(false);
 		});
 		it('... and click a row', function() {
 			$('#example tbody tr:eq(3) td:eq(1)').click();
-			expect($('div.dataTables_info span.select-info').length).toBe(0);
+			expect($('div.dt-info span.select-info').length).toBe(0);
 		});
 
 		dt.html('basic');
@@ -60,21 +60,21 @@ describe('Select - select.info()', function() {
 			});
 
 			$('#example tbody tr:eq(2) td:eq(1)').click();
-			expect($('div.dataTables_info span.select-info').length).toBe(0);
+			expect($('div.dt-info span.select-info').length).toBe(0);
 		});
 		it('Getter', function() {
 			expect(table.select.info()).toBe(false);
 		});
 		it('... then enable', function() {
 			table.select.info(true).draw();
-			expect($('div.dataTables_info span.select-info').length).toBe(1);
+			expect($('div.dt-info span.select-info').length).toBe(1);
 		});
 		it('Getter', function() {
 			expect(table.select.info()).toBe(true);
 		});
 		it('... and click a row', function() {
 			$('#example tbody tr:eq(3) td:eq(1)').click();
-			expect($('div.dataTables_info span.select-info').length).toBe(1);
+			expect($('div.dt-info span.select-info').length).toBe(1);
 		});
 	});
 });

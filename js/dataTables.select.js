@@ -1,14 +1,18 @@
-/*! Select for DataTables 1.7.0
+/*! Select for DataTables 2.0.0-dev
  * © SpryMedia Ltd - datatables.net/license/mit
  */
 
 // Version information for debugger
 DataTable.select = {};
 
-DataTable.select.version = '1.7.0';
+DataTable.select.version = '2.0.0-dev';
 
 DataTable.select.init = function (dt) {
 	var ctx = dt.settings()[0];
+
+	if (!DataTable.versionCheck('2')) {
+		throw 'Warning: Select requires DataTables 2 or newer';
+	}
 
 	if (ctx._select) {
 		return;
@@ -76,7 +80,9 @@ DataTable.select.init = function (dt) {
 	var className = 'selected';
 	var setStyle = false;
 
-	ctx._select = {};
+	ctx._select = {
+		infoEls: []
+	};
 
 	// Initialisation customisations
 	if (opts === true) {
@@ -130,27 +136,27 @@ DataTable.select.init = function (dt) {
 	dt.select.info(info);
 	ctx._select.className = className;
 
-	// Sort table based on selected rows. Requires Select Datatables extension
-	$.fn.dataTable.ext.order['select-checkbox'] = function (settings, col) {
-		return this.api()
-			.column(col, { order: 'index' })
-			.nodes()
-			.map(function (td) {
-				if (settings._select.items === 'row') {
-					return $(td).parent().hasClass(settings._select.className);
-				}
-				else if (settings._select.items === 'cell') {
-					return $(td).hasClass(settings._select.className);
-				}
-				return false;
-			});
-	};
-
 	// If the init options haven't enabled select, but there is a selectable
 	// class name, then enable
 	if (!setStyle && $(dt.table().node()).hasClass('selectable')) {
 		dt.select.style('os');
 	}
+};
+
+// Sort table based on selected rows. Requires Select Datatables extension
+DataTable.ext.order['select-checkbox'] = function (settings, col) {
+	return this.api()
+		.column(col, { order: 'index' })
+		.nodes()
+		.map(function (td) {
+			if (settings._select.items === 'row') {
+				return $(td).parent().hasClass(settings._select.className);
+			}
+			else if (settings._select.items === 'cell') {
+				return $(td).hasClass(settings._select.className);
+			}
+			return false;
+		});
 };
 
 /*
@@ -202,6 +208,7 @@ The `_select` object contains the following properties:
 	                     on the row
 	info:boolean       - If the selection summary should be shown in the table
 	                     information elements
+	infoEls:element[]  - List of HTML elements with info elements for a table
 }
 ```
 
@@ -386,10 +393,10 @@ function enableMouseSelection(dt) {
 			}
 
 			var ctx = dt.settings()[0];
-			var wrapperClass = dt.settings()[0].oClasses.sWrapper.trim().replace(/ +/g, '.');
+			var container = dt.table().container();
 
 			// Ignore clicks inside a sub-table
-			if ($(e.target).closest('div.' + wrapperClass)[0] != dt.table().container()) {
+			if ($(e.target).closest('div.dt-container')[0] != container) {
 				return;
 			}
 
@@ -487,14 +494,8 @@ function eventTrigger(api, type, args, any) {
  * @param {DataTable.Api} api DataTable to update
  * @private
  */
-function info(api) {
-	var ctx = api.settings()[0];
-
-	if (!ctx._select.info || !ctx.aanFeatures.i) {
-		return;
-	}
-
-	if (api.select.style() === 'api') {
+function info(api, node) {
+	if (api.select.style() === 'api' || api.select.info() === false) {
 		return;
 	}
 
@@ -514,24 +515,22 @@ function info(api) {
 		);
 	};
 
-	// Internal knowledge of DataTables to loop over all information elements
-	$.each(ctx.aanFeatures.i, function (i, el) {
-		el = $(el);
+	var el = $(node);
+	var output = $('<span class="select-info"/>');
 
-		var output = $('<span class="select-info"/>');
-		add(output, 'row', rows);
-		add(output, 'column', columns);
-		add(output, 'cell', cells);
+	add(output, 'row', rows);
+	add(output, 'column', columns);
+	add(output, 'cell', cells);
 
-		var exisiting = el.children('span.select-info');
-		if (exisiting.length) {
-			exisiting.remove();
-		}
+	var existing = el.children('span.select-info');
 
-		if (output.text() !== '') {
-			el.append(output);
-		}
-	});
+	if (existing.length) {
+		existing.remove();
+	}
+
+	if (output.text() !== '') {
+		el.append(output);
+	}
 }
 
 /**
@@ -555,8 +554,7 @@ function init(ctx) {
 	// This method of attaching to `aoRowCreatedCallback` is a hack until
 	// DataTables has proper events for row manipulation If you are reviewing
 	// this code to create your own plug-ins, please do not do this!
-	ctx.aoRowCreatedCallback.push({
-		fn: function (row, data, index) {
+	ctx.aoRowCreatedCallback.push(function (row, data, index) {
 			var i, ien;
 			var d = ctx.aoData[index];
 
@@ -575,9 +573,8 @@ function init(ctx) {
 					$(d.anCells[i]).addClass(ctx._select.className);
 				}
 			}
-		},
-		sName: 'select-deferRender'
-	});
+		}
+	);
 
 	// On Ajax reload we want to reselect all rows which are currently selected,
 	// if there is an rowId (i.e. a unique value to identify each row with)
@@ -621,9 +618,20 @@ function init(ctx) {
 	});
 
 	// Update the table information element with selected item summary
-	api.on('draw.dtSelect.dt select.dtSelect.dt deselect.dtSelect.dt info.dt', function () {
-		info(api);
+	api.on('info.dt', function (e, ctx, node) {
+		// Store the info node for updating on select / deselect
+		if (!ctx._select.infoEls.includes(node)) {
+			ctx._select.infoEls.push(node);
+		}
+
+		info(api, node);
 		api.state.save();
+	});
+
+	api.on('draw.dtSelect.dt select.dtSelect.dt deselect.dtSelect.dt', function () {
+		ctx._select.infoEls.forEach(function (el) {
+			info(api, el);
+		});
 	});
 
 	// Clean up and release
@@ -1260,33 +1268,22 @@ $.extend(DataTable.ext.buttons, {
 		text: i18n('showSelected', 'Show only selected'),
 		className: 'buttons-show-selected',
 		action: function (e, dt, node, conf) {
-			// Works by having a filtering function which will reduce to the selected
-			// items only. So we can re-reference the function it gets stored in the
-			// `conf` object
-			if (conf._filter) {
-				var idx = DataTable.ext.search.indexOf(conf._filter);
-
-				if (idx !== -1) {
-					DataTable.ext.search.splice(idx, 1);
-					conf._filter = null;
-				}
+			if (dt.search.fixed('dt-select')) {
+				// Remove existing function
+				dt.search.fixed('dt-select', null);
 
 				this.active(false);
 			}
 			else {
-				var fn = function (s, data, idx) {
-					// Need to be sure we are operating on our table!
-					if (s !== dt.settings()[0]) {
-						return true;
-					}
+				// Use a fixed filtering function to match on selected rows
+				// This needs to reference the internal aoData since that is
+				// where Select stores its reference for the selected state
+				var dataSrc = dt.settings()[0].aoData;
 
-					let row = s.aoData[idx];
-
-					return row._select_selected;
-				};
-
-				conf._filter = fn;
-				DataTable.ext.search.push(fn);
+				dt.search.fixed('dt-select', function (text, data, idx) {
+					// _select_selected is set by Select on the data object for the row
+					return dataSrc[idx]._select_selected;
+				});
 
 				this.active(true);
 			}

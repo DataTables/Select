@@ -78,7 +78,7 @@ table.dataTable {
 	}
 }
 
-div.dataTables_wrapper {
+div.dt-container {
 	span.select-info,
 	span.select-item {
 		margin-left: 0.5em;
@@ -98,7 +98,7 @@ html[data-bs-theme="dark"] {
 }
 
 @media screen and (max-width: 640px) {
-	div.dataTables_wrapper {
+	div.dt-container {
 		span.select-info,
 		span.select-item {
 			margin-left: 0;

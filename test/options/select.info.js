@@ -16,7 +16,7 @@ describe('Select - select.info', function() {
 			});
 
 			$('#example tbody tr:eq(2) td:eq(1)').click();
-			expect($('div.dataTables_info span.select-info').length).toBe(0);
+			expect($('div.dt-info span.select-info').length).toBe(0);
 		});
 
 		dt.html('basic');
@@ -29,7 +29,7 @@ describe('Select - select.info', function() {
 			});
 
 			$('#example tbody tr:eq(2) td:eq(1)').click();
-			expect($('div.dataTables_info span.select-info').length).toBe(1);
+			expect($('div.dt-info span.select-info').length).toBe(1);
 			expect($('span.select-info span.select-item').length).toBe(3);
 			expect($('span.select-item:eq(0)').text()).toBe('1 row selected');
 			expect($('span.select-item:eq(1)').text()).toBe('');
@@ -46,7 +46,7 @@ describe('Select - select.info', function() {
 			});
 
 			$('#example tbody tr:eq(2) td:eq(1)').click();
-			expect($('div.dataTables_info span.select-info').length).toBe(1);
+			expect($('div.dt-info span.select-info').length).toBe(1);
 			expect($('span.select-info span.select-item').length).toBe(3);
 			expect($('span.select-item:eq(0)').text()).toBe('');
 			expect($('span.select-item:eq(1)').text()).toBe('1 column selected');
@@ -63,7 +63,7 @@ describe('Select - select.info', function() {
 			});
 
 			$('#example tbody tr:eq(2) td:eq(1)').click();
-			expect($('div.dataTables_info span.select-info').length).toBe(1);
+			expect($('div.dt-info span.select-info').length).toBe(1);
 			expect($('span.select-info span.select-item').length).toBe(3);
 			expect($('span.select-item:eq(0)').text()).toBe('');
 			expect($('span.select-item:eq(1)').text()).toBe('');

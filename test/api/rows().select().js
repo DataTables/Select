@@ -37,7 +37,7 @@ describe('Select - rows().select()', function() {
 			expect($('tr.selected td:eq(0)').text()).toBe('Ashton Cox');
 		});
 		it('Select other rows (single select)', function() {
-			table.rows([2, 4]).select();
+			table.rows([2, 4], {order: 'index'}).select();
 			expect($('tr.selected').length).toBe(1);
 			expect($('tr.selected td:eq(0)').text()).toBe('Airi Satou');
 		});

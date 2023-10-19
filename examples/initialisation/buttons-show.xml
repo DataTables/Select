@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<dt-example table-type="html" order="9">
+<dt-example table-type="html" order="21">
 
 <css lib="datatables select buttons"/>
 <js lib="jquery datatables select buttons"/>
@@ -8,8 +8,11 @@
 <js>
 <![CDATA[
 $('#example').DataTable({
-	buttons: ['showSelected'],
-	dom: 'Bfrtip',
+	layout: {
+		topStart: {
+			buttons: ['showSelected']
+		}
+	},
 	select: true
 });
 
@@ -19,8 +22,11 @@ $('#example').DataTable({
 <js-vanilla>
 <![CDATA[
 new DataTable('#example', {
-	buttons: ['showSelected'],
-	dom: 'Bfrtip',
+	layout: {
+		topStart: {
+			buttons: ['showSelected']
+		}
+	},
 	select: true
 });
 
