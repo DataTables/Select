@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<dt-option library="Select">
+	<name>select.headerCheckbox</name>
+	<summary>Control automatic addition of header checkbox</summary>
+	<since>2.0.0</since>
+
+	<default value="true"/>
+
+	<type type="boolean">
+		<description>
+			When enabled, any column which uses the `DataTable.render.checkbox()` renderer provided by Select will have a global checkbox added to its header cell.
+		</description>
+	</type>
+
+	<description>
+		If you use the `DataTable.render.checkbox` rendering function (which is part of the Select extension) to provide a checkbox column in the DataTable, Select will automatically insert a checkbox into the header that provides the ability to summarise the current selection state and to easily select / deselect all rows to the end user. This option can be used to disable the checkbox, which might be of particular interest if you are using server-side processing in DataTables (`-init serverSide`), since item selection is a client-side concept in Select (i.e. you can only select the rows that are available on the client-side).
+
+		The "select all" action of the checkbox will select all rows in the current search set of the DataTable - i.e. if a row has been removed due to a search term, it will not be selected. However, the "deselect all" action will result in all rows being deselected, regardless of if they are filtered out or not by the applied search.
+
+		Similarly, the header checkbox will show as checked if all rows in the current search set of the DataTable are checked. If no rows are selected at all it will show unchecked. Otherwise, it will show in its "intermediate" state.
+	</description>
+
+	<example title="Disable the header checkbox addition"><![CDATA[
+
+new DataTable('#example', {
+	columnDefs: [
+		{
+			orderable: false,
+			render: DataTable.render.select(),
+			targets: 0
+		}
+	],
+	select: {
+		style: 'os',
+		selector: 'td:first-child',
+		headerCheckbox: false
+	},
+	order: [[1, 'asc']]
+});
+
+]]></example>
+</dt-option>

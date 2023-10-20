@@ -78,6 +78,7 @@ DataTable.select.init = function (dt) {
 	var info = true;
 	var selector = 'td, th';
 	var className = 'selected';
+	var headerCheckbox = true;
 	var setStyle = false;
 
 	ctx._select = {
@@ -126,6 +127,10 @@ DataTable.select.init = function (dt) {
 		if (opts.className !== undefined) {
 			className = opts.className;
 		}
+
+		if (opts.headerCheckbox !== undefined) {
+			headerCheckbox = opts.headerCheckbox;
+		}
 	}
 
 	dt.select.selector(selector);
@@ -140,6 +145,16 @@ DataTable.select.init = function (dt) {
 	// class name, then enable
 	if (!setStyle && $(dt.table().node()).hasClass('selectable')) {
 		dt.select.style('os');
+	}
+
+	// Insert a checkbox into the header if needed - might need to wait
+	// for init complete, or it might already be done
+	if (headerCheckbox) {
+		initCheckboxHeader(dt);
+
+		dt.on('init', function () {
+			initCheckboxHeader(dt);
+		});
 	}
 };
 
@@ -515,6 +530,63 @@ function info(api, node) {
 	if (output.text() !== '') {
 		el.append(output);
 	}
+}
+
+/**
+ * Add a checkbox to the header for checkbox columns, allowing all rows to
+ * be selected, deselected or just to show the state.
+ *
+ * @param {*} dt API
+ */
+function initCheckboxHeader( dt ) {
+	// Find any checkbox column(s)
+	dt.columns('.dt-select').every(function () {
+		var header = this.header();
+
+		if (! $('input', header).length) {
+			// If no checkbox yet, insert one
+			var input = $('<input>')
+				.attr({
+					class: 'dt-select-checkbox',
+					type: 'checkbox',
+				})
+				.appendTo(header)
+				.on('change', function () {
+					if (this.checked) {
+						dt.rows({search: 'applied'}).select();
+					}
+					else {
+						dt.rows({selected: true}).deselect();
+					}
+				});
+	
+			// Update the header checkbox's state when the selection in the
+			// table changes
+			dt.on('draw select deselect', function (e, pass, type) {
+				if (type === 'row' || ! type) {
+					var count = dt.rows({selected: true}).count();
+					var search = dt.rows({search: 'applied', selected: true}).count();
+					var available = dt.rows({search: 'applied'}).count();
+
+					if (search === count && search === available) {
+						input
+							.prop('checked', true)
+							.prop('indeterminate', false);
+					}
+					else if (search === 0 && count === 0) {
+						input
+							.prop('checked', false)
+							.prop('indeterminate', false);
+					}
+					else {
+						input
+							.prop('checked', false)
+							.prop('indeterminate', true);
+					}
+				}
+			});
+		}
+	});
 }
 
 /**

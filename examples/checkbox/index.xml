@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<dt-example order="0">
+
+<title lib="Select">Checkbox selection</title>
+
+<js lib="jquery" />
+<info><![CDATA[
+
+Select has the ability to display a checkbox in a column which acts as a row selector. The examples in this section demonstrate that ability and it's various options.
+
+]]></info>
+
+</dt-example>

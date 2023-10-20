@@ -33,8 +33,6 @@ table.dataTable {
 		margin-top: 1px;
 
 		&:checked {
-			border: $dt-select-tick-border-checked;
-
 			&:after {
 				display: block;
 				content: '\2713';
@@ -42,6 +40,28 @@ table.dataTable {
 				line-height: 28px;
 
 				margin-top: $dt-select-tick-margin-top;
+			}
+		}
+
+		&:indeterminate {
+			&:after {
+				display: block;
+				position: absolute;
+				content: ' ';
+				top: 3px;
+				left: 3px;
+				height: 4px;
+				width: 4px;
+				background-color: white;
+				border-radius: 2px;
+			}
+		}
+	}
+
+	> tbody > tr.selected {
+		input.dt-select-checkbox {
+			&:checked {
+				border: $dt-select-tick-border-checked;
 			}
 		}
 	}

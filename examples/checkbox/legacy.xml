@@ -42,7 +42,7 @@ new DataTable('#example', {
 ]]>
 </js-vanilla>
 
-<title lib="Select">Checkbox selection - legacy</title>
+<title lib="Select">Legacy (v1 compatibility)</title>
 
 <info><![CDATA[
 

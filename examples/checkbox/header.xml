@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<dt-example table-type="html-index" order="4">
+
+<css lib="datatables select"/>
+<js lib="jquery datatables select">
+<![CDATA[
+$('#example').DataTable({
+	columnDefs: [
+		{
+			orderable: false,
+			render: DataTable.render.select(),
+			targets: 0
+		}
+	],
+	select: {
+		style: 'os',
+		selector: 'td:first-child',
+		headerCheckbox: false
+	},
+	order: [[1, 'asc']]
+});
+
+]]>
+</js>
+
+<js-vanilla>
+<![CDATA[
+new DataTable('#example', {
+	columnDefs: [
+		{
+			orderable: false,
+			render: DataTable.render.select(),
+			targets: 0
+		}
+	],
+	select: {
+		style: 'os',
+		selector: 'td:first-child',
+		headerCheckbox: false
+	},
+	order: [[1, 'asc']]
+});
+
+]]>
+</js-vanilla>
+
+<title lib="Select">Header checkbox</title>
+
+<info><![CDATA[
+
+The checkbox column type will automatically insert a checkbox into the header cell for the column, which shows a summary of the checked status of all rows in the table, as well as providing the a way for the end user to quickly select / deselect all rows.
+
+It is possible to disable this checkbox using the `-init select.headerCheckbox` option. This can be particularly useful when server-side processing is enabled, since a _select all_ action would actually only select the rows for the current page. The header checkbox is enable by default, so this example demonstrates how to disable it.
+
+]]></info>
+
+</dt-example>
+

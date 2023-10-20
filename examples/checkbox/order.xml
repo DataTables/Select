@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<dt-example table-type="html-index" order="5">
+<dt-example table-type="html-index" order="3">
 
 <css lib="datatables select"/>
 <js lib="jquery datatables select">
@@ -40,7 +40,7 @@ new DataTable('#example', {
 ]]>
 </js-vanilla>
 
-<title lib="Select">Checkbox selection - with ordering</title>
+<title lib="Select">With ordering</title>
 
 <info><![CDATA[
 
