@@ -8,7 +8,7 @@ $('#example').DataTable({
 	columnDefs: [
 		{
 			orderable: false,
-			className: 'select-checkbox',
+			render: DataTable.render.select(),
 			targets: 0
 		}
 	],
@@ -28,7 +28,7 @@ new DataTable('#example', {
 	columnDefs: [
 		{
 			orderable: false,
-			className: 'select-checkbox',
+			render: DataTable.render.select(),
 			targets: 0
 		}
 	],
@@ -50,9 +50,11 @@ A selected row is typically shown in a DataTable by using a highlight background
 
 A common option is to use a checkbox which can be clicked on to toggle row selection, which can be particularly useful if you wish to restrict row selection activation to a particular column, so other actions can be performed on the other cells in the table (such as [inline editing](//editor.datatables.net/examples/inline-editing/simple)).
 
-A column can be shown with a checkbox that reflects the row's selected status simply through the use of the `-string select-checkbox` CSS class for that column (`dt-init columns.className`). Row selection can be restricted to that column using the `s-init select.selector` option.
+A column can be shown with a checkbox that reflects the row's selected status simply through the `DataTable.render.select()` rendering function, which should be assign to the `-init columns.render` property for the column where you want the checkbox to appear.
 
-The checkbox is not an `<input type="checkbox">` element, but rather a CSS that uses the `:before` and `:after` pseudo elements of the cell to draw a box and the tick. This can therefore be easily modified to suit the style of your site / app.
+This creates a `-tag input` checkbox element, and so it is fully accessible with a keyboard.
+
+It is possible to provide `value` and `name` properties for the checkbox by passing in the locations of the values that should be used from the data source object as arguments to the function (e.g. `DataTable.render.select('value', 'name')`).
 
 ]]></info>
 

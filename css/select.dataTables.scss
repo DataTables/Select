@@ -6,7 +6,7 @@ $selected-background-color: rgba(13, 110, 253, 0.9) !default;
 $selected-text-color: white;
 
 $dt-select-tick-margin-top: -12px !default;
-$dt-select-tick-border: 1px solid black !default;
+$dt-select-tick-border: 1px solid rgb(90, 90, 90) !default;
 $dt-select-tick-border-checked: 1px solid white !default;
 
 table.dataTable {
@@ -16,6 +16,37 @@ table.dataTable {
 		color: $selected-text-color;
 	}
 
+	> tbody > tr > .dt-select {
+		text-align: center;
+		vertical-align: middle;
+	}
+
+	input.dt-select-checkbox {
+		appearance: none;
+		position: relative;
+		display: inline-block;
+		width: 12px;
+		height: 12px;
+		border: $dt-select-tick-border;
+		border-radius: 3px;
+		vertical-align: middle;
+		margin-top: 1px;
+
+		&:checked {
+			border: $dt-select-tick-border-checked;
+
+			&:after {
+				display: block;
+				content: '\2713';
+				font-size: 20px;
+				line-height: 28px;
+
+				margin-top: $dt-select-tick-margin-top;
+			}
+		}
+	}
+
+	// Legacy fake checkbox
 	> tbody > tr > td.select-checkbox,
 	> tbody > tr > th.select-checkbox {
 		position: relative;
@@ -88,6 +119,11 @@ div.dt-container {
 html.dark,
 html[data-bs-theme="dark"] {
 	table.dataTable {
+		input.dt-select-checkbox {
+			border: 1px solid rgba(255, 255, 255, 0.6);
+		}
+
+		// Legacy
 		> tbody > tr > td.select-checkbox,
 		> tbody > tr > th.select-checkbox {
 			&:before {

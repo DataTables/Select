@@ -967,6 +967,7 @@ apiRegisterPlural('rows().select()', 'row().select()', function (select) {
 
 		ctx.aoData[idx]._select_selected = true;
 		$(ctx.aoData[idx].nTr).addClass(ctx._select.className);
+		$('input.dt-select-checkbox', ctx.aoData[idx].anCells).prop('checked', true);
 	});
 
 	this.iterator('table', function (ctx, i) {
@@ -1074,6 +1075,7 @@ apiRegisterPlural('rows().deselect()', 'row().deselect()', function () {
 		ctx.aoData[idx]._select_selected = false;
 		ctx._select_lastCell = null;
 		$(ctx.aoData[idx].nTr).removeClass(ctx._select.className);
+		$('input.dt-select-checkbox', ctx.aoData[idx].anCells).prop('checked', false);
 	});
 
 	this.iterator('table', function (ctx, i) {
@@ -1311,6 +1313,42 @@ $.each(['Row', 'Column', 'Cell'], function (i, item) {
 		}
 	};
 });
+
+DataTable.type('select-checkbox', {
+	className: 'dt-select',
+	detect: function (data) {
+		// Rendering function will tell us if it is a checkbox type
+		return data === 'select-checkbox' ? data : false;
+	}
+});
+
+DataTable.render.select = function (valueProp, nameProp) {
+	var valueFn = valueProp ? DataTable.util.get(valueProp) : null;
+	var nameFn = nameProp ? DataTable.util.get(nameProp) : null;
+
+	return function (data, type, row, meta) {
+		var row = meta.settings.aoData[meta.row];
+		var selected = row._select_selected;
+
+		if (type === 'display') {
+			return $('<input>')
+				.attr({
+					class: 'dt-select-checkbox',
+					name: nameFn ? nameFn(data) : null,
+					type: 'checkbox',
+					value: valueFn ? valueFn(data) : null
+				})[0];
+		}
+		else if (type === 'type') {
+			return 'select-checkbox';
+		}
+		else if (type === 'filter') {
+			return '';
+		}
+
+		return selected ? 'X' : '';
+	}
+}
 
 $.fn.DataTable.select = DataTable.select;
 

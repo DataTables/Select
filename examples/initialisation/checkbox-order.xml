@@ -7,15 +7,16 @@
 $('#example').DataTable({
 	columnDefs: [
 		{
-			className: 'select-checkbox',
 			orderDataType: 'select-checkbox',
+			render: DataTable.render.select(),
 			targets: 0
 		}
 	],
 	select: {
 		style: 'os',
 		selector: 'td:first-child'
-	}
+	},
+	order: [[1, 'asc']]
 });
 
 ]]>
@@ -26,15 +27,16 @@ $('#example').DataTable({
 new DataTable('#example', {
 	columnDefs: [
 		{
-			className: 'select-checkbox',
 			orderDataType: 'select-checkbox',
+			render: DataTable.render.select(),
 			targets: 0
 		}
 	],
 	select: {
 		style: 'os',
 		selector: 'td:first-child'
-	}
+	},
+	order: [[1, 'asc']]
 });
 
 ]]>

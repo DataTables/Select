@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<dt-example table-type="html-index" order="5">
+
+<css lib="datatables select"/>
+<js lib="jquery datatables select">
+<![CDATA[
+$('#example').DataTable({
+	columnDefs: [
+		{
+			orderable: false,
+			className: 'select-checkbox',
+			targets: 0
+		}
+	],
+	select: {
+		style: 'os',
+		selector: 'td:first-child'
+	},
+	order: [[1, 'asc']]
+});
+
+]]>
+</js>
+
+<js-vanilla>
+<![CDATA[
+new DataTable('#example', {
+	columnDefs: [
+		{
+			orderable: false,
+			className: 'select-checkbox',
+			targets: 0
+		}
+	],
+	select: {
+		style: 'os',
+		selector: 'td:first-child'
+	},
+	order: [[1, 'asc']]
+});
+
+]]>
+</js-vanilla>
+
+<title lib="Select">Checkbox selection - legacy</title>
+
+<info><![CDATA[
+
+Prior to Select 2 checkbox selection was possible, but it used CSS to create the visual representation of a checkbox, rather than a real `-tag input` element, [which is now possible in Select 2](checkbox.html).
+
+For backwards compatibility the old checkbox styling is still possible in Select 2, as shown in this example. It is done by assigning the class `select-checkbox` to the target column.
+
+You are strongly encouraged to use the [new checkbox](checkbox.html) method in new projects as it improves keyboard accessability.
+
+]]></info>
+
+</dt-example>
+
