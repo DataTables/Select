@@ -7,7 +7,6 @@
 $('#example').DataTable({
 	columnDefs: [
 		{
-			orderDataType: 'select-checkbox',
 			render: DataTable.render.select(),
 			targets: 0
 		}
@@ -27,7 +26,6 @@ $('#example').DataTable({
 new DataTable('#example', {
 	columnDefs: [
 		{
-			orderDataType: 'select-checkbox',
 			render: DataTable.render.select(),
 			targets: 0
 		}
@@ -46,9 +44,9 @@ new DataTable('#example', {
 
 <info><![CDATA[
 
-This example demonstrates the checkbox selection of Select integrated with a custom order data type to allow ordering of rows by selection. Note that the table needs to redraw to reorder for new selections, the fastest way to do this is to click on the table header for the checkbox column. Another option would be to listen for `-event select` and redraw the table.
+This example demonstrates the checkbox selection of Select being able to order a table's data. Select a row and then click the header for the checkbox column to move the selected row(s) to the top of the table.
 
-The key here is to use `orderDataType: 'select-checkbox'` in your column definition. The `select-checkbox` data ordering plug-in is included in Select, so this assignment is all that is needed.
+This is done through the `DataTable.render.select()` data type. The ordering will update when ordering is triggered - i.e. the row won't move immediately when selected, as this can be confusing, particularly if you can't see where the row has moved to.
 
 Please note that this option will not work if using server-side processing (`-init serverSide`).
 

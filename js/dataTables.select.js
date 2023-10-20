@@ -143,22 +143,6 @@ DataTable.select.init = function (dt) {
 	}
 };
 
-// Sort table based on selected rows. Requires Select Datatables extension
-DataTable.ext.order['select-checkbox'] = function (settings, col) {
-	return this.api()
-		.column(col, { order: 'index' })
-		.nodes()
-		.map(function (td) {
-			if (settings._select.items === 'row') {
-				return $(td).parent().hasClass(settings._select.className);
-			}
-			else if (settings._select.items === 'cell') {
-				return $(td).hasClass(settings._select.className);
-			}
-			return false;
-		});
-};
-
 /*
 
 Select is a collection of API methods, event handlers, event emitters and
@@ -965,9 +949,26 @@ apiRegisterPlural('rows().select()', 'row().select()', function (select) {
 	this.iterator('row', function (ctx, idx) {
 		clear(ctx);
 
-		ctx.aoData[idx]._select_selected = true;
-		$(ctx.aoData[idx].nTr).addClass(ctx._select.className);
-		$('input.dt-select-checkbox', ctx.aoData[idx].anCells).prop('checked', true);
+		// There is a good amount of knowledge of DataTables internals in
+		// this function. It _could_ be done without that, but it would hurt
+		// performance (or DT would need new APIs for this work)
+		var dtData = ctx.aoData[idx];
+		var dtColumns = ctx.aoColumns;
+
+		$(dtData.nTr).addClass(ctx._select.className);
+		dtData._select_selected = true;
+
+		for (var i=0 ; i<dtColumns.length ; i++) {
+			var col = dtColumns[i];
+
+			if (col.sType === 'select-checkbox') {
+				// Make sure the checkbox shows the right state
+				$('input.dt-select-checkbox', dtData.anCells[i]).prop('checked', true);
+
+				// Invalidate the sort data for this column
+				dtData._aSortData[i] = null;
+			}
+		}
 	});
 
 	this.iterator('table', function (ctx, i) {
@@ -1072,10 +1073,25 @@ apiRegisterPlural('rows().deselect()', 'row().deselect()', function () {
 	var api = this;
 
 	this.iterator('row', function (ctx, idx) {
-		ctx.aoData[idx]._select_selected = false;
+		// Like the select action, this has a lot of knowledge about DT internally
+		var dtData = ctx.aoData[idx];
+		var dtColumns = ctx.aoColumns;
+
+		$(dtData.nTr).removeClass(ctx._select.className);
+		dtData._select_selected = false;
 		ctx._select_lastCell = null;
-		$(ctx.aoData[idx].nTr).removeClass(ctx._select.className);
-		$('input.dt-select-checkbox', ctx.aoData[idx].anCells).prop('checked', false);
+
+		for (var i=0 ; i<dtColumns.length ; i++) {
+			var col = dtColumns[i];
+
+			if (col.sType === 'select-checkbox') {
+				// Make sure the checkbox shows the right state
+				$('input.dt-select-checkbox', dtData.anCells[i]).prop('checked', false);
+
+				// Invalidate the sort data for this column
+				dtData._aSortData[i] = null;
+			}
+		}
 	});
 
 	this.iterator('table', function (ctx, i) {
@@ -1269,7 +1285,7 @@ $.extend(DataTable.ext.buttons, {
 	showSelected: {
 		text: i18n('showSelected', 'Show only selected'),
 		className: 'buttons-show-selected',
-		action: function (e, dt, node, conf) {
+		action: function (e, dt) {
 			if (dt.search.fixed('dt-select')) {
 				// Remove existing function
 				dt.search.fixed('dt-select', null);
@@ -1319,6 +1335,11 @@ DataTable.type('select-checkbox', {
 	detect: function (data) {
 		// Rendering function will tell us if it is a checkbox type
 		return data === 'select-checkbox' ? data : false;
+	},
+	order: {
+		pre: function (d) {
+			return d === 'X' ? -1 : 0;
+		}
 	}
 });
 
@@ -1327,16 +1348,16 @@ DataTable.render.select = function (valueProp, nameProp) {
 	var nameFn = nameProp ? DataTable.util.get(nameProp) : null;
 
 	return function (data, type, row, meta) {
-		var row = meta.settings.aoData[meta.row];
-		var selected = row._select_selected;
+		var dtRow = meta.settings.aoData[meta.row];
+		var selected = dtRow._select_selected;
 
 		if (type === 'display') {
 			return $('<input>')
 				.attr({
 					class: 'dt-select-checkbox',
-					name: nameFn ? nameFn(data) : null,
+					name: nameFn ? nameFn(row) : null,
 					type: 'checkbox',
-					value: valueFn ? valueFn(data) : null
+					value: valueFn ? valueFn(row) : null
 				})[0];
 		}
 		else if (type === 'type') {
