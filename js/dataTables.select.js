@@ -658,13 +658,13 @@ function init(ctx) {
 function rowColumnRange(dt, type, idx, last) {
 	// Add a range of rows from the last selected row to this one
 	var indexes = dt[type + 's']({ search: 'applied' }).indexes();
-	var idx1 = $.inArray(last, indexes);
-	var idx2 = $.inArray(idx, indexes);
+	var idx1 = indexes.indexOf(last);
+	var idx2 = indexes.indexOf(idx);
 
 	if (!dt[type + 's']({ selected: true }).any() && idx1 === -1) {
 		// select from top to here - slightly odd, but both Windows and Mac OS
 		// do this
-		indexes.splice($.inArray(idx, indexes) + 1, indexes.length);
+		indexes.splice(indexes.indexOf(idx) + 1, indexes.length);
 	}
 	else {
 		// reverse so we can shift click 'up' as well as down
@@ -684,7 +684,7 @@ function rowColumnRange(dt, type, idx, last) {
 	}
 	else {
 		// Deselect range - need to keep the clicked on row selected
-		indexes.splice($.inArray(idx, indexes), 1);
+		indexes.splice(indexes.indexOf(idx), 1);
 		dt[type + 's'](indexes).deselect();
 	}
 }
@@ -1161,15 +1161,15 @@ function namespacedEvents(config) {
 }
 
 function enabled(dt, config) {
-	if ($.inArray('rows', config.limitTo) !== -1 && dt.rows({ selected: true }).any()) {
+	if (config.limitTo.indexOf('rows') !== -1 && dt.rows({ selected: true }).any()) {
 		return true;
 	}
 
-	if ($.inArray('columns', config.limitTo) !== -1 && dt.columns({ selected: true }).any()) {
+	if (config.limitTo.indexOf('columns') !== -1 && dt.columns({ selected: true }).any()) {
 		return true;
 	}
 
-	if ($.inArray('cells', config.limitTo) !== -1 && dt.cells({ selected: true }).any()) {
+	if (config.limitTo.indexOf('cells') !== -1 && dt.cells({ selected: true }).any()) {
 		return true;
 	}
 
