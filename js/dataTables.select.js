@@ -558,6 +558,9 @@ function initCheckboxHeader( dt ) {
 					else {
 						dt.rows({selected: true}).deselect();
 					}
+				})
+				.on('click', function (e) {
+					e.stopPropagation();
 				});
 	
 			// Update the header checkbox's state when the selection in the
