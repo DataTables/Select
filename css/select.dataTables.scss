@@ -5,7 +5,8 @@
 $selected-background-color: rgba(13, 110, 253, 0.9) !default;
 $selected-text-color: white;
 
-$dt-select-tick-margin-top: -12px !default;
+$dt-select-tick-margin-top: -12px !default; // checkbox tick position
+$dt-select-tick-line-height: 5px !default; // legacy tick position
 $dt-select-tick-border: 1px solid rgb(90, 90, 90) !default;
 $dt-select-tick-border-checked: 1px solid white !default;
 
@@ -38,6 +39,7 @@ table.dataTable {
 				content: '\2713';
 				font-size: 20px;
 				line-height: 28px;
+				color: white;
 
 				margin-top: $dt-select-tick-margin-top;
 			}
@@ -71,8 +73,7 @@ table.dataTable {
 	> tbody > tr > th.select-checkbox {
 		position: relative;
 
-		&:before,
-		&:after {
+		&:before {
 			display: block;
 			position: absolute;
 			top: 50%;
@@ -80,9 +81,6 @@ table.dataTable {
 			width: 12px;
 			height: 12px;
 			box-sizing: border-box;
-		}
-
-		&:before {
 			content: ' ';
 			margin-top: -6px;
 			margin-left: -6px;
@@ -96,14 +94,10 @@ table.dataTable {
 		> th.select-checkbox {
 			&:before {
 				border: $dt-select-tick-border-checked;
-			}
-
-			&:after {
 				content: '\2713';
 				font-size: 20px;
 
-				margin-top: $dt-select-tick-margin-top;
-				margin-left: -6px;
+				line-height: $dt-select-tick-line-height;
 
 				text-align: center;
 			}
