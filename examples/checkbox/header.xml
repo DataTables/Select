@@ -44,7 +44,7 @@ new DataTable('#example', {
 ]]>
 </js-vanilla>
 
-<title lib="Select">Header checkbox</title>
+<title lib="Select">Disabling the header checkbox</title>
 
 <info><![CDATA[
 
