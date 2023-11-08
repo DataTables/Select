@@ -571,7 +571,7 @@ function initCheckboxHeader( dt ) {
 					var search = dt.rows({search: 'applied', selected: true}).count();
 					var available = dt.rows({search: 'applied'}).count();
 
-					if (search === count && search === available) {
+					if (search && search <= count && search === available) {
 						input
 							.prop('checked', true)
 							.prop('indeterminate', false);
@@ -1445,6 +1445,22 @@ DataTable.render.select = function (valueProp, nameProp) {
 		return selected ? 'X' : '';
 	}
 }
+
+// Legacy checkbox ordering
+DataTable.ext.order['select-checkbox'] = function (settings, col) {
+	return this.api()
+		.column(col, { order: 'index' })
+		.nodes()
+		.map(function (td) {
+			if (settings._select.items === 'row') {
+				return $(td).parent().hasClass(settings._select.className);
+			}
+			else if (settings._select.items === 'cell') {
+				return $(td).hasClass(settings._select.className);
+			}
+			return false;
+		});
+};
 
 $.fn.DataTable.select = DataTable.select;
 
