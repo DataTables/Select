@@ -685,13 +685,14 @@ function init(ctx) {
 		}
 
 		info(api, node);
-		api.state.save();
 	});
 
-	api.on('draw.dtSelect.dt select.dtSelect.dt deselect.dtSelect.dt', function () {
+	api.on('select.dtSelect.dt deselect.dtSelect.dt', function () {
 		ctx._select.infoEls.forEach(function (el) {
 			info(api, el);
 		});
+
+		api.state.save();
 	});
 
 	// Clean up and release
