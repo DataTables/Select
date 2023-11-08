@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<dt-option library="Select">
+	<name>language.select.aria.headerCheckbox</name>
+	<summary>Text to use as the aria-label for the header checkbox</summary>
+	<since>2.0.0</since>
+
+	<default value="Select all rows" />
+
+	<type type="string" />
+
+	<description>
+		This option is used to set the string value to assign to the `aria-label` for the "select all" checkbox in the table header (see `-init select.headerCheckbox`).
+
+		The `aria-label` attribute is used by assistive technology (e.g. screen readers) to provide extra information for an element and to describe what it does to the end user. It is not displayed or otherwise used if assistive technology is not used.
+	</description>
+
+	<example title="Set the aria label for the header checkbox and also for the row checkboxes uses the renderer."><![CDATA[
+
+new DataTable('#example', {
+	columnDefs: [
+		{
+			orderable: false,
+			render: DataTable.render.select(),
+			targets: 0
+		}
+	],
+	language: {
+		select: {
+			aria: {
+				headerCheckbox: 'Sélectionner toutes les lignes',
+				rowCheckbox: 'Sélectionner une ligne'
+			}
+		}
+	},
+	select: {
+		style: 'os',
+		selector: 'td:first-child'
+	},
+	order: [[1, 'asc']]
+});
+
+]]></example>
+
+	<related>language.select.aria.rowCheckbox</related>
+	<related>select.headerCheckbox</related>
+</dt-option>

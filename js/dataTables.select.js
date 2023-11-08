@@ -549,6 +549,7 @@ function initCheckboxHeader( dt ) {
 				.attr({
 					class: 'dt-select-checkbox',
 					type: 'checkbox',
+					'aria-label': dt.i18n('select.aria.headerCheckbox') || 'Select all rows'
 				})
 				.appendTo(header)
 				.on('change', function () {
@@ -1418,6 +1419,14 @@ DataTable.type('select-checkbox', {
 	}
 });
 
+$.extend(true, DataTable.defaults.oLanguage, {
+	select: {
+		aria: {
+			rowCheckbox: 'Select row'
+		}
+	}
+});
+
 DataTable.render.select = function (valueProp, nameProp) {
 	var valueFn = valueProp ? DataTable.util.get(valueProp) : null;
 	var nameFn = nameProp ? DataTable.util.get(nameProp) : null;
@@ -1425,10 +1434,12 @@ DataTable.render.select = function (valueProp, nameProp) {
 	return function (data, type, row, meta) {
 		var dtRow = meta.settings.aoData[meta.row];
 		var selected = dtRow._select_selected;
+		var ariaLabel = meta.settings.oLanguage.select.aria.rowCheckbox;
 
 		if (type === 'display') {
 			return $('<input>')
 				.attr({
+					'aria-label': ariaLabel,
 					class: 'dt-select-checkbox',
 					name: nameFn ? nameFn(row) : null,
 					type: 'checkbox',
