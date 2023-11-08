@@ -34,11 +34,9 @@
 	</description>
 
 	<example title="Disable the information summary display using the API"><![CDATA[
+var table = new DataTable('#myTable');
 
-var table = $('#myTable').DataTable();
-
-table.select.info( false );
-
+table.select.info(false);
 ]]></example>
 
 	<related>s-init select.info</related>

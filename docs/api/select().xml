@@ -23,13 +23,11 @@
 	</description>
 
 	<example title="Use of the `se-api select()` method:"><![CDATA[
-
-var table = $('#myTable').DataTable( {
+var table = new DataTable('#myTable', {
 	select: true
-} );
+});
 
 table.select();
-
 ]]></example>
 
 </dt-api>

@@ -25,12 +25,10 @@
 	</description>
 
 	<example title="Log whenever the selection style changes"><![CDATA[
+var table = new DataTable('#myTable');
 
-var table = $('#example').DataTable();
-
-table.on( 'selectStyle', function ( e, dt, style ) {
-	console.log( 'Selection style is now: ', style );
-} );
-
+table.on('selectStyle', function (e, dt, style) {
+	console.log('Selection style is now: ', style);
+});
 ]]></example>
 </dt-event>

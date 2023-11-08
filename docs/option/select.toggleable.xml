@@ -17,15 +17,13 @@
 	</description>
 
 	<example title="Disable the deselection of selected rows when clicked"><![CDATA[
-
-$(document).ready(function() {
-	let table = $('#example').DataTable( {
+$(document).ready(function () {
+	let table = new DataTable('#myTable', {
 		select: {
-            toggleable: false
-        }
-	} );
-    table.row(2).select();
-} );
-
+			toggleable: false
+		}
+	});
+	table.row(2).select();
+});
 ]]></example>
 </dt-option>

@@ -17,12 +17,10 @@
 	</description>
 
 	<example title="Remove selected items when clicking outside of the table"><![CDATA[
-
-$('#example').DataTable( {
+new DataTable('#myTable', {
 	select: {
 		blurable: true
 	}
-} );
-
+});
 ]]></example>
 </dt-option>

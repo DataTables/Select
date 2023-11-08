@@ -12,17 +12,31 @@ var table = $('#example').DataTable({
 
 table
 	.on('select', function (e, dt, type, indexes) {
-		var rowData = table.rows(indexes).data().toArray();
+		var rowData = table
+			.rows(indexes)
+			.data()
+			.toArray();
 
 		events.prepend(
-			'<div><b>' + type + ' selection</b> - ' + JSON.stringify(rowData) + '</div>'
+			'<div><b>' +
+				type +
+				' selection</b> - ' +
+				JSON.stringify(rowData) +
+				'</div>'
 		);
 	})
 	.on('deselect', function (e, dt, type, indexes) {
-		var rowData = table.rows(indexes).data().toArray();
+		var rowData = table
+			.rows(indexes)
+			.data()
+			.toArray();
 
 		events.prepend(
-			'<div><b>' + type + ' <i>de</i>selection</b> - ' + JSON.stringify(rowData) + '</div>'
+			'<div><b>' +
+				type +
+				' <i>de</i>selection</b> - ' +
+				JSON.stringify(rowData) +
+				'</div>'
 		);
 	});
 
@@ -45,14 +59,22 @@ let table = new DataTable('#example', {
 
 table
 	.on('select', function (e, dt, type, indexes) {
-		let rowData = table.rows(indexes).data().toArray();
+		let rowData = table
+			.rows(indexes)
+			.data()
+			.toArray();
 
 		message('<b>' + type + ' selection</b> - ' + JSON.stringify(rowData));
 	})
 	.on('deselect', function (e, dt, type, indexes) {
-		let rowData = table.rows(indexes).data().toArray();
+		let rowData = table
+			.rows(indexes)
+			.data()
+			.toArray();
 
-		message('<b>' + type + ' <i>de</i>selection</b> - ' + JSON.stringify(rowData));
+		message(
+			'<b>' + type + ' <i>de</i>selection</b> - ' + JSON.stringify(rowData)
+		);
 	});
 
 ]]>

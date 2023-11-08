@@ -15,7 +15,6 @@
 	</description>
 
 	<example title="Set the aria label for the row checkboxes (and header checkbox)."><![CDATA[
-
 new DataTable('#example', {
 	columnDefs: [
 		{
@@ -38,7 +37,6 @@ new DataTable('#example', {
 	},
 	order: [[1, 'asc']]
 });
-
 ]]></example>
 
 	<related>language.select.aria.headerCheckbox</related>

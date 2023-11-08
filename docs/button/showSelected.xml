@@ -20,10 +20,8 @@
 	</defaults>
 
 	<example title="Show a button which will toggle a filter to show selected rows only"><![CDATA[
-
-$('#myTable').DataTable( {
+new DataTable('#myTable', {
 	buttons: ['showSelected']
-} );
-
+});
 ]]></example>
 </dt-button>

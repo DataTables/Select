@@ -7,18 +7,21 @@
 
 var events = $('#events');
 var table = $('#example').DataTable({
-	dom: 'Bfrtip',
-	select: true,
-	buttons: [
-		{
-			text: 'Get selected data',
-			action: function () {
-				var count = table.rows({ selected: true }).count();
+	layout: {
+		topStart: {
+			buttons: [
+				{
+					text: 'Get selected data',
+					action: function () {
+						var count = table.rows({ selected: true }).count();
 
-				events.prepend('<div>' + count + ' row(s) selected</div>');
-			}
+						events.prepend('<div>' + count + ' row(s) selected</div>');
+					}
+				}
+			]
 		}
-	]
+	},
+	select: true
 });
 
 ]]>
@@ -35,18 +38,21 @@ function message(message) {
 }
 
 let table = new DataTable('#example', {
-	dom: 'Bfrtip',
-	select: true,
-	buttons: [
-		{
-			text: 'Get selected data',
-			action: function () {
-				let count = table.rows({ selected: true }).count();
+	layout: {
+		topStart: {
+			buttons: [
+				{
+					text: 'Get selected data',
+					action: function () {
+						let count = table.rows({ selected: true }).count();
 
-				message(count + ' row(s) selected');
-			}
+						message(count + ' row(s) selected');
+					}
+				}
+			]
 		}
-	]
+	},
+	select: true
 });
 
 ]]>

@@ -21,18 +21,16 @@
 	</description>
 
 	<example title="Set the strings to be used for row selection"><![CDATA[
-
-$('#example').DataTable( {
+new DataTable('#myTable', {
 	language: {
 		select: {
 			rows: {
-				_: "Selected %d rows",
-				1: "Selected 1 row"
+				_: 'Selected %d rows',
+				1: 'Selected 1 row'
 			}
 		}
 	},
 	select: true
-} );
-
+});
 ]]></example>
 </dt-option>

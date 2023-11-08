@@ -46,7 +46,7 @@ new DataTable('#example', {
 
 <info><![CDATA[
 
-This example simply shows Select being used with DataTables' `dt-init deferRender` option. Deferred rendering can be particularly useful when Ajax loading data as it allows DataTables to perform a number of performance enhancing optimisations.
+This example simply shows Select being used with DataTables' `dt-init deferRender` option (note that this is enabled by default in DataTables 2 and is only shown here for clarity). Deferred rendering can be particularly useful when Ajax loading data as it allows DataTables to perform a number of performance enhancing optimisations.
 
 ]]></info>
 

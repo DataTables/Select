@@ -32,11 +32,9 @@
 	</description>
 
 	<example title="Enable item selection bluring using the API"><![CDATA[
+var table = new DataTable('#myTable');
 
-var table = $('#myTable').DataTable();
-
-table.select.blurable( true );
-
+table.select.blurable(true);
 ]]></example>
 
 	<related>s-init select.blurable</related>

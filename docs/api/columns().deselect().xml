@@ -19,11 +19,9 @@
 	</description>
 
 	<example title="Deselect all columns which have a class of 'important'"><![CDATA[
-
-var table = $('#myTable').DataTable();
+var table = new DataTable('#myTable');
 
 table.columns('.important').deselect();
-
 ]]></example>
 
 	<related>s-api columns().select()</related>

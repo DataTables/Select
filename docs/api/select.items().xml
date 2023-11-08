@@ -34,12 +34,10 @@
 	</description>
 
 	<example title="Let the user select cells by clicking on them"><![CDATA[
+var table = new DataTable('#myTable');
 
-var table = $('#myTable').DataTable();
-
-table.select.style( 'os' );
-table.select.items( 'cell' );
-
+table.select.style('os');
+table.select.items('cell');
 ]]></example>
 
 	<related>s-init select.items</related>

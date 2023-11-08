@@ -31,12 +31,10 @@
 	</description>
 
 	<example title="Disable selection summary information"><![CDATA[
-
-$('#example').DataTable( {
+new DataTable('#myTable', {
 	select: {
 		info: false
 	}
-} );
-
+});
 ]]></example>
 </dt-option>

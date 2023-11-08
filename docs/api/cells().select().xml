@@ -21,19 +21,15 @@
 	</description>
 
 	<example title="Select all cells which have a class of 'important'"><![CDATA[
-
-var table = $('#myTable').DataTable();
+var table = new DataTable('#myTable');
 
 table.cells('.important').select();
-
 ]]></example>
 
 	<example title="Select all cells in column index 1 on the current page"><![CDATA[
+var table = new DataTable('#myTable');
 
-var table = $('#myTable').DataTable();
-
-table.cells( null, 1, {page: 'current'} ).select();
-
+table.cells(null, 1, { page: 'current' }).select();
 ]]></example>
 
 	<related>s-api cell().select()</related>

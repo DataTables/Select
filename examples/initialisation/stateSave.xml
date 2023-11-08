@@ -8,11 +8,11 @@
 $('#example').DataTable({
 	ajax: '../data/objects.txt',
 	columns: [
-        { data: 'name' },
-        { data: 'position' },
-        { data: 'office' },
-        { data: 'salary' }
-    ],
+		{ data: 'name' },
+		{ data: 'position' },
+		{ data: 'office' },
+		{ data: 'salary' }
+	],
 	rowId: 'id',
 	stateSave: true,
 	select: true
@@ -26,11 +26,11 @@ $('#example').DataTable({
 new DataTable('#example', {
 	ajax: '../data/objects.txt',
 	columns: [
-        { data: 'name' },
-        { data: 'position' },
-        { data: 'office' },
-        { data: 'salary' }
-    ],
+		{ data: 'name' },
+		{ data: 'position' },
+		{ data: 'office' },
+		{ data: 'salary' }
+	],
 	rowId: 'id',
 	stateSave: true,
 	select: true

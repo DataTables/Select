@@ -30,26 +30,28 @@
 	</description>
 
 	<example title="Get data from rows whenever rows are deselected"><![CDATA[
+var table = new DataTable('#myTable');
 
-var table = $('#example').DataTable();
-
-table.on( 'deselect', function ( e, dt, type, indexes ) {
-	if ( type === 'row' ) {
-		var data = table.rows( indexes ).data().pluck( 'id' );
+table.on('deselect', function (e, dt, type, indexes) {
+	if (type === 'row') {
+		var data = table
+			.rows(indexes)
+			.data()
+			.pluck('id');
 
 		// do something with the ID of the deselected items
 	}
-} );
-
+});
 ]]></example>
 
 	<example title="Remove a custom class when an item is deselected"><![CDATA[
+var table = new DataTable('#myTable');
 
-var table = $('#example').DataTable();
-
-table.on( 'deselect', function ( e, dt, type, indexes ) {
-	table[ type ]( indexes ).nodes().to$().removeClass( 'custom-selected' );
-} );
-
+table.on('deselect', function (e, dt, type, indexes) {
+	table[type](indexes)
+		.nodes()
+		.to$()
+		.removeClass('custom-selected');
+});
 ]]></example>
 </dt-event>

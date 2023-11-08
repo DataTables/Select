@@ -29,32 +29,28 @@
 	</description>
 
 	<example title="A simple string with no concern for pluralisation"><![CDATA[
-
-$('#example').DataTable( {
+new DataTable('#myTable', {
 	language: {
 		select: {
-			rows: "%d rows selected"
+			rows: '%d rows selected'
 		}
 	},
 	select: true
-} );
-
+});
 ]]></example>
 
 	<example title="Show a message when no rows are selected"><![CDATA[
-
-$('#example').DataTable( {
+new DataTable('#myTable', {
 	language: {
 		select: {
 			rows: {
-				_: "Selected %d rows",
-				0: "Click a row to select it",
-				1: "Selected 1 row"
+				_: 'Selected %d rows',
+				0: 'Click a row to select it',
+				1: 'Selected 1 row'
 			}
 		}
 	},
 	select: true
-} );
-
+});
 ]]></example>
 </dt-option>

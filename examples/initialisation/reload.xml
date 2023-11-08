@@ -8,7 +8,6 @@
 <![CDATA[
 var table = $('#example').DataTable({
 	ajax: '../../../../examples/ajax/data/objects.txt',
-	deferRender: true,
 	columns: [
 		{ data: 'name' },
 		{ data: 'position' },
@@ -17,17 +16,20 @@ var table = $('#example').DataTable({
 		{ data: 'start_date' },
 		{ data: 'salary' }
 	],
-	rowId: 'extn',
-	select: true,
-	dom: 'Bfrtip',
-	buttons: [
-		{
-			text: 'Reload table',
-			action: function () {
-				table.ajax.reload();
-			}
+	layout: {
+		topStart: {
+			buttons: [
+				{
+					text: 'Reload table',
+					action: function () {
+						table.ajax.reload();
+					}
+				}
+			]
 		}
-	]
+	},
+	rowId: 'extn',
+	select: true
 });
 
 ]]>
@@ -37,7 +39,6 @@ var table = $('#example').DataTable({
 <![CDATA[
 new DataTable('#example', {
 	ajax: '../../../../examples/ajax/data/objects.txt',
-	deferRender: true,
 	columns: [
 		{ data: 'name' },
 		{ data: 'position' },
@@ -46,17 +47,20 @@ new DataTable('#example', {
 		{ data: 'start_date' },
 		{ data: 'salary' }
 	],
-	rowId: 'extn',
-	select: true,
-	dom: 'Bfrtip',
-	buttons: [
-		{
-			text: 'Reload table',
-			action: function () {
-				table.ajax.reload();
-			}
+	layout: {
+		topStart: {
+			buttons: [
+				{
+					text: 'Reload table',
+					action: function () {
+						table.ajax.reload();
+					}
+				}
+			]
 		}
-	]
+	},
+	rowId: 'extn',
+	select: true
 });
 
 ]]>

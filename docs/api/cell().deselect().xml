@@ -19,11 +19,9 @@
 	</description>
 
 	<example title="Deselect all cells on the current page"><![CDATA[
+var table = new DataTable('#myTable');
 
-var table = $('#myTable').DataTable();
-
-table.cell( {page: 'current'} ).deselect();
-
+table.cell({ page: 'current' }).deselect();
 ]]></example>
 
 	<related>s-api cell().select()</related>

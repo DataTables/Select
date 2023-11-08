@@ -21,7 +21,6 @@
 	</description>
 
 	<example title="Disable the header checkbox addition"><![CDATA[
-
 new DataTable('#example', {
 	columnDefs: [
 		{
@@ -37,6 +36,5 @@ new DataTable('#example', {
 	},
 	order: [[1, 'asc']]
 });
-
 ]]></example>
 </dt-option>

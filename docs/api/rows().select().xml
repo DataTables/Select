@@ -21,11 +21,9 @@
 	</description>
 
 	<example title="Select all rows which have a class of 'important'"><![CDATA[
-
-var table = $('#myTable').DataTable();
+var table = new DataTable('#myTable');
 
 table.rows('.important').select();
-
 ]]></example>
 
 	<related>s-api row().select()</related>

@@ -31,39 +31,31 @@
 	</description>
 
 	<example title="Enable selection of rows in the OS style"><![CDATA[
-
-$('#example').DataTable( {
+new DataTable('#myTable', {
 	select: true
-} );
-
+});
 ]]></example>
 
 	<example title="Enable selection of a single row"><![CDATA[
-
-$('#example').DataTable( {
+new DataTable('#myTable', {
 	select: 'single'
-} );
-
+});
 ]]></example>
 
 	<example title="Disable selection summary information from being shown in the table information element."><![CDATA[
-
-$('#example').DataTable( {
+new DataTable('#myTable', {
 	select: {
 		info: false
 	}
-} );
-
+});
 ]]></example>
 
 	<example title="Select cells with no summary information shown"><![CDATA[
-
-$('#example').DataTable( {
+new DataTable('#myTable', {
 	select: {
 		items: 'cell',
 		info: false
 	}
-} );
-
+});
 ]]></example>
 </dt-option>

@@ -30,26 +30,28 @@
 	</description>
 
 	<example title="Get data from rows whenever rows are selected"><![CDATA[
+var table = new DataTable('#myTable');
 
-var table = $('#example').DataTable();
-
-table.on( 'select', function ( e, dt, type, indexes ) {
-	if ( type === 'row' ) {
-		var data = table.rows( indexes ).data().pluck( 'id' );
+table.on('select', function (e, dt, type, indexes) {
+	if (type === 'row') {
+		var data = table
+			.rows(indexes)
+			.data()
+			.pluck('id');
 
 		// do something with the ID of the selected items
 	}
-} );
-
+});
 ]]></example>
 
 	<example title="Add a custom class when an item is selected"><![CDATA[
+var table = new DataTable('#myTable');
 
-var table = $('#example').DataTable();
-
-table.on( 'select', function ( e, dt, type, indexes ) {
-	table[ type ]( indexes ).nodes().to$().addClass( 'custom-selected' );
-} );
-
+table.on('select', function (e, dt, type, indexes) {
+	table[type](indexes)
+		.nodes()
+		.to$()
+		.addClass('custom-selected');
+});
 ]]></example>
 </dt-event>

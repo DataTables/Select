@@ -24,18 +24,18 @@
 	</defaults>
 
 	<example title="DataTables initialisation: Count the number of selected rows"><![CDATA[
-
-$('#myTable').DataTable( {
+new DataTable('#myTable', {
 	buttons: [
 		{
 			extend: 'selected',
 			text: 'Count selected rows',
-			action: function ( e, dt, button, config ) {
-				alert( dt.rows( { selected: true } ).indexes().length +' row(s) selected' );
+			action: function (e, dt, button, config) {
+				alert(
+					dt.rows({ selected: true }).indexes().length + ' row(s) selected'
+				);
 			}
 		}
 	]
-} );
-
+});
 ]]></example>
 </dt-button>

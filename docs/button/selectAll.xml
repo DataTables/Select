@@ -22,47 +22,46 @@
 	</defaults>
 
 	<example title="DataTables initialisation: Show select all and select none buttons with language options in the DataTables language object"><![CDATA[
-
-$('#myTable').DataTable( {
-	dom: 'Blfrtip',
-	buttons: [
-		'selectAll',
-		'selectNone'
-	],
+new DataTable('#myTable', {
+	layout: {
+		topStart: {
+			buttons: ['selectAll', 'selectNone']
+		}
+	},
 	language: {
 		buttons: {
-			selectAll: "Select all items",
-			selectNone: "Select none"
+			selectAll: 'Select all items',
+			selectNone: 'Select none'
 		}
 	}
-} );
-
+});
 ]]></example>
 
 	<example title="Using a selector modifier to select only rows matched by the current filter (first button), and those on the first page (second button)."><![CDATA[
-
-$('#myTable').DataTable( {
-	dom: 'Blfrtip',
-	buttons: [
-		{
-			text: 'Select filter applied - object',
-			extend: 'selectAll',
-			selectorModifier: {
-				search: 'applied'
-			}
-		},
-		{
-			text: 'Select current page - function',
-			extend: 'selectAll',
-			selectorModifier: function () {
-				return {
-					page: 'current'
-				}
-			}
+new DataTable('#myTable', {
+	layout: {
+		topStart: {
+			buttons: [
+				{
+					text: 'Select filter applied - object',
+					extend: 'selectAll',
+					selectorModifier: {
+						search: 'applied'
+					}
+				},
+				{
+					text: 'Select current page - function',
+					extend: 'selectAll',
+					selectorModifier: function () {
+						return {
+							page: 'current'
+						};
+					}
+				},
+				'selectNone'
+			]
 		}
-		'selectNone'
-	]
-} );
-
+	}
+});
 ]]></example>
 </dt-button>

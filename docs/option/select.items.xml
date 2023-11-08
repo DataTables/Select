@@ -23,22 +23,18 @@
 	</description>
 
 	<example title="Select columns on load"><![CDATA[
-
-$('#example').DataTable( {
+new DataTable('#myTable', {
 	select: {
 		items: 'column'
 	}
-} );
-
+});
 ]]></example>
 
 	<example title="Select cells on load"><![CDATA[
-
-$('#example').DataTable( {
+new DataTable('#myTable', {
 	select: {
 		items: 'cell'
 	}
-} );
-
+});
 ]]></example>
 </dt-option>

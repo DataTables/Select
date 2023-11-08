@@ -24,14 +24,8 @@
 	</defaults>
 
 	<example title="DataTables initialisation: Provide buttons to change item selection"><![CDATA[
-
-$('#myTable').DataTable( {
-	buttons: [
-		'selectRows',
-		'selectColumns',
-		'selectCells'
-	]
-} );
-
+new DataTable('#myTable', {
+	buttons: ['selectRows', 'selectColumns', 'selectCells']
+});
 ]]></example>
 </dt-button>

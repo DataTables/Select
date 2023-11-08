@@ -41,11 +41,9 @@
 	</description>
 
 	<example title="Let the user select items using the _os_ selection style"><![CDATA[
+var table = new DataTable('#myTable');
 
-var table = $('#myTable').DataTable();
-
-table.select.style( 'os' );
-
+table.select.style('os');
 ]]></example>
 
 	<related>s-init select.style</related>

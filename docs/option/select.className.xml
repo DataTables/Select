@@ -19,13 +19,11 @@
 	</description>
 
 	<example title="Set a custom class name for the item selection class"><![CDATA[
-
-$('#example').DataTable( {
-	select: 
-		style:     'os',
+new DataTable('#myTable', {
+	select: {
+		style: 'os',
 		className: 'row-selected'
 	}
-} );
-
+});
 ]]></example>
 </dt-option>

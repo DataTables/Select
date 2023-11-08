@@ -5,21 +5,24 @@
 <js lib="jquery datatables select buttons">
 <![CDATA[
 var table = $('#example').DataTable({
-	buttons: [
-		{
-			text: 'Select all',
-			action: function () {
-				table.rows().select();
-			}
-		},
-		{
-			text: 'Select none',
-			action: function () {
-				table.rows().deselect();
-			}
+	layout: {
+		topStart: {
+			buttons: [
+				{
+					text: 'Select all',
+					action: function () {
+						table.rows().select();
+					}
+				},
+				{
+					text: 'Select none',
+					action: function () {
+						table.rows().deselect();
+					}
+				}
+			]
 		}
-	],
-	dom: 'Bfrtip',
+	},
 	select: true
 });
 
@@ -30,21 +33,24 @@ var table = $('#example').DataTable({
 <![CDATA[
 
 let table = new DataTable('#example', {
-	buttons: [
-		{
-			text: 'Select all',
-			action: function () {
-				table.rows().select();
-			}
-		},
-		{
-			text: 'Select none',
-			action: function () {
-				table.rows().deselect();
-			}
+	layout: {
+		topStart: {
+			buttons: [
+				{
+					text: 'Select all',
+					action: function () {
+						table.rows().select();
+					}
+				},
+				{
+					text: 'Select none',
+					action: function () {
+						table.rows().deselect();
+					}
+				}
+			]
 		}
-	],
-	dom: 'Bfrtip',
+	},
 	select: true
 });
 

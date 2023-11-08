@@ -23,11 +23,9 @@
 	</description>
 
 	<example title="Select the last column in the table (i.e. the right most column)"><![CDATA[
+var table = new DataTable('#myTable');
 
-var table = $('#myTable').DataTable();
-
-table.column( -1 ).select();
-
+table.column(-1).select();
 ]]></example>
 
 	<related>s-api column().deselect()</related>

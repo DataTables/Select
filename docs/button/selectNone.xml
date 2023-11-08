@@ -19,19 +19,14 @@
 	</defaults>
 
 	<example title="DataTables initialisation: Show select all and select none buttons with language options in the DataTables language object"><![CDATA[
-
-$('#myTable').DataTable( {
-	buttons: [
-		'selectAll',
-		'selectNone'
-	],
+new DataTable('#myTable', {
+	buttons: ['selectAll', 'selectNone'],
 	language: {
 		buttons: {
-			selectAll: "Select all items",
-			selectNone: "Select none"
+			selectAll: 'Select all items',
+			selectNone: 'Select none'
 		}
 	}
-} );
-
+});
 ]]></example>
 </dt-button>

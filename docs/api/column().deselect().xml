@@ -19,11 +19,9 @@
 	</description>
 
 	<example title="Deselect column index 0"><![CDATA[
+var table = new DataTable('#myTable');
 
-var table = $('#myTable').DataTable();
-
-table.column( 0 ).deselect();
-
+table.column(0).deselect();
 ]]></example>
 
 	<related>s-api column().select()</related>

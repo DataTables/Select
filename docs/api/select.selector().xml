@@ -36,11 +36,9 @@
 	</description>
 
 	<example title="Allow selection on the first column only"><![CDATA[
+var table = new DataTable('#myTable');
 
-var table = $('#myTable').DataTable();
-
-table.select.selector( 'td:first-child' );
-
+table.select.selector('td:first-child');
 ]]></example>
 
 	<related>s-init select.selector</related>

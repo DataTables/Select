@@ -19,11 +19,9 @@
 	</description>
 
 	<example title="Deselect the first row in the table's current page"><![CDATA[
-
-var table = $('#myTable').DataTable();
+var table = new DataTable('#myTable');
 
 table.row(':eq(0)', { page: 'current' }).deselect();
-
 ]]></example>
 
 	<related>s-api row().select()</related>

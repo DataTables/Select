@@ -19,26 +19,22 @@
 	</description>
 
 	<example title="Allow selection on the first column only"><![CDATA[
-
-$('#example').DataTable( {
+new DataTable('#myTable', {
 	select: {
-		style:    'os',
+		style: 'os',
 		selector: 'td:first-child',
 		blurable: true
 	}
-} );
-
+});
 ]]></example>
 
 	<example title="Allow selection on all but the last column"><![CDATA[
-
-$('#example').DataTable( {
+new DataTable('#myTable', {
 	select: {
-		style:    'os',
+		style: 'os',
 		selector: 'td:not(:last-child)'
 	}
-} );
-
+});
 ]]></example>
 
 	<related>s-api select.selector()</related>

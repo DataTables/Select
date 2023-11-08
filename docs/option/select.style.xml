@@ -27,22 +27,18 @@
 	</description>
 
 	<example title="Disable end user selection via Select's click event handler"><![CDATA[
-
-$('#example').DataTable( {
+new DataTable('#myTable', {
 	select: {
 		style: 'api'
 	}
-} );
-
+});
 ]]></example>
 
 	<example title="Enable selection with single item selection only"><![CDATA[
-
-$('#example').DataTable( {
+new DataTable('#myTable', {
 	select: {
 		style: 'single'
 	}
-} );
-
+});
 ]]></example>
 </dt-option>

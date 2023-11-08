@@ -26,12 +26,11 @@
 	</description>
 
 	<example title="Don't blur if the click was inside a Bootstrap modal"><![CDATA[
-
-var table = $('#example').DataTable({
+var table = new DataTable('#myTable', {
 	select: {
 		blurable: true,
-		style: 'os',
-	},
+		style: 'os'
+	}
 });
 
 table.on('select-blur', function (e, dt, target, originalEvent) {
@@ -39,7 +38,6 @@ table.on('select-blur', function (e, dt, target, originalEvent) {
 		e.preventDefault();
 	}
 });
-
 ]]></example>
 
 	<related>-init select.blurable</related>

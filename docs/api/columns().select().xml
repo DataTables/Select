@@ -21,11 +21,9 @@
 	</description>
 
 	<example title="Select column indexes 1 and 2"><![CDATA[
-
-var table = $('#myTable').DataTable();
+var table = new DataTable('#myTable');
 
 table.columns([1, 2]).select();
-
 ]]></example>
 
 	<related>s-api column().select()</related>

@@ -35,17 +35,14 @@
 	</description>
 
 	<example title="Prevent item selection when clicking on an image"><![CDATA[
-
-var table = $('#example').DataTable( {
+var table = new DataTable('#myTable', {
 	select: true
-} );
+});
 
-table
-	.on( 'user-select', function ( e, dt, type, cell, originalEvent ) {
-		if ( originalEvent.target.nodeName.toLowerCase() === 'img' ) {
-			e.preventDefault();
-		}
-	} );
-
+table.on('user-select', function (e, dt, type, cell, originalEvent) {
+	if (originalEvent.target.nodeName.toLowerCase() === 'img') {
+		e.preventDefault();
+	}
+});
 ]]></example>
 </dt-event>

@@ -23,11 +23,9 @@
 	</description>
 
 	<example title="Select all cells in the first row on the current page"><![CDATA[
+var table = new DataTable('#myTable');
 
-var table = $('#myTable').DataTable();
-
-table.cell( ':eq(0)', null, {page: 'current'} ).select();
-
+table.cell(':eq(0)', null, { page: 'current' }).select();
 ]]></example>
 
 	<related>s-api cell().deselect()</related>

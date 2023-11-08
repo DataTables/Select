@@ -25,12 +25,10 @@
 	</description>
 
 	<example title="Log whenever the item selection type changes"><![CDATA[
+var table = new DataTable('#myTable');
 
-var table = $('#example').DataTable();
-
-table.on( 'selectItems', function ( e, dt, items ) {
-	console.log( 'Items to be selected are now: ', items );
-} );
-
+table.on('selectItems', function (e, dt, items) {
+	console.log('Items to be selected are now: ', items);
+});
 ]]></example>
 </dt-event>
