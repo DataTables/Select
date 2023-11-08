@@ -37,7 +37,7 @@ var table = $('#example').DataTable({
 
 <js-vanilla>
 <![CDATA[
-new DataTable('#example', {
+let table = new DataTable('#example', {
 	ajax: '../../../../examples/ajax/data/objects.txt',
 	columns: [
 		{ data: 'name' },
