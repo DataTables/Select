@@ -3,12 +3,12 @@
 
 // Selection colour for cells and columns
 $selected-background-color: rgba(13, 110, 253, 0.9) !default;
-$selected-text-color: white;
+$selected-text-color: inherit;
 
-$dt-select-tick-margin-top: -12px !default; // checkbox tick position
-$dt-select-tick-line-height: 5px !default; // legacy tick position
-$dt-select-tick-border: 1px solid rgb(90, 90, 90) !default;
-$dt-select-tick-border-checked: 1px solid white !default;
+$dt-select-tick-margin-top: -8px !default; // checkbox tick position
+$dt-select-tick-line-height: 6px !default; // legacy tick position
+$dt-select-tick-border: 1px solid !default;
+$dt-select-tick-border-checked: 1px solid !default;
 
 table.dataTable {
 	// Cell and column selector access
@@ -22,6 +22,10 @@ table.dataTable {
 		vertical-align: middle;
 	}
 
+	> thead > tr > .dt-select {
+		text-align: center;
+	}
+
 	input.dt-select-checkbox {
 		appearance: none;
 		position: relative;
@@ -32,14 +36,14 @@ table.dataTable {
 		border-radius: 3px;
 		vertical-align: middle;
 		margin-top: 1px;
+		color: $selected-text-color;
+		font-size: 20px;
+		line-height: 1em;
 
 		&:checked {
 			&:after {
 				display: block;
 				content: '\2713';
-				font-size: 20px;
-				line-height: 28px;
-				color: white;
 
 				margin-top: $dt-select-tick-margin-top;
 			}
@@ -54,7 +58,7 @@ table.dataTable {
 				left: 3px;
 				height: 4px;
 				width: 4px;
-				background-color: white;
+				background-color: black;
 				border-radius: 2px;
 			}
 		}
@@ -98,7 +102,6 @@ table.dataTable {
 				font-size: 20px;
 
 				line-height: $dt-select-tick-line-height;
-
 				text-align: center;
 			}
 		}
@@ -134,14 +137,10 @@ html.dark,
 html[data-bs-theme="dark"] {
 	table.dataTable {
 		input.dt-select-checkbox {
-			border: 1px solid rgba(255, 255, 255, 0.6);
-		}
-
-		// Legacy
-		> tbody > tr > td.select-checkbox,
-		> tbody > tr > th.select-checkbox {
-			&:before {
-				border: 1px solid rgba(255, 255, 255, 0.6);
+			&:indeterminate {
+				&:after {
+					background-color: white;
+				}
 			}
 		}
 	}

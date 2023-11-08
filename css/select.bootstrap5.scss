@@ -1,4 +1,6 @@
 
+$dt-select-tick-line-height: 4px !default; // legacy tick position
+
 @import 'select.dataTables.scss';
 
 table.dataTable.table-sm tbody td.select-checkbox::before {
