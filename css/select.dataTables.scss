@@ -3,7 +3,7 @@
 
 // Selection colour for cells and columns
 $selected-background-color: rgba(13, 110, 253, 0.9) !default;
-$selected-text-color: inherit;
+$selected-text-color: white !default;
 
 $dt-select-tick-margin-top: -8px !default; // checkbox tick position
 $dt-select-tick-line-height: 6px !default; // legacy tick position
