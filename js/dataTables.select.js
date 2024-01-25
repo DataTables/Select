@@ -1444,7 +1444,8 @@ DataTable.render.select = function (valueProp, nameProp) {
 					class: 'dt-select-checkbox',
 					name: nameFn ? nameFn(row) : null,
 					type: 'checkbox',
-					value: valueFn ? valueFn(row) : null
+					value: valueFn ? valueFn(row) : null,
+					checked: selected
 				})[0];
 		}
 		else if (type === 'type') {
