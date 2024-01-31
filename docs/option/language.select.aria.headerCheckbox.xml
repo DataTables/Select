@@ -39,6 +39,6 @@ new DataTable('#example', {
 });
 ]]></example>
 
-	<related>language.select.aria.rowCheckbox</related>
-	<related>select.headerCheckbox</related>
+	<related>-init language.select.aria.rowCheckbox</related>
+	<related>-init select.headerCheckbox</related>
 </dt-option>
