@@ -1016,6 +1016,17 @@ apiRegister('select.selector()', function (selector) {
 	});
 });
 
+apiRegister('select.last()', function (set) {
+	let ctx = this.context[0];
+
+	if (set) {
+		ctx._select_lastCell = set;
+		return this;
+	}
+
+	return ctx._select_lastCell;
+});
+
 apiRegisterPlural('rows().select()', 'row().select()', function (select) {
 	var api = this;
 
