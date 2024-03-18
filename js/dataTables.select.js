@@ -962,12 +962,12 @@ apiRegister('select.info()', function (flag) {
 });
 
 apiRegister('select.items()', function (items) {
+	if (items === undefined) {
+		return this.context[0]._select.items;
+	}
+
 	this.iterator('table', function (ctx) {
-		if (items === undefined) {
-			items = ctx._select.items;
-		} else {
-			ctx._select.items = items;
-		}
+		ctx._select.items = items;
 
 		eventTrigger(new DataTable.Api(ctx), 'selectItems', [items]);
 	});
