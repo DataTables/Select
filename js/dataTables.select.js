@@ -71,7 +71,7 @@ DataTable.select.init = function (dt) {
 	var opts = init === undefined ? defaults : init;
 
 	// Set defaults
-	var items = 'row';
+	var items = [];
 	var style = 'api';
 	var blurable = false;
 	var toggleable = true;
@@ -962,12 +962,12 @@ apiRegister('select.info()', function (flag) {
 });
 
 apiRegister('select.items()', function (items) {
-	if (items === undefined) {
-		return this.context[0]._select.items;
-	}
-
 	return this.iterator('table', function (ctx) {
-		ctx._select.items = items;
+		if (items === undefined) {
+			items = this.context[0]._select.items;
+		} else {
+			ctx._select.items = items;
+		}
 
 		eventTrigger(new DataTable.Api(ctx), 'selectItems', [items]);
 	});
@@ -1424,7 +1424,7 @@ $.each(['Row', 'Column', 'Cell'], function (i, item) {
 		text: i18n('select' + item + 's', 'Select ' + lc + 's'),
 		className: 'buttons-select-' + lc + 's',
 		action: function () {
-			this.select.items(lc);
+			this.select.items();
 		},
 		init: function (dt) {
 			var that = this;
