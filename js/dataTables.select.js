@@ -962,7 +962,7 @@ apiRegister('select.info()', function (flag) {
 });
 
 apiRegister('select.items()', function (items) {
-	return this.iterator('table', function (ctx) {
+	this.iterator('table', function (ctx) {
 		if (items === undefined) {
 			items = ctx._select.items;
 		} else {
@@ -971,6 +971,8 @@ apiRegister('select.items()', function (items) {
 
 		eventTrigger(new DataTable.Api(ctx), 'selectItems', [items]);
 	});
+
+	return items;
 });
 
 // Takes effect from the _next_ selection. None disables future selection, but
