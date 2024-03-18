@@ -966,11 +966,13 @@ apiRegister('select.items()', function (items) {
 		return this.context[0]._select.items;
 	}
 
-	return this.iterator('table', function (ctx) {
+	this.iterator('table', function (ctx) {
 		ctx._select.items = items;
 
 		eventTrigger(new DataTable.Api(ctx), 'selectItems', [items]);
 	});
+
+	return items;
 });
 
 // Takes effect from the _next_ selection. None disables future selection, but
