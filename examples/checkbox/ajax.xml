@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<dt-example table-type="ajax-details" order="8">
+
+<css lib="datatables select"/>
+<js lib="jquery datatables select"/>
+
+<js>
+<![CDATA[
+var table = $('#example').DataTable({
+	ajax: '../../../../examples/ajax/data/objects.txt',
+	columns: [
+		{
+			data: null,
+			render: DataTable.render.select(),
+		},
+		{ data: 'name' },
+		{ data: 'position' },
+		{ data: 'office' },
+		{ data: 'salary' }
+	],
+	select: true
+});
+
+]]>
+</js>
+
+<js-vanilla>
+<![CDATA[
+new DataTable('#example', {
+	ajax: '../../../../examples/ajax/data/objects.txt',
+	columns: [
+		{
+			data: null,
+			render: DataTable.render.select()
+		},
+		{ data: 'name' },
+		{ data: 'position' },
+		{ data: 'office' },
+		{ data: 'salary' }
+	],
+	select: true
+});
+
+]]>
+</js-vanilla>
+
+<title>Ajax data</title>
+
+<info><![CDATA[
+
+This example shows the checkbox selection option being used with Ajax loaded data. Nothing fancy, it just works as normal!
+
+]]></info>
+
+</dt-example>
