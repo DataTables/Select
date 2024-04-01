@@ -1193,8 +1193,12 @@ apiRegisterPlural('rows().deselect()', 'row().deselect()', function () {
 			}
 			
 			if (col.sType === 'select-checkbox') {
+				var cells = dtData.anCells;
+
 				// Make sure the checkbox shows the right state
-				$('input.dt-select-checkbox', dtData.anCells[i]).prop('checked', false);
+				if (cells && cells[i]) {
+					$('input.dt-select-checkbox', dtData.anCells[i]).prop('checked', false);
+				}
 
 				// Invalidate the sort data for this column, if not already done
 				if (dtData._aSortData !== null) {
