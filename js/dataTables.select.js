@@ -620,7 +620,9 @@ function init(ctx) {
 
 			// Row
 			if (d._select_selected) {
-				$(row).addClass(ctx._select.className);
+				$(row)
+					.addClass(ctx._select.className)
+					.find('input.dt-select-checkbox').prop('checked', true);
 			}
 
 			// Cells and columns - if separated out, we would need to do two
@@ -630,7 +632,7 @@ function init(ctx) {
 					ctx.aoColumns[i]._select_selected ||
 					(d._selected_cells && d._selected_cells[i])
 				) {
-					$(d.anCells[i]).addClass(ctx._select.className);
+					$(d.anCells[i]).addClass(ctx._select.className)
 				}
 			}
 		}
