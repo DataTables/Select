@@ -86,6 +86,16 @@ declare module 'datatables.net' {
 		 */
 		select: {
 			/**
+			 * Class names used by Select
+			 */
+			classes: {
+				/**
+				 * Class name(s) to use for the checkbox. Space separated.
+				 */
+				checkbox: string;
+			}
+
+			/**
 			 * Initialise Select (for use on tables which were not in the document
 			 * when they were initialised).
 			 */
