@@ -48,7 +48,7 @@ new DataTable('#example', {
 
 <info><![CDATA[
 
-The checkbox column type will automatically insert a checkbox into the header cell for the column, which shows a summary of the checked status of all rows in the table, as well as providing the a way for the end user to quickly select / deselect all rows.
+The checkbox column type will automatically insert a checkbox into the header cell for the column, which shows a summary of the checked status of all rows in the table, as well as providing a way for the end user to quickly select / deselect all rows in the current page or all rows in the table depending on the value.
 
 It is possible to disable this checkbox using the `-init select.headerCheckbox` option. This can be particularly useful when server-side processing is enabled, since a _select all_ action would actually only select the rows for the current page. The header checkbox is enable by default, so this example demonstrates how to disable it.
 
