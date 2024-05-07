@@ -52,11 +52,11 @@ new DataTable('#example', {
 ]]>
 </js-vanilla>
 
-<title>Ajax data with current page selection</title>
+<title>Current page selection only</title>
 
 <info><![CDATA[
 
-This example shows the checkbox selection option being used with Ajax loaded data and header checkbox with only current page selection. Nothing fancy, it just works as normal!
+This example shows the checkbox selection option being used with Ajax loaded data and a header checkbox which will select only the rows in on the current page, as defined by the `-init select.headerCheckbox` option.
 
 ]]></info>
 
