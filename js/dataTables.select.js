@@ -557,7 +557,6 @@ function info(api, node) {
  */
 function initCheckboxHeader( dt, headerCheckbox ) {
 	// Find any checkbox column(s)
-	console.info(headerCheckbox)
 	dt.columns('.dt-select').every(function () {
 		var header = this.header();
 
