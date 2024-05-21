@@ -808,6 +808,7 @@ function typeSelect(e, dt, ctx, type, idx) {
 	var isSelected = dt[type](idx, { selected: true }).any();
 
 	if (isSelected && !toggleable) {
+		e.preventDefault();
 		return;
 	}
 
