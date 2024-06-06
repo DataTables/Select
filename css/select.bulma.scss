@@ -1,5 +1,13 @@
 
+// Use CSS variables for Bulma 1.x, but Bulma 0.9 didn't have them, so we need
+// to provide a fallback. That can be done with a `var` fallback, creating new
+// vars which are assigned
+:root {
+	--dt-bulma-selected-background-color: var(--bulma-table-row-active-background-color, rgba(0, 209, 178, 0.9));
+	--dt-bulma-selected-text-color: var(--bulma-table-row-active-color, rgb(46, 51, 61));
+}
 
-$selected-background-color: rgba(0, 209, 178, 0.9) !default;
+$selected-background-color: var(--dt-bulma-selected-background-color) !default;
+$selected-text-color: var(--dt-bulma-selected-text-color) !default;
 
 @import 'select.dataTables.scss';
