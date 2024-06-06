@@ -1,4 +1,4 @@
-/*! Select for DataTables 2.0.2
+/*! Select for DataTables 2.0.3
  * © SpryMedia Ltd - datatables.net/license/mit
  */
 
@@ -9,7 +9,7 @@ DataTable.select.classes = {
 	checkbox: 'dt-select-checkbox'
 };
 
-DataTable.select.version = '2.0.2';
+DataTable.select.version = '2.0.3';
 
 DataTable.select.init = function (dt) {
 	var ctx = dt.settings()[0];
@@ -1506,6 +1506,15 @@ DataTable.render.select = function (valueProp, nameProp) {
 					type: 'checkbox',
 					value: valueFn ? valueFn(row) : null,
 					checked: selected
+				})
+				.on('input', function (e) {
+					// Let Select 100% control the state of the checkbox
+					e.preventDefault();
+
+					// And make sure this checkbox matches it's row as it is possible
+					// to check out of sync if this was clicked on to deselect a range
+					// but remains selected itself
+					this.checked = $(this).closest('tr').hasClass('selected');
 				})[0];
 		}
 		else if (type === 'type') {
