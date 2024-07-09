@@ -723,6 +723,8 @@ function init(ctx) {
 		// Remove class directly rather than calling deselect - which would trigger events
 		$(api.rows({ selected: true }).nodes()).removeClass(api.settings()[0]._select.className);
 
+		$('input.' + checkboxClass(true), api.table().header()).remove();
+
 		disableMouseSelection(api);
 		api.off('.dtSelect');
 		$('body').off('.dtSelect' + _safeId(api.table().node()));
