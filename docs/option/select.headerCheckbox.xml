@@ -9,6 +9,8 @@
 	<type type="boolean">
 		<description>
 			When enabled, any column which uses the `DataTable.render.checkbox()` renderer provided by Select will have a global checkbox added to its header cell.
+
+			Please note that when using server-side processing this option will work in the same manner as if it were set to `-string select-page` - i.e. only rows on the currently visible page can be selected.
 		</description>
 	</type>
 
@@ -23,7 +25,7 @@
 	</type>
 
 	<description>
-		If you use the `DataTable.render.checkbox` rendering function (which is part of the Select extension) to provide a checkbox column in the DataTable, Select will automatically insert a checkbox into the header that provides the ability to summarise the current selection state and to easily select / deselect all rows to the end user. This option can be used to disable the checkbox, which might be of particular interest if you are using server-side processing in DataTables (`-init serverSide`), since item selection is a client-side concept in Select (i.e. you can only select the rows that are available on the client-side).
+		If you use the `DataTable.render.checkbox` rendering function (which is part of the Select extension) to provide a checkbox column in the DataTable, Select will automatically insert a checkbox into the header that provides the ability to summarise the current selection state and to easily select / deselect all rows to the end user. This option can be used to disable the checkbox, which might be of particular interest if you are using server-side processing in DataTables (`-init serverSide`), since item selection is a client-side concept in Select (i.e. you can only select the rows that are available on the client-side - i.e. `-string select-page`).
 
 		The "select all" action of the checkbox will select all rows in the current search set of the DataTable - i.e. if a row has been removed due to a search term, it will not be selected. However, the "deselect all" action will result in all rows being deselected, regardless of if they are filtered out or not by the applied search.
 

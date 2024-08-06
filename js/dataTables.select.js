@@ -556,9 +556,17 @@ function info(api, node) {
  * @param {*} headerCheckbox the header checkbox option
  */
 function initCheckboxHeader( dt, headerCheckbox ) {
+	var dtInternalColumns = dt.settings()[0].aoColumns;
+
 	// Find any checkbox column(s)
-	dt.columns('.dt-select').every(function () {
-		var header = this.header();
+	dt.columns().iterator('column', function (s, idx) {
+		var col = dtInternalColumns[idx];
+
+		// Checkbox columns have a rendering function with a given name
+		if (! col.mRender || col.mRender.name !== 'selectCheckbox') {
+			return;
+		}
+		var header = dt.column(idx).header();
 
 		if (! $('input', header).length) {
 			// If no checkbox yet, insert one
@@ -1470,7 +1478,7 @@ $.each(['Row', 'Column', 'Cell'], function (i, item) {
 });
 
 // Note that DataTables 2.1 has more robust type detection, but we retain
-// backwards compatbility with 2.0 for the moment.
+// backwards compatibility with 2.0 for the moment.
 DataTable.type('select-checkbox', {
 	className: 'dt-select',
 	detect: DataTable.versionCheck('2.1')
