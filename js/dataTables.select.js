@@ -503,6 +503,15 @@ function eventTrigger(api, type, args, any) {
 }
 
 /**
+ * Determine if a column is a checkbox column
+ * @param {*} col DataTables column object
+ * @returns 
+ */
+function isCheckboxColumn(col) {
+	return col.mRender && col.mRender._name === 'selectCheckbox';
+}
+
+/**
  * Update the information element of the DataTable showing information about the
  * items selected. This is done by adding tags to the existing text
  *
@@ -563,7 +572,7 @@ function initCheckboxHeader( dt, headerCheckbox ) {
 		var col = dtInternalColumns[idx];
 
 		// Checkbox columns have a rendering function with a given name
-		if (! col.mRender || col.mRender._name !== 'selectCheckbox') {
+		if (! isCheckboxColumn(col)) {
 			return;
 		}
 		var header = dt.column(idx).header();
@@ -1091,7 +1100,7 @@ apiRegisterPlural('rows().select()', 'row().select()', function (select) {
 				api.columns().types()
 			}
 			
-			if (col.sType === 'select-checkbox') {
+			if (isCheckboxColumn(col)) {
 				var cells = dtData.anCells;
 
 				// Make sure the checkbox shows the right state
@@ -1225,7 +1234,7 @@ apiRegisterPlural('rows().deselect()', 'row().deselect()', function () {
 				api.columns().types()
 			}
 			
-			if (col.sType === 'select-checkbox') {
+			if (isCheckboxColumn(col)) {
 				var cells = dtData.anCells;
 
 				// Make sure the checkbox shows the right state
@@ -1490,7 +1499,7 @@ DataTable.type('select-checkbox', {
 				return false; // no op
 			},
 			init: function (settings, col, idx) {
-				return col.mRender && col.mRender._name === 'selectCheckbox';
+				return isCheckboxColumn(col);
 			}
 		}
 		: function (data) {

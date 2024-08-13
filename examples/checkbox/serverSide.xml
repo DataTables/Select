@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<dt-example table-type="ssp-details" order="9">
+
+<css lib="datatables select"/>
+<js lib="jquery datatables select"/>
+
+<js>
+<![CDATA[
+$('#example').DataTable({
+	ajax: '/examples/server_side/scripts/objects.php',
+	columns: [
+		{data: null, orderable: false, searchable: false, render: DataTable.render.select()},
+		{data: 'first_name'},
+		{data: 'last_name'},
+		{data: 'position'},
+		{data: 'office'}
+	],
+	order: [[1, 'asc']],
+	select: true,
+	serverSide: true
+});
+
+]]>
+</js>
+
+<js-vanilla>
+<![CDATA[
+new DataTable('#example', {
+	ajax: '/examples/server_side/scripts/objects.php',
+	columns: [
+		{data: null, orderable: false, searchable: false, render: DataTable.render.select()},
+		{data: 'first_name'},
+		{data: 'last_name'},
+		{data: 'position'},
+		{data: 'office'}
+	],
+	order: [[1, 'asc']],
+	select: true,
+	serverSide: true
+});
+
+]]>
+</js-vanilla>
+
+<title>Server-side processing</title>
+
+<info><![CDATA[
+
+This example demonstrates the use of Select's checkboxes with DataTables' [server-side processing mode](https://datatables.net/manual/server-side). When in this mode DataTables only has the rows that are displayed at the client-side, so row selection cannot happen on pages of data which are not displayed. This results in two important points:
+
+1. Row selection is not preserved across pages. Select a row on page 1, flick to the second page and then back. Your selected row is no longer selected (since it didn't exist when the table was displaying the second page!).
+2. Select all will select only the records on the current page.
+
+]]></info>
+
+</dt-example>
