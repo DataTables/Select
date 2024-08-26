@@ -7,7 +7,7 @@
 
 /// <reference types="jquery" />
 
-import DataTables from 'datatables.net';
+import DataTables, {ObjectColumnRender} from 'datatables.net';
 
 export default DataTables;
 
@@ -106,6 +106,26 @@ declare module 'datatables.net' {
 			 */
 			version: string;
 		}
+	}
+
+	interface DataTablesStaticRender {
+		/**
+		 * Display a checkbox in the column's cells to be used for and represent
+		 * row selection.
+		 */
+		select(): ObjectColumnRender;
+
+		/**
+		 * Display a checkbox in the column's cells to be used for and represent
+		 * row selection, with the `value` and `name` attributes for the checkbox
+		 * `input` being set by properties from the row's data object.
+		 *
+		 * @param valueProp Name of the data property where the `value` for the
+		 *   checkbox is.
+		 * @param nameProp Name of the data property where the `name` for the
+		 *   checkbox is.
+		 */
+		select(valueProp: string, nameProp: string): ObjectColumnRender;
 	}
 }
 
