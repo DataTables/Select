@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<dt-example table-type="ajax" table-class="display nowrap" order="13">
+
+<css lib="datatables select" />
+<js lib="jquery datatables select">
+<![CDATA[
+$('#example').DataTable({
+	ajax: '../../../../examples/server_side/scripts/ids-objects.php',
+	columns: [
+		{ data: 'name' },
+		{ data: 'position' },
+		{ data: 'office' },
+		{ data: 'extn' },
+		{ data: 'start_date' },
+		{ data: 'salary' }
+	],
+	processing: true,
+	rowId: 'id',
+	select: true,
+	serverSide: true
+});
+]]>
+</js>
+
+<js-vanilla>
+<![CDATA[
+new DataTable('#example', {
+	ajax: '../../../../examples/server_side/scripts/ids-objects.php',
+	columns: [
+		{ data: 'name' },
+		{ data: 'position' },
+		{ data: 'office' },
+		{ data: 'extn' },
+		{ data: 'start_date' },
+		{ data: 'salary' }
+	],
+	processing: true,
+	rowId: 'id',
+	select: true,
+	serverSide: true
+});
+]]>
+</js-vanilla>
+
+<title lib="Select">Server-side processing</title>
+
+<info><![CDATA[
+
+
+
+]]></info>
+
+</dt-example>

@@ -645,6 +645,12 @@ function init(ctx) {
 	var api = new DataTable.Api(ctx);
 	ctx._select_init = true;
 
+	// When `additive` then `_select_set` contains a list of the row ids that
+	// are selected. If `subtractive` then all rows are selected, except those
+	// in `_select_set`, which is a list of ids.
+	ctx._select_mode = 'additive';
+	ctx._select_set = [];
+
 	// Row callback so that classes can be added to rows and cells if the item
 	// was selected before the element was created. This will happen with the
 	// `deferRender` option enabled.
@@ -655,9 +661,14 @@ function init(ctx) {
 	ctx.aoRowCreatedCallback.push(function (row, data, index) {
 			var i, ien;
 			var d = ctx.aoData[index];
+			var id = api.row(index).id();
 
 			// Row
-			if (d._select_selected) {
+			if (
+				d._select_selected ||
+				(ctx._select_mode === 'additive' && ctx._select_set.includes(id)) ||
+				(ctx._select_mode === 'subtractive' && ! ctx._select_set.includes(id))
+			) {
 				$(row)
 					.addClass(ctx._select.className)
 					.find('input.' + checkboxClass(true)).prop('checked', true);
@@ -676,46 +687,7 @@ function init(ctx) {
 		}
 	);
 
-	// On Ajax reload we want to reselect all rows which are currently selected,
-	// if there is an rowId (i.e. a unique value to identify each row with)
-	api.on('preXhr.dt.dtSelect', function (e, settings) {
-		if (settings !== api.settings()[0]) {
-			// Not triggered by our DataTable!
-			return;
-		}
-
-		// note that column selection doesn't need to be cached and then
-		// reselected, as they are already selected
-		var rows = api
-			.rows({ selected: true })
-			.ids(true)
-			.filter(function (d) {
-				return d !== undefined;
-			});
-
-		var cells = api
-			.cells({ selected: true })
-			.eq(0)
-			.map(function (cellIdx) {
-				var id = api.row(cellIdx.row).id(true);
-				return id ? { row: id, column: cellIdx.column } : undefined;
-			})
-			.filter(function (d) {
-				return d !== undefined;
-			});
-
-		// On the next draw, reselect the currently selected items
-		api.one('draw.dt.dtSelect', function () {
-			api.rows(rows).select();
-
-			// `cells` is not a cell index selector, so it needs a loop
-			if (cells.any()) {
-				cells.each(function (id) {
-					api.cells(id.row, id.column).select();
-				});
-			}
-		});
-	});
+	_cumulativeEvents(api);
 
 	// Update the table information element with selected item summary
 	api.on('info.dt', function (e, ctx, node) {
@@ -886,6 +858,73 @@ function typeSelect(e, dt, ctx, type, idx) {
 
 function _safeId(node) {
 	return node.id.replace(/[^a-zA-Z0-9\-\_]/g, '-');
+}
+
+/**
+ * Set up event handlers for cumulative selection
+ *
+ * @param {*} api DT API instance
+ */
+function _cumulativeEvents(api) {
+	// Add event listeners to add / remove from the _select_set
+	api.on('select', function (e, dt, type, indexes) {
+		// Only support for rows at the moment
+		if (type !== 'row') {
+			return;
+		}
+
+		var ctx = api.settings()[0];
+
+		if (ctx._select_mode === 'additive') {
+			// Add row to the selection list if it isn't already there
+			_add(api, ctx._select_set, indexes);
+		}
+		else {
+			// Subtractive - if a row is selected it should not in the list
+			// as in subtractive mode the list gives the rows which are not
+			// selected
+			_remove(api, ctx._select_set, indexes);
+		}
+	});
+
+	api.on('deselect', function (e, dt, type, indexes) {
+		// Only support for rows at the moment
+		if (type !== 'row') {
+			return;
+		}
+
+		var ctx = api.settings()[0];
+
+		if (ctx._select_mode === 'additive') {
+			// List is of those rows selected, so remove it
+			_remove(api, ctx._select_set, indexes);
+		}
+		else {
+			// List is of rows which are deselected, so add it!
+			_add(api, ctx._select_set, indexes);
+		}
+	});
+}
+
+function _add(api, arr, indexes) {
+	for (var i=0 ; i<indexes.length ; i++) {
+		var id = api.row(indexes[i]).id();
+	
+		if (! arr.includes(id)) {
+			arr.push(id);
+		}
+	}
+}
+
+function _remove(api, arr, indexes) {
+	for (var i=0 ; i<indexes.length ; i++) {
+		var id = api.row(indexes[i]).id();
+		var idx = arr.indexOf(id);
+
+		if (idx !== -1) {
+			arr.splice(idx, 1);
+		}
+	}
 }
 
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
@@ -1071,6 +1110,19 @@ apiRegister('select.last()', function (set) {
 	}
 
 	return ctx._select_lastCell;
+});
+
+apiRegister('select.cumulative()', function () {
+	let ctx = this.context[0];
+
+	if (ctx) {
+		return {
+			mode: ctx._select_mode,
+			rows: ctx._select_set
+		};
+	}
+
+	return null;
 });
 
 apiRegisterPlural('rows().select()', 'row().select()', function (select) {
