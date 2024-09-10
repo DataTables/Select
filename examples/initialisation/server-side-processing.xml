@@ -1,21 +1,36 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<dt-example table-type="ajax" table-class="display nowrap" order="13">
+<dt-example table-type="ssp" table-class="display nowrap" order="13">
 
-<css lib="datatables select" />
-<js lib="jquery datatables select">
+<css lib="datatables select buttons" />
+<js lib="jquery datatables select buttons">
 <![CDATA[
 $('#example').DataTable({
 	ajax: '../../../../examples/server_side/scripts/ids-objects.php',
 	columns: [
-		{ data: 'name' },
+		{ data: 'first_name' },
+		{ data: 'last_name' },
 		{ data: 'position' },
 		{ data: 'office' },
-		{ data: 'extn' },
 		{ data: 'start_date' },
 		{ data: 'salary' }
 	],
+	layout: {
+		topStart: {
+			buttons: [
+				'pageLength',
+				{
+					text: 'View selection info',
+					action: function (e, dt) {
+						alert(
+							'Information about selected rows: '+
+							JSON.stringify(dt.select.cumulative())
+						);
+					}
+				}
+			]
+		}
+	},
 	processing: true,
-	rowId: 'id',
 	select: true,
 	serverSide: true
 });
@@ -27,15 +42,32 @@ $('#example').DataTable({
 new DataTable('#example', {
 	ajax: '../../../../examples/server_side/scripts/ids-objects.php',
 	columns: [
-		{ data: 'name' },
+		{ data: 'first_name' },
+		{ data: 'last_name' },
 		{ data: 'position' },
 		{ data: 'office' },
-		{ data: 'extn' },
 		{ data: 'start_date' },
 		{ data: 'salary' }
 	],
+	layout: {
+		topStart: {
+			buttons: [
+				'pageLength',
+				{
+					text: 'View selection info',
+					action: function (e, dt) {
+						alert(
+							'Information about selected rows: '+
+							JSON.stringify(dt.select.cumulative())
+						);
+					}
+				},
+				'selectAll',
+				'selectNone'
+			]
+		}
+	},
 	processing: true,
-	rowId: 'id',
 	select: true,
 	serverSide: true
 });
@@ -46,7 +78,13 @@ new DataTable('#example', {
 
 <info><![CDATA[
 
+Select 2.1 introduced support for server-side processing - there is special consideration here as the row selection is client-side, but not all rows are available at the client-side (only those drawn for the current display). This has an impact on the API as `.rows({selected: true})` will only be able to fetch information about the rows that are currently display.
 
+To address this, Select introduces the `-api select.cumulative()` method which can be used to get the ids of all rows that are selected. Note that the data source _must_ have a unique id per row and you may have to se the `-init rowId` option to tell DataTables what it is called (it looks for `DT_RowId` by default).
+
+`-api select.cumulative()` handles row selection by returning all rows which have been selected _or_ by all rows which have been deselected, which is important for the case when the end user uses the "select all" option of the header checkbox.
+
+This example lets you experiment with row selection when server-side processing is enabled.
 
 ]]></info>
 

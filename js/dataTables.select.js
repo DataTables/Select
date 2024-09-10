@@ -565,7 +565,8 @@ function info(api, node) {
  * @param {*} headerCheckbox the header checkbox option
  */
 function initCheckboxHeader( dt, headerCheckbox ) {
-	var dtInternalColumns = dt.settings()[0].aoColumns;
+	var dtSettings = dt.settings()[0];
+	var dtInternalColumns = dtSettings.aoColumns;
 
 	// Find any checkbox column(s)
 	dt.columns().iterator('column', function (s, idx) {
@@ -589,13 +590,17 @@ function initCheckboxHeader( dt, headerCheckbox ) {
 				.on('change', function () {
 					if (this.checked) {
 						if (headerCheckbox == 'select-page') {
-							dt.rows({page: 'current'}).select()
+							dt.rows({page: 'current'}).select();
 						} else {
 							dt.rows({search: 'applied'}).select();
+							dtSettings._select_mode = 'subtractive';
+							dtSettings._select_set.length = 0;
 						}
 					}
 					else {
 						dt.rows({selected: true}).deselect();
+						dtSettings._select_mode = 'additive';
+						dtSettings._select_set.length = 0;
 					}
 				})
 				.on('click', function (e) {
@@ -666,9 +671,15 @@ function init(ctx) {
 			// Row
 			if (
 				d._select_selected ||
-				(ctx._select_mode === 'additive' && ctx._select_set.includes(id)) ||
-				(ctx._select_mode === 'subtractive' && ! ctx._select_set.includes(id))
+				(
+					id !== undefined && (
+						(ctx._select_mode === 'additive' && ctx._select_set.includes(id)) ||
+						(ctx._select_mode === 'subtractive' && ! ctx._select_set.includes(id))
+					)
+				)
 			) {
+				d._select_selected = true;
+
 				$(row)
 					.addClass(ctx._select.className)
 					.find('input.' + checkboxClass(true)).prop('checked', true);
@@ -779,6 +790,9 @@ function clear(ctx, force) {
 		api.rows({ selected: true }).deselect();
 		api.columns({ selected: true }).deselect();
 		api.cells({ selected: true }).deselect();
+
+		dt.settings()[0]._select_mode = 'subtractive';
+		dt.settings()[0]._select_set.length = 0;		
 	}
 }
 
@@ -1461,6 +1475,11 @@ $.extend(DataTable.ext.buttons, {
 			}
 			else {
 				this[items + 's']().select();
+
+				if (items === 'row') {
+					dt.settings()[0]._select_mode = 'subtractive';
+					dt.settings()[0]._select_set.length = 0;		
+				}
 			}
 		}
 		// selectorModifier can be specified
