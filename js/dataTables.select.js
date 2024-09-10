@@ -79,6 +79,7 @@ DataTable.select.init = function (dt) {
 	var style = 'api';
 	var blurable = false;
 	var toggleable = true;
+	var selectable = null;
 	var info = true;
 	var selector = 'td, th';
 	var className = 'selected';
@@ -135,6 +136,10 @@ DataTable.select.init = function (dt) {
 		if (opts.headerCheckbox !== undefined) {
 			headerCheckbox = opts.headerCheckbox;
 		}
+
+		if (opts.selectable !== undefined) {
+			selectable = opts.selectable;
+		}
 	}
 
 	dt.select.selector(selector);
@@ -143,6 +148,7 @@ DataTable.select.init = function (dt) {
 	dt.select.blurable(blurable);
 	dt.select.toggleable(toggleable);
 	dt.select.info(info);
+	dt.select.selectable(selectable);
 	ctx._select.className = className;
 
 	// If the init options haven't enabled select, but there is a selectable
@@ -152,11 +158,9 @@ DataTable.select.init = function (dt) {
 	}
 
 	// Insert a checkbox into the header if needed - might need to wait
-	// for init complete, or it might already be done
+	// for init complete
 	if (headerCheckbox || headerCheckbox === 'select-page' || headerCheckbox === 'select-all') {
-		initCheckboxHeader(dt, headerCheckbox);
-
-		dt.on('init', function () {
+		dt.ready(function () {
 			initCheckboxHeader(dt, headerCheckbox);
 		});
 	}
@@ -523,7 +527,7 @@ function info(api, node) {
 		return;
 	}
 
-	var rows = api.rows({ selected: true }).flatten().length;
+	var rows = api.settings()[0]._select_set.length;
 	var columns = api.columns({ selected: true }).flatten().length;
 	var cells = api.cells({ selected: true }).flatten().length;
 
@@ -593,14 +597,10 @@ function initCheckboxHeader( dt, headerCheckbox ) {
 							dt.rows({page: 'current'}).select();
 						} else {
 							dt.rows({search: 'applied'}).select();
-							dtSettings._select_mode = 'subtractive';
-							dtSettings._select_set.length = 0;
 						}
 					}
 					else {
 						dt.rows({selected: true}).deselect();
-						dtSettings._select_mode = 'additive';
-						dtSettings._select_set.length = 0;
 					}
 				})
 				.on('click', function (e) {
@@ -650,10 +650,7 @@ function init(ctx) {
 	var api = new DataTable.Api(ctx);
 	ctx._select_init = true;
 
-	// When `additive` then `_select_set` contains a list of the row ids that
-	// are selected. If `subtractive` then all rows are selected, except those
-	// in `_select_set`, which is a list of ids.
-	ctx._select_mode = 'additive';
+	// _select_set contains a list of the ids of all rows that are selected
 	ctx._select_set = [];
 
 	// Row callback so that classes can be added to rows and cells if the item
@@ -671,12 +668,7 @@ function init(ctx) {
 			// Row
 			if (
 				d._select_selected ||
-				(
-					id !== undefined && (
-						(ctx._select_mode === 'additive' && ctx._select_set.includes(id)) ||
-						(ctx._select_mode === 'subtractive' && ! ctx._select_set.includes(id))
-					)
-				)
+				(id !== 'undefined' && ctx._select_set.includes(id))
 			) {
 				d._select_selected = true;
 
@@ -790,9 +782,6 @@ function clear(ctx, force) {
 		api.rows({ selected: true }).deselect();
 		api.columns({ selected: true }).deselect();
 		api.cells({ selected: true }).deselect();
-
-		dt.settings()[0]._select_mode = 'subtractive';
-		dt.settings()[0]._select_set.length = 0;		
 	}
 }
 
@@ -889,16 +878,7 @@ function _cumulativeEvents(api) {
 
 		var ctx = api.settings()[0];
 
-		if (ctx._select_mode === 'additive') {
-			// Add row to the selection list if it isn't already there
-			_add(api, ctx._select_set, indexes);
-		}
-		else {
-			// Subtractive - if a row is selected it should not in the list
-			// as in subtractive mode the list gives the rows which are not
-			// selected
-			_remove(api, ctx._select_set, indexes);
-		}
+		_add(api, ctx._select_set, indexes);
 	});
 
 	api.on('deselect', function (e, dt, type, indexes) {
@@ -909,14 +889,7 @@ function _cumulativeEvents(api) {
 
 		var ctx = api.settings()[0];
 
-		if (ctx._select_mode === 'additive') {
-			// List is of those rows selected, so remove it
-			_remove(api, ctx._select_set, indexes);
-		}
-		else {
-			// List is of rows which are deselected, so add it!
-			_add(api, ctx._select_set, indexes);
-		}
+		_remove(api, ctx._select_set, indexes);
 	});
 }
 
@@ -1089,10 +1062,15 @@ apiRegister('select.style()', function (style) {
 		// Add / remove mouse event handlers. They aren't required when only
 		// API selection is available
 		var dt = new DataTable.Api(ctx);
-		disableMouseSelection(dt);
 
 		if (style !== 'api') {
-			enableMouseSelection(dt);
+			dt.ready(function () {
+				disableMouseSelection(dt);
+				enableMouseSelection(dt);
+			});
+		}
+		else {
+			disableMouseSelection(dt);
 		}
 
 		eventTrigger(new DataTable.Api(ctx), 'selectStyle', [style]);
@@ -1105,14 +1083,33 @@ apiRegister('select.selector()', function (selector) {
 	}
 
 	return this.iterator('table', function (ctx) {
-		disableMouseSelection(new DataTable.Api(ctx));
+		var dt = new DataTable.Api(ctx);
+
+		disableMouseSelection(dt);
 
 		ctx._select.selector = selector;
 
 		if (ctx._select.style !== 'api') {
-			enableMouseSelection(new DataTable.Api(ctx));
+			dt.ready(function () {
+				disableMouseSelection(dt);
+				enableMouseSelection(dt);
+			});
+		}
+		else {
+			disableMouseSelection(dt);
 		}
 	});
+});
+
+apiRegister('select.selectable()', function (set) {
+	let ctx = this.context[0];
+
+	if (set) {
+		ctx._select.selectable = set;
+		return this;
+	}
+
+	return ctx._select.selectable;
 });
 
 apiRegister('select.last()', function (set) {
@@ -1129,18 +1126,14 @@ apiRegister('select.last()', function (set) {
 apiRegister('select.cumulative()', function () {
 	let ctx = this.context[0];
 
-	if (ctx) {
-		return {
-			mode: ctx._select_mode,
-			rows: ctx._select_set
-		};
-	}
-
-	return null;
+	return ctx && ctx._select_set
+		? ctx._select_set
+		: [];
 });
 
 apiRegisterPlural('rows().select()', 'row().select()', function (select) {
 	var api = this;
+	var selectedIndexes = [];
 
 	if (select === false) {
 		return this.deselect();
@@ -1155,8 +1148,19 @@ apiRegisterPlural('rows().select()', 'row().select()', function (select) {
 		var dtData = ctx.aoData[idx];
 		var dtColumns = ctx.aoColumns;
 
+		if (ctx._select.selectable) {
+			var result = ctx._select.selectable(dtData._aData, dtData.nTr, idx);
+
+			if (result === false) {
+				// Not selectable - do nothing
+				return;
+			}
+		}
+
 		$(dtData.nTr).addClass(ctx._select.className);
 		dtData._select_selected = true;
+
+		selectedIndexes.push(idx);
 
 		for (var i=0 ; i<dtColumns.length ; i++) {
 			var col = dtColumns[i];
@@ -1182,8 +1186,8 @@ apiRegisterPlural('rows().select()', 'row().select()', function (select) {
 		}
 	});
 
-	this.iterator('table', function (ctx, i) {
-		eventTrigger(api, 'select', ['row', api[i]], true);
+	this.iterator('table', function (ct) {
+		eventTrigger(api, 'select', ['row', selectedIndexes], true);
 	});
 
 	return this;
@@ -1475,11 +1479,6 @@ $.extend(DataTable.ext.buttons, {
 			}
 			else {
 				this[items + 's']().select();
-
-				if (items === 'row') {
-					dt.settings()[0]._select_mode = 'subtractive';
-					dt.settings()[0]._select_set.length = 0;		
-				}
 			}
 		}
 		// selectorModifier can be specified
@@ -1600,8 +1599,19 @@ DataTable.render.select = function (valueProp, nameProp) {
 		var dtRow = meta.settings.aoData[meta.row];
 		var selected = dtRow._select_selected;
 		var ariaLabel = meta.settings.oLanguage.select.aria.rowCheckbox;
+		var selectable = meta.settings._select.selectable;
 
 		if (type === 'display') {
+			// Check if the row is selectable before showing the checkbox
+			console.log(selectable, row);
+			if (selectable) {
+				var result = selectable(row, dtRow.nTr, meta.row);
+	
+				if (result === false) {
+					return '';
+				}
+			}
+
 			return $('<input>')
 				.attr({
 					'aria-label': ariaLabel,
@@ -1660,11 +1670,10 @@ $.fn.DataTable.select = DataTable.select;
  * Initialisation
  */
 
-// DataTables creation - check if select has been defined in the options. Note
-// this required that the table be in the document! If it isn't then something
-// needs to trigger this method unfortunately. The next major release of
-// DataTables will rework the events and address this.
-$(document).on('preInit.dt.dtSelect', function (e, ctx) {
+// DataTables creation - we need this to run _before_ data is read in, but
+// for backwards compat. we also run again on preInit. If it happens twice
+// it will simply do nothing the second time around.
+$(document).on('i18n.dt.dtSelect preInit.dt.dtSelect', function (e, ctx) {
 	if (e.namespace !== 'dt') {
 		return;
 	}

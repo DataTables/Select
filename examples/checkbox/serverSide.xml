@@ -7,7 +7,7 @@
 <js>
 <![CDATA[
 $('#example').DataTable({
-	ajax: '/examples/server_side/scripts/objects.php',
+	ajax: '/examples/server_side/scripts/ids-objects.php',
 	columns: [
 		{data: null, orderable: false, searchable: false, render: DataTable.render.select()},
 		{data: 'first_name'},
@@ -26,7 +26,7 @@ $('#example').DataTable({
 <js-vanilla>
 <![CDATA[
 new DataTable('#example', {
-	ajax: '/examples/server_side/scripts/objects.php',
+	ajax: '/examples/server_side/scripts/ids-objects.php',
 	columns: [
 		{data: null, orderable: false, searchable: false, render: DataTable.render.select()},
 		{data: 'first_name'},
@@ -46,10 +46,7 @@ new DataTable('#example', {
 
 <info><![CDATA[
 
-This example demonstrates the use of Select's checkboxes with DataTables' [server-side processing mode](https://datatables.net/manual/server-side). When in this mode DataTables only has the rows that are displayed at the client-side, so row selection cannot happen on pages of data which are not displayed. This results in two important points:
-
-1. Row selection is not preserved across pages. Select a row on page 1, flick to the second page and then back. Your selected row is no longer selected (since it didn't exist when the table was displaying the second page!).
-2. Select all will select only the records on the current page.
+This example demonstrates the use of Select's checkboxes with DataTables' [server-side processing mode](https://datatables.net/manual/server-side). See [this example](../initialisation/server-side-processing.html) for more details about using Select with server-side processing and the implications.
 
 ]]></info>
 

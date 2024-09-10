@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<dt-example table-type="html" order="11">
+
+<css lib="datatables select">
+tr.unselectable {
+	opacity: 0.5;
+}
+</css>
+<js lib="jquery datatables select">
+<![CDATA[
+
+$('#example').DataTable({
+	rowCallback: function (tr, rowData) {
+		if (rowData[2] === 'New York') {
+			$(tr).addClass('unselectable');
+		}
+	},
+	select: {
+		selectable: function (rowData) {
+			return rowData[2] !== 'New York';
+		}
+	}
+});
+
+]]>
+</js>
+
+<js-vanilla>
+<![CDATA[
+new DataTable('#example', {
+	rowCallback: function (tr, rowData) {
+		if (rowData[2] === 'New York') {
+			tr.classList.add('unselectable');
+		}
+	},
+	select: {
+		selectable: function (rowData) {
+			return rowData[2] !== 'New York';
+		}
+	},
+	columnDefs: [
+		{
+			target: 0,
+			render: DataTable.render.select()
+		}
+	]
+});
+
+]]>
+</js-vanilla>
+
+<title lib="Select">Disallow selection on specific rows</title>
+
+<info><![CDATA[
+
+This example demonstrates the ability to disable row selection on specific rows using the `-init select.selectable` option. This must be given as a function which will then check the row to see if it should be selectable or not (typically this determination will be based on the data in the row). If not, Select will ignore operations on this row.
+
+In this example all rows which have a location of "New York" are unselectable. To show this visually a little bit of CSS is used to fade those rows out (class added by the `-init rowCallback` handler). This is optional but it gives the end user a visual clue. If you are using a checkbox for row selection, rows which don't match the selectable requirements will not have a checkbox shown.
+
+]]></info>
+
+</dt-example>

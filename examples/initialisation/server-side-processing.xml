@@ -54,7 +54,7 @@ new DataTable('#example', {
 			buttons: [
 				'pageLength',
 				{
-					text: 'View selection info',
+					text: 'View selected ids',
 					action: function (e, dt) {
 						alert(
 							'Information about selected rows: '+
@@ -80,11 +80,11 @@ new DataTable('#example', {
 
 Select 2.1 introduced support for server-side processing - there is special consideration here as the row selection is client-side, but not all rows are available at the client-side (only those drawn for the current display). This has an impact on the API as `.rows({selected: true})` will only be able to fetch information about the rows that are currently display.
 
-To address this, Select introduces the `-api select.cumulative()` method which can be used to get the ids of all rows that are selected. Note that the data source _must_ have a unique id per row and you may have to se the `-init rowId` option to tell DataTables what it is called (it looks for `DT_RowId` by default).
+To address this, Select introduces the `-api select.cumulative()` method which can be used to get the ids of all rows that are selected, regardless of paging or filtering. Note that the data source _must_ have a unique id per row and you may have to se the `-init rowId` option to tell DataTables what it is called (it looks for `DT_RowId` by default).
 
-`-api select.cumulative()` handles row selection by returning all rows which have been selected _or_ by all rows which have been deselected, which is important for the case when the end user uses the "select all" option of the header checkbox.
+Additionally, the `-button selectAll` button and checkbox header (when used with checkbox selection) will only select the currently displayed rows. This is because the client-side can't know what other rows there are that can be selected.
 
-This example lets you experiment with row selection when server-side processing is enabled.
+This example let's you experiment with Select when server-side processing is enabled.
 
 ]]></info>
 
