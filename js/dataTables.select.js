@@ -527,9 +527,13 @@ function info(api, node) {
 		return;
 	}
 
-	var rows = api.settings()[0]._select_set.length;
-	var columns = api.columns({ selected: true }).flatten().length;
-	var cells = api.cells({ selected: true }).flatten().length;
+	// If _select_set has any length, then ids are available and should be used
+	// as the counter. Otherwise use the API to workout how many rows are
+	// selected.
+	var rowSetLength = api.settings()[0]._select_set.length;
+	var rows = rowSetLength ? rowSetLength : api.rows({ selected: true }).count();
+	var columns = api.columns({ selected: true }).count();
+	var cells = api.cells({ selected: true }).count();
 
 	var add = function (el, name, num) {
 		el.append(
@@ -611,16 +615,14 @@ function initCheckboxHeader( dt, headerCheckbox ) {
 			// table changes
 			dt.on('draw select deselect', function (e, pass, type) {
 				if (type === 'row' || ! type) {
-					var count = dt.rows({selected: true}).count();
-					var search = dt.rows({search: 'applied', selected: true}).count();
-					var available = headerCheckbox == 'select-page' ? dt.rows({page: 'current'}).count() : dt.rows({search: 'applied'}).count();
+					var nums = headerCheckboxState(dt, headerCheckbox);
 
-					if (search && search <= count && search === available) {
+					if (nums.search && nums.search <= nums.count && nums.search === nums.available) {
 						input
 							.prop('checked', true)
 							.prop('indeterminate', false);
 					}
-					else if (search === 0 && count === 0) {
+					else if (nums.search === 0 && nums.count === 0) {
 						input
 							.prop('checked', false)
 							.prop('indeterminate', false);
@@ -634,6 +636,50 @@ function initCheckboxHeader( dt, headerCheckbox ) {
 			});
 		}
 	});
+}
+
+/**
+ * Determine the counts used to define the header checkbox's state
+ *
+ * @param {*} dt DT API
+ * @param {*} headerCheckbox Configuration for what the header checkbox does
+ * @returns Counts object
+ */
+function headerCheckboxState(dt, headerCheckbox) {
+	var ctx = dt.settings()[0];
+	var selectable = ctx._select.selectable;
+	var count = dt.rows({selected: true}).count()
+	var search = dt.rows({search: 'applied', selected: true}).count();
+	var available = 0;
+
+	if (! selectable) {
+		available = headerCheckbox == 'select-page'
+			? dt.rows({page: 'current'}).count()
+			: dt.rows({search: 'applied'}).count();	
+	}
+	else {
+		// Need to count how many rows are actually selectable to know if all selectable
+		// rows are selected or not
+		var indexes = headerCheckbox == 'select-page'
+			? dt.rows({page: 'current'}).indexes()
+			: dt.rows({search: 'applied'}).indexes();
+
+		for (var i=0 ; i<indexes.length ; i++) {
+			// For speed I use the internal DataTables object.
+			var rowInternal = ctx.aoData[indexes[i]];
+			var result = selectable(rowInternal._aData, rowInternal.nTr, indexes[i]);
+
+			if (result) {
+				available++;
+			}
+		}
+	}
+
+	return {
+		available: available,
+		count: count,
+		search: search
+	}
 }
 
 /**
@@ -896,8 +942,8 @@ function _cumulativeEvents(api) {
 function _add(api, arr, indexes) {
 	for (var i=0 ; i<indexes.length ; i++) {
 		var id = api.row(indexes[i]).id();
-	
-		if (! arr.includes(id)) {
+
+		if (id && id !== 'undefined' && ! arr.includes(id)) {
 			arr.push(id);
 		}
 	}

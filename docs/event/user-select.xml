@@ -31,6 +31,8 @@
 
 		Note that this event will not be triggered when the API methods for item selection are used (e.g. `se-api row().select()`). It will only be triggered by an end user action defined by `se-init select.selector`.
 
+		If you wish to make a row totally unselectable, use the `-init select.selectable` option.
+
 		Additionally, as with all DataTables emitted events, this event is triggered with the `dt` namespace. As such, to listen for this event, you must also use the `dt` namespace by simply appending `.dt` to your event name (this is done automatically when using `dt-api on()` and `dt-api one()`). 
 	</description>
 
@@ -45,4 +47,7 @@ table.on('user-select', function (e, dt, type, cell, originalEvent) {
 	}
 });
 ]]></example>
+
+	<related>-init select.selectable</related>
+	<related>-api select.selectable()</related>
 </dt-event>

@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<dt-option library="Select">
+	<name>select.selectable</name>
+	<summary>Set a function that will determine if a row should be selectable.</summary>
+	<since>2.1.0</since>
+
+	<default value="undefined"/>
+
+	<type type="function">
+		<signature>selectable( data, tr, index )</signature>
+		<parameter type="object|array" name="row">
+			The row's data source object or array (depending on `-init columns.data`).
+		</parameter>
+		<parameter type="node|null" name="tr">
+			The `-tag tr` element for the node. Please note that this might be `null` if Ajax loading data and the row has not yet been rendered (see `-init deferRender`).
+		</parameter>
+		<parameter type="integer" name="index">
+			The row's data index in the DataTable (`-api row().index()`).
+		</parameter>
+		<returns type="boolean">
+			Return `true` if the row is selectable and `false` if not.
+		</returns>
+	</type>
+
+	<description>
+		In some data sets you might find that you wish to disallow selection on some specific rows of data. This option provides exactly that ability by allowing you to define a function that will return a value to indicate if a row should be selectable or not based on whatever logic you wish to define.
+
+		The function is passed in information about the row and it is _strongly_ recommended that you use the row data to perform your logic check on only to keep the function operation as fast as possible. You could use the table node or even look the row up in the API, but these operations can slow the table down as this function, if defined, can be called frequently.
+
+		If this function is not defined (there is no default function), all rows are considered to be selectable.
+	</description>
+
+	<example title="Use a data point from the row's data as the selectable flag"><![CDATA[
+new DataTable('#example', {
+	select: {
+		selectable: rowData => rowData.outdated
+	}
+});
+]]></example>
+
+	<example title="Check data in the row to decide it it should be selectable. Also add a class based on the same logic"><![CDATA[
+new DataTable('#example', {
+	rowCallback: function (tr, rowData) {
+		if (rowData[2] === 'New York') {
+			tr.classList.add('unselectable');
+		}
+	},
+	select: {
+		selectable: function (rowData) {
+			return rowData[2] !== 'New York';
+		}
+	}
+});
+
+]]></example>
+
+	<related>-api select.selectable()</related>
+	<related>-event user-select()</related>
+</dt-option>

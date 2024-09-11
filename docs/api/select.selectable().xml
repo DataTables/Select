@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<dt-api library="Select">
+	<name>select.selectable()</name>
+	<summary>Get / set the function used to determine if a row should be selectable</summary>
+	<since>2.1.0</since>
+
+	<type type="function">
+		<signature>select.selectable()</signature>
+		<returns type="function|undefined">
+			Returns the function set using this method or `-init select.selectable`. If no function is defined, `undefined` is returned.
+		</returns>
+		<description>
+			Get the function that is used to determine if a row is selectable.
+		</description>
+	</type>
+
+	<type type="function">
+		<signature>select.selectable( set )</signature>
+		<parameter type="function" name="set">
+			Function used to determine if a row should be selectable or not. See `-init select.selectable` for the function's signature.
+		</parameter>
+		<returns type="DataTables.Api">
+			DataTables API instance for chaining.
+		</returns>
+		<description>
+			Set the table's selectable function.
+		</description>
+	</type>
+
+	<description>
+		This method allows dynamic assignment of the `-init select.selectable` function, which is used to determine if a row should be selectable or not.
+	</description>
+
+	<example title="Let the user select items using the _os_ selection style"><![CDATA[
+let table = new DataTable('#myTable', {
+	select: true
+});
+
+table.select.selectable((data, tr, idx) => {
+	return data.selectable;
+});
+]]></example>
+
+	<related>-init select.selectable</related>
+	<related>-event user-select</related>
+</dt-api>

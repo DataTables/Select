@@ -37,13 +37,7 @@ new DataTable('#example', {
 		selectable: function (rowData) {
 			return rowData[2] !== 'New York';
 		}
-	},
-	columnDefs: [
-		{
-			target: 0,
-			render: DataTable.render.select()
-		}
-	]
+	}
 });
 
 ]]>
