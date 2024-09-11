@@ -1109,6 +1109,7 @@ apiRegister('select.style()', function (style) {
 		// API selection is available
 		var dt = new DataTable.Api(ctx);
 
+		console.log('style', style);
 		if (style !== 'api') {
 			dt.ready(function () {
 				disableMouseSelection(dt);
@@ -1130,12 +1131,13 @@ apiRegister('select.selector()', function (selector) {
 
 	return this.iterator('table', function (ctx) {
 		var dt = new DataTable.Api(ctx);
+		var style = ctx._select.style;
 
 		disableMouseSelection(dt);
 
 		ctx._select.selector = selector;
 
-		if (ctx._select.style !== 'api') {
+		if (style && style !== 'api') {
 			dt.ready(function () {
 				disableMouseSelection(dt);
 				enableMouseSelection(dt);
@@ -1595,6 +1597,8 @@ $.each(['Row', 'Column', 'Cell'], function (i, item) {
 		init: function (dt) {
 			var that = this;
 
+			this.active(dt.select.items() === lc);
+
 			dt.on('selectItems.dt.DT', function (e, ctx, items) {
 				that.active(items === lc);
 			});
@@ -1649,7 +1653,6 @@ DataTable.render.select = function (valueProp, nameProp) {
 
 		if (type === 'display') {
 			// Check if the row is selectable before showing the checkbox
-			console.log(selectable, row);
 			if (selectable) {
 				var result = selectable(row, dtRow.nTr, meta.row);
 	
