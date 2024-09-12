@@ -604,13 +604,18 @@ function initCheckboxHeader( dt, headerCheckbox ) {
 						}
 					}
 					else {
-						dt.rows({selected: true}).deselect();
+						if (headerCheckbox == 'select-page') {
+							dt.rows({page: 'current', selected: true}).deselect();
+						}
+						else {
+							dt.rows({selected: true}).deselect();
+						}
 					}
 				})
 				.on('click', function (e) {
 					e.stopPropagation();
 				});
-	
+
 			// Update the header checkbox's state when the selection in the
 			// table changes
 			dt.on('draw select deselect', function (e, pass, type) {
@@ -648,9 +653,13 @@ function initCheckboxHeader( dt, headerCheckbox ) {
 function headerCheckboxState(dt, headerCheckbox) {
 	var ctx = dt.settings()[0];
 	var selectable = ctx._select.selectable;
-	var count = dt.rows({selected: true}).count()
-	var search = dt.rows({search: 'applied', selected: true}).count();
 	var available = 0;
+	var count = headerCheckbox == 'select-page'
+		? dt.rows({page: 'current', selected: true}).count()
+		: dt.rows({selected: true}).count();
+	var search = headerCheckbox == 'select-page'
+		? dt.rows({page: 'current', selected: true}).count()
+		: dt.rows({search: 'applied', selected: true}).count();
 
 	if (! selectable) {
 		available = headerCheckbox == 'select-page'
@@ -1109,7 +1118,6 @@ apiRegister('select.style()', function (style) {
 		// API selection is available
 		var dt = new DataTable.Api(ctx);
 
-		console.log('style', style);
 		if (style !== 'api') {
 			dt.ready(function () {
 				disableMouseSelection(dt);

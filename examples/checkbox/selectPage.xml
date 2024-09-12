@@ -58,6 +58,8 @@ new DataTable('#example', {
 
 This example shows the checkbox selection option being used with Ajax loaded data and a header checkbox which will select only the rows in on the current page, as defined by the `-init select.headerCheckbox` option.
 
+In this mode the header checkbox operates on, and reflects the status on, the current page of data only.
+
 ]]></info>
 
 </dt-example>
