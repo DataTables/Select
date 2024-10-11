@@ -8,7 +8,7 @@
 
 	<type type="function">
 		<signature>selectable( data, tr, index )</signature>
-		<parameter type="object|array" name="row">
+		<parameter type="object|array" name="data">
 			The row's data source object or array (depending on `-init columns.data`).
 		</parameter>
 		<parameter type="node|null" name="tr">
