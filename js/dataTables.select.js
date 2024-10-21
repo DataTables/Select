@@ -1109,7 +1109,6 @@ apiRegister('select.style()', function (style) {
 		// API selection is available
 		var dt = new DataTable.Api(ctx);
 
-		console.log('style', style);
 		if (style !== 'api') {
 			dt.ready(function () {
 				disableMouseSelection(dt);
