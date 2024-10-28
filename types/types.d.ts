@@ -127,6 +127,53 @@ declare module 'datatables.net' {
 		 */
 		select(valueProp: string, nameProp: string): ObjectColumnRender;
 	}
+
+	interface Buttons {
+		/** Select all rows in the table */
+		selectAll: {
+			extend: 'selectAll';
+			selectorModifier?: ApiSelectorModifier;
+		}
+
+		/** Change selection type to cells. Shows as active when cell selection is enabled */
+		selectCells: {
+			extend: 'selectCells';
+		}
+
+		/** Change selection type to columns. Shows as active when cell selection is enabled */
+		selectColumns: {
+			extend: 'selectColumns';
+		}
+
+		/** Button which is enabled only when one or more rows are selected. Provide your own action function. */
+		selected: {
+			extend: 'selected';
+			limitTo?: string[];
+		}
+
+		/** Button which is enabled only when a single row is selected. Provide your own action function. */
+		selectedSingle: {
+			extend: 'selected';
+		}
+
+		/** Deselect all currently selected rows. */
+		selectNone: {
+			extend: 'selectNone';
+		}
+
+		/** Change selection type to rows. Shows as active when cell selection is enabled */
+		selectRows: {
+			extend: 'selectRows';
+		}
+
+		/**
+		 * Toggle a filter that will reduce the rows displayed to just those which are selected. Uses
+		 * its own action function - don't provide your own.
+		 */
+		showSelected: {
+			extend: 'showSelected';
+		}
+	}
 }
 
 interface ConfigSelect {
