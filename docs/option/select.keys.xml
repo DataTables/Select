@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<dt-option library="Select">
+	<name>select.keys</name>
+	<summary>Keyboard navigation and selection of rows in the table</summary>
+	<since>2.2.0</since>
+
+	<default value="false"/>
+
+	<type type="boolean">
+		<description>
+			`true` enables keyboard navigation of the table through the Select extension, while `false` disables it (i.e. only mouse / touch selection).
+		</description>
+	</type>
+
+	<description>
+		This options provides the end user with the ability to navigate through and select rows from the DataTable via a keyboard, rather than depending on a mouse / touch. When enabled keyboard navigation will be enabled acting as if each row in the table is part of a list (e.g. think of a multi `-tag select` list).
+
+		Keyboard navigation rules are:
+
+		* Tab - act as if rows are part of the tab flow of the document (i.e. a form element).
+		* Down key - move to the next row, or if at the end of the current page, move to the next page and focus on the first row.
+		* Up key - move to the previous row, or if at the start of the current page, move to the previous page and select the last row.
+		* Space - toggle row selection.
+
+		Please note that Select offers another form of row selection via keyboard through [its checkbox renderer](https://datatables.net/extensions/select/examples/checkbox/checkbox.html). The `-init select.keys` option should not be used at the same time as checkboxes as you would end up with both the row and the checkbox being navigable.
+
+		Additionally, DataTables as a KeyTable extension](https://datatables.net/extensions/keytable) for cell navigation by keyboard. This option is not compatible with KeyTable, again because of a conflict - rows and cells both being selectable.
+
+		Select the correct form of keyboard navigation for your needed. This option is particularly useful if you which to treat your DataTable as a list.
+	</description>
+
+	<example title="Enable keyboard navigation of rows for selection"><![CDATA[
+new DataTable('#myTable', {
+	select: {
+		keys: true
+	}
+});
+]]></example>
+
+	<example title="Keyboard navigation enabled with single row selection only"><![CDATA[
+new DataTable('#myTable', {
+	select: {
+		keys: true,
+		style: 'single'
+	}
+});
+]]></example>
+</dt-option>

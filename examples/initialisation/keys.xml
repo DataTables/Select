@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<dt-example table-type="html" order="20">
+
+<css lib="datatables select"/>
+<js lib="jquery datatables select">
+<![CDATA[
+
+var table = $('#example').DataTable({
+	select: {
+		keys: true
+	}
+});
+
+table.row(':eq(0)').focus();
+
+]]>
+</js>
+
+<js-vanilla>
+<![CDATA[
+
+let table = new DataTable('#example', {
+	select: {
+		keys: true
+	}
+});
+
+table.row(':eq(0)').focus();
+
+]]>
+</js-vanilla>
+
+<title lib="Select">Keyboard navigation and selection</title>
+
+<info><![CDATA[
+
+Select can be used with keyboard navigation to move around the table and also select or deselect rows. In the example below, the first row in the table is focused on load and you can then navigate through the rows using tab or the arrow keys, similar to what you might do with a `-tag select` list or a collection of radio inputs. You may also use the space bar to select or deselect a row that is focused.
+
+Keyboard navigation in Select is disabled by default, but can be enabled with `-init select.keys`.
+
+Please note that this ability is not compatible with the [KeyTable extension for DataTables](https://datatables.net/extensions/keytable), nor [Select's own checkboxes](../checkbox/). Both options offer alternative forms of keyboard navigation and would conflict. Use whichever method is best for your use case.
+
+]]></info>
+
+</dt-example>
+

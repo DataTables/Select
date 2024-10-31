@@ -34,14 +34,24 @@ declare module 'datatables.net' {
 
 	interface ApiRowMethods<T> {
 		/**
-		 * Select a row
+		 * Blur a row
 		 */
-		select(): Api<T>;
+		blur(): Api<T>;
 
 		/**
 		 * Deselect a row
 		 */
 		deselect(): Api<T>;
+
+		/**
+		 * Keyboard focus on a row
+		 */
+		focus(): Api<T>;
+
+		/**
+		 * Select a row
+		 */
+		select(): Api<T>;
 	}
 
 	interface ApiRowsMethods<T> {
@@ -150,6 +160,9 @@ interface ConfigSelect {
 	 */
 	items?: string;
 
+	/** Set keyboard accessability (tab and arrow keys) */
+	keys?: boolean;
+
 	/**
 	 * Set the element selector used for mouse event capture to select items
 	 */
@@ -213,6 +226,21 @@ interface ApiSelect<Api> {
 	 * @returns DataTables API instance for chaining.
 	 */
 	items(set: string): Api;
+
+	/**
+	 * Get Select's keyboard navigation state
+	 * 
+	 * @returns The keyboard navigation state of Select
+	 */
+	keys(): boolean;
+
+	/**
+	 * Set Select's keyboard navigation state
+	 * 
+	 * @param set Enable (true) or disable (false) row keyboard navigation
+	 * @returns DataTables API instance for chaining.
+	 */
+	keys(set: boolean): Api;
 
 	/**
 	 * Get the current item selector string applied to the table.

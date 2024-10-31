@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<dt-api library="Select">
+	<name>row().focus()</name>
+	<summary>Move keyboard focus to a specific row</summary>
+	<since>2.2.0</since>
+
+	<type type="function">
+		<signature>row().focus()</signature>
+		<returns type="DataTables.Api">
+			API instance that contains a reference to the selected row.
+		</returns>
+		<description>
+			Move keyboard focus to the row selected.
+		</description>
+	</type>
+
+	<description>
+		When `-init select.keys` is enabled rows in the table can gain focus to allow keyboard navigation. This method provides the ability to programmatically set which row in the table should gain focus. It does not do automatic page shifting - make sure the row you want to focus on is shown in the current page!
+		
+		Note that this method only has an effect when `-init select.keys` is enabled. If that option is disabled (or has been disabled via `-api select.keys()`) this method will do nothing. It also will not throw an error - it is just a _no operation_ action.
+	</description>
+
+	<example title="Focus on the first row in the table's current page"><![CDATA[
+var table = new DataTable('#myTable');
+
+table.row(':first-child', {page: 'current'}).focus();
+]]></example>
+
+	<related>-api select.keys()</related>
+	<related>-api row().blur()</related>
+	<related>-init select.keys</related>
+</dt-api>

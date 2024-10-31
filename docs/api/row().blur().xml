@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<dt-api library="Select">
+	<name>row().blur()</name>
+	<summary>Blur focus from a row</summary>
+	<since>2.2.0</since>
+
+	<type type="function">
+		<signature>row().blur()</signature>
+		<returns type="DataTables.Api">
+			API instance that contains a reference to the selected row.
+		</returns>
+		<description>
+			Move keyboard focus to the row selected.
+		</description>
+	</type>
+
+	<description>
+		When `-init select.keys` is enabled rows in the table can gain focus to allow keyboard navigation. This method provides the ability to programmatically blur focus from a row - just as you might with an `-tag input` element.
+		
+		Note that this method only has an effect when `-init select.keys` is enabled. If that option is disabled (or has been disabled via `-api select.keys()`) this method will do nothing. It also will not throw an error - it is just a _no operation_ action.
+	</description>
+
+	<example title="Blur focus from the currently focused row"><![CDATA[
+table.row(document.activeElement).blur();
+]]></example>
+
+	<related>-api select.keys()</related>
+	<related>-api row().focus()</related>
+	<related>-init select.keys</related>
+</dt-api>

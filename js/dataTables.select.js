@@ -85,6 +85,7 @@ DataTable.select.init = function (dt) {
 	var className = 'selected';
 	var headerCheckbox = true;
 	var setStyle = false;
+	var keys = false;
 
 	ctx._select = {
 		infoEls: []
@@ -140,6 +141,10 @@ DataTable.select.init = function (dt) {
 		if (opts.selectable !== undefined) {
 			selectable = opts.selectable;
 		}
+
+		if (opts.keys !== undefined) {
+			keys = opts.keys;
+		}
 	}
 
 	dt.select.selector(selector);
@@ -148,6 +153,7 @@ DataTable.select.init = function (dt) {
 	dt.select.blurable(blurable);
 	dt.select.toggleable(toggleable);
 	dt.select.info(info);
+	dt.select.keys(keys);
 	dt.select.selectable(selectable);
 	ctx._select.className = className;
 
@@ -643,6 +649,137 @@ function initCheckboxHeader( dt, headerCheckbox ) {
 	});
 }
 
+function keysSet(dt) {
+	var ctx = dt.settings()[0];
+	var flag = ctx._select.keys;
+
+	if (flag) {
+		// Need a tabindex of the `tr` elements to make them focusable by the browser
+		$(dt.rows({page: 'current'}).nodes()).attr('tabindex', 0);
+
+		dt.on('draw.dts-keys', function () {
+			$(dt.rows({page: 'current'}).nodes()).attr('tabindex', 0);
+		});
+
+		// Listen on document for tab, up and down
+		$(document).on('keydown.dts-keys', function (e) {
+			var key = e.keyCode;
+			var active = document.activeElement;
+
+			// Can't use e.key as it wasn't widely supported until 2017
+			// 9 Tab
+			// 32 Space
+			// 38 ArrowUp
+			// 40 ArrowDown
+			if (! [9, 32, 38, 40].includes(key)) {
+				return;
+			}
+
+			var nodes = dt.rows({page: 'current'}).nodes().toArray();
+			var idx = nodes.indexOf(active);
+			var preventDefault = true;
+
+			// Only take an action if a row has focus
+			if (idx === -1) {
+				return;
+			}
+
+			if (key === 9) {
+				// Tab focus change
+				if (e.shift === false && idx === nodes.length - 1) {
+					keysPageDown(dt);
+				}
+				else if (e.shift === true && idx === 0) {
+					keysPageUp(dt);
+				}
+				else {
+					// Browser will do it for us
+					preventDefault = false;
+				}
+			}
+			else if (key === 32) {
+				// Row selection / deselection
+				var row = dt.row(active);
+
+				if (row.selected()) {
+					row.deselect();
+				}
+				else {
+					row.select();
+				}
+			}
+			else if (key === 38) {
+				// Move up
+				if (idx > 0) {
+					nodes[idx-1].focus();
+				}
+				else {
+					keysPageUp(dt);
+				}
+			}
+			else {
+				// Move down
+				if (idx < nodes.length -1) {
+					nodes[idx+1].focus();
+				}
+				else {
+					keysPageDown(dt);
+				}
+			}
+
+			if (preventDefault) {
+				e.preventDefault();
+			}
+		});
+	}
+	else {
+		// Stop the rows from being able to gain focus
+		$(dt.rows().nodes()).removeAttr('tabindex');
+
+		// Nuke events
+		dt.off('draw.dts-keys');
+		$(document).off('keydown.dts-keys');
+	}
+}
+
+/**
+ * Change to the next page and focus on the first row
+ *
+ * @param {DataTable.Api} dt DataTable instance
+ */
+function keysPageDown(dt) {
+	// Is there another page to turn to?
+	var info = dt.page.info();
+
+	if (info.page < info.pages - 1) {
+		dt
+			.one('draw', function () {
+				dt.row(':first-child').node().focus();
+			})
+			.page('next')
+			.draw(false);
+	}
+}
+
+/**
+ * Change to the previous page and focus on the last row
+ *
+ * @param {DataTable.Api} dt DataTable instance
+ */
+function keysPageUp(dt) {
+	// Is there another page to turn to?
+	var info = dt.page.info();
+
+	if (info.page > 0) {
+		dt
+			.one('draw', function () {
+				dt.row(':last-child').node().focus();
+			})
+			.page('previous')
+			.draw(false);
+	}
+}
+
 /**
  * Determine the counts used to define the header checkbox's state
  *
@@ -1096,6 +1233,18 @@ apiRegister('select.items()', function (items) {
 	});
 });
 
+apiRegister('select.keys()', function (flag) {
+	if (flag === undefined) {
+		return this.context[0]._select.keys;
+	}
+
+	return this.iterator('table', function (ctx) {
+		ctx._select.keys = flag;
+
+		keysSet(new DataTable.Api(ctx));
+	});
+});
+
 // Takes effect from the _next_ selection. None disables future selection, but
 // does not clear the current selection. Use the `deselect` methods for that
 apiRegister('select.style()', function (style) {
@@ -1257,6 +1406,22 @@ apiRegister('row().selected()', function () {
 	}
 
 	return false;
+});
+
+apiRegister('row().focus()', function () {
+	var ctx = this.context[0];
+
+	if (ctx && this.length && ctx.aoData[this[0]] && ctx.aoData[this[0]].nTr) {
+		ctx.aoData[this[0]].nTr.focus();
+	}
+});
+
+apiRegister('row().blur()', function () {
+	var ctx = this.context[0];
+
+	if (ctx && this.length && ctx.aoData[this[0]] && ctx.aoData[this[0]].nTr) {
+		ctx.aoData[this[0]].nTr.blur();
+	}
 });
 
 apiRegisterPlural('columns().select()', 'column().select()', function (select) {
