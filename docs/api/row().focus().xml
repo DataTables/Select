@@ -2,7 +2,7 @@
 <dt-api library="Select">
 	<name>row().focus()</name>
 	<summary>Move keyboard focus to a specific row</summary>
-	<since>2.2.0</since>
+	<since>3.0.0</since>
 
 	<type type="function">
 		<signature>row().focus()</signature>

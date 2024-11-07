@@ -2,7 +2,7 @@
 <dt-option library="Select">
 	<name>select.keys</name>
 	<summary>Keyboard navigation and selection of rows in the table</summary>
-	<since>2.2.0</since>
+	<since>3.0.0</since>
 
 	<default value="false"/>
 

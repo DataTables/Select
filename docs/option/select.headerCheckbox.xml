@@ -19,7 +19,7 @@
 			Since Select 2.0.2 this option can also be given as a string, where it can take one of the following values:
 
 			* `-string none` - disable the header checkbox (the same as setting this value to `false`)
-			* `-string select-all` - select all rows in the table (the same as setting this value to `true`)
+			* `-string select-all` - select all rows in the table after the current search terms have been applied (the same as setting this value to `true`)
 			* `-string select-page` - select all rows in current page (only the visible rows).
 		</description>
 	</type>
