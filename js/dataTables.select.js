@@ -533,13 +533,17 @@ function info(api, node) {
 		return;
 	}
 
-	// If _select_set has any length, then ids are available and should be used
-	// as the counter. Otherwise use the API to workout how many rows are
-	// selected.
-	var rowSetLength = api.settings()[0]._select_set.length;
+	var ctx = api.settings()[0];
+	var rowSetLength = ctx._select_set.length;
 	var rows = rowSetLength ? rowSetLength : api.rows({ selected: true }).count();
 	var columns = api.columns({ selected: true }).count();
 	var cells = api.cells({ selected: true }).count();
+
+	// If subtractive selection, then we need to take the number of rows and
+	// subtract those that have been deselected
+	if (ctx._select_mode === 'subtractive') {
+		rows = api.page.info().recordsDisplay - rowSetLength;
+	}
 
 	var add = function (el, name, num) {
 		el.append(
@@ -605,7 +609,8 @@ function initCheckboxHeader( dt, headerCheckbox ) {
 					if (this.checked) {
 						if (headerCheckbox == 'select-page') {
 							dt.rows({page: 'current'}).select();
-						} else {
+						}
+						else {
 							dt.rows({search: 'applied'}).select();
 						}
 					}
@@ -652,26 +657,28 @@ function initCheckboxHeader( dt, headerCheckbox ) {
 function keysSet(dt) {
 	var ctx = dt.settings()[0];
 	var flag = ctx._select.keys;
+	var namespace = 'dts-keys-' + ctx.sTableId;
 
 	if (flag) {
 		// Need a tabindex of the `tr` elements to make them focusable by the browser
 		$(dt.rows({page: 'current'}).nodes()).attr('tabindex', 0);
 
-		dt.on('draw.dts-keys', function () {
+		dt.on('draw.' + namespace, function () {
 			$(dt.rows({page: 'current'}).nodes()).attr('tabindex', 0);
 		});
 
 		// Listen on document for tab, up and down
-		$(document).on('keydown.dts-keys', function (e) {
+		$(document).on('keydown.' + namespace, function (e) {
 			var key = e.keyCode;
 			var active = document.activeElement;
 
 			// Can't use e.key as it wasn't widely supported until 2017
 			// 9 Tab
+			// 13 Return
 			// 32 Space
 			// 38 ArrowUp
 			// 40 ArrowDown
-			if (! [9, 32, 38, 40].includes(key)) {
+			if (! [9, 13, 32, 38, 40].includes(key)) {
 				return;
 			}
 
@@ -697,7 +704,7 @@ function keysSet(dt) {
 					preventDefault = false;
 				}
 			}
-			else if (key === 32) {
+			else if (key === 13 || key === 32) {
 				// Row selection / deselection
 				var row = dt.row(active);
 
@@ -728,6 +735,7 @@ function keysSet(dt) {
 			}
 
 			if (preventDefault) {
+				e.stopPropagation();
 				e.preventDefault();
 			}
 		});
@@ -737,8 +745,8 @@ function keysSet(dt) {
 		$(dt.rows().nodes()).removeAttr('tabindex');
 
 		// Nuke events
-		dt.off('draw.dts-keys');
-		$(document).off('keydown.dts-keys');
+		dt.off('draw.' + namespace);
+		$(document).off('keydown.' + namespace);
 	}
 }
 
@@ -842,7 +850,10 @@ function init(ctx) {
 	var api = new DataTable.Api(ctx);
 	ctx._select_init = true;
 
-	// _select_set contains a list of the ids of all rows that are selected
+	// When `additive` then `_select_set` contains a list of the row ids that
+	// are selected. If `subtractive` then all rows are selected, except those
+	// in `_select_set`, which is a list of ids.
+	ctx._select_mode = 'additive';
 	ctx._select_set = [];
 
 	// Row callback so that classes can be added to rows and cells if the item
@@ -860,7 +871,8 @@ function init(ctx) {
 			// Row
 			if (
 				d._select_selected ||
-				(id !== 'undefined' && ctx._select_set.includes(id))
+				(ctx._select_mode === 'additive' && ctx._select_set.includes(id)) ||
+				(ctx._select_mode === 'subtractive' && ! ctx._select_set.includes(id))
 			) {
 				d._select_selected = true;
 
@@ -1070,7 +1082,16 @@ function _cumulativeEvents(api) {
 
 		var ctx = api.settings()[0];
 
-		_add(api, ctx._select_set, indexes);
+		if (ctx._select_mode === 'additive') {
+			// Add row to the selection list if it isn't already there
+			_add(api, ctx._select_set, indexes);
+		}
+		else {
+			// Subtractive - if a row is selected it should not in the list
+			// as in subtractive mode the list gives the rows which are not
+			// selected
+			_remove(api, ctx._select_set, indexes);
+		}
 	});
 
 	api.on('deselect', function (e, dt, type, indexes) {
@@ -1081,7 +1102,14 @@ function _cumulativeEvents(api) {
 
 		var ctx = api.settings()[0];
 
-		_remove(api, ctx._select_set, indexes);
+		if (ctx._select_mode === 'additive') {
+			// List is of those rows selected, so remove it
+			_remove(api, ctx._select_set, indexes);
+		}
+		else {
+			// List is of rows which are deselected, so add it!
+			_add(api, ctx._select_set, indexes);
+		}
 	});
 }
 
@@ -1239,6 +1267,10 @@ apiRegister('select.keys()', function (flag) {
 	}
 
 	return this.iterator('table', function (ctx) {
+		if (!ctx._select) {
+			DataTable.select.init(new DataTable.Api(ctx));
+		}
+
 		ctx._select.keys = flag;
 
 		keysSet(new DataTable.Api(ctx));
@@ -1328,12 +1360,45 @@ apiRegister('select.last()', function (set) {
 	return ctx._select_lastCell;
 });
 
-apiRegister('select.cumulative()', function () {
+apiRegister('select.cumulative()', function (mode) {
+	if (mode) {
+		return this.iterator('table', function (ctx) {
+			if (ctx._select_mode === mode) {
+				return;
+			}
+
+			var dt = new DataTable.Api(ctx);
+
+			// Convert from the current mode, to the new
+			if (mode === 'subtractive') {
+				// For subtractive mode we track the row ids which are not selected
+				var unselected = dt.rows({selected: false}).ids().toArray();
+
+				ctx._select_mode = mode;
+				ctx._select_set.length = 0;
+				ctx._select_set.push.apply(ctx._select_set, unselected);
+			}
+			else {
+				// Switching to additive, so selected rows are to be used
+				var selected = dt.rows({selected: true}).ids().toArray();
+
+				ctx._select_mode = mode;
+				ctx._select_set.length = 0;
+				ctx._select_set.push.apply(ctx._select_set, selected);
+			}
+		}).draw(false);
+	}
+
 	let ctx = this.context[0];
 
-	return ctx && ctx._select_set
-		? ctx._select_set
-		: [];
+	if (ctx && ctx._select_set) {
+		return {
+			mode: ctx._select_mode,
+			rows: ctx._select_set
+		};
+	}
+
+	return null;
 });
 
 apiRegisterPlural('rows().select()', 'row().select()', function (select) {

@@ -23,7 +23,7 @@ $('#example').DataTable({
 					action: function (e, dt) {
 						alert(
 							'Information about selected rows: '+
-							JSON.stringify(dt.select.cumulative())
+							JSON.stringify(dt.select.cumulative().rows)
 						);
 					}
 				}
@@ -58,7 +58,7 @@ new DataTable('#example', {
 					action: function (e, dt) {
 						alert(
 							'Information about selected rows: '+
-							JSON.stringify(dt.select.cumulative())
+							JSON.stringify(dt.select.cumulative().rows)
 						);
 					}
 				},
