@@ -24,7 +24,7 @@
 
 		Please note that Select offers another form of row selection via keyboard through [its checkbox renderer](https://datatables.net/extensions/select/examples/checkbox/checkbox.html). The `-init select.keys` option should not be used at the same time as checkboxes as you would end up with both the row and the checkbox being navigable.
 
-		Additionally, DataTables as a KeyTable extension](https://datatables.net/extensions/keytable) for cell navigation by keyboard. This option is not compatible with KeyTable, again because of a conflict - rows and cells both being selectable.
+		Additionally, DataTables has a [KeyTable extension](https://datatables.net/extensions/keytable) for cell navigation by keyboard. This option is not compatible with KeyTable, again because of a conflict - rows and cells both being selectable.
 
 		Select the correct form of keyboard navigation for your needed. This option is particularly useful if you which to treat your DataTable as a list.
 	</description>
