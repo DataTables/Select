@@ -594,7 +594,14 @@ function initCheckboxHeader( dt, headerCheckbox ) {
 		if (! isCheckboxColumn(col)) {
 			return;
 		}
+
 		var header = dt.column(idx).header();
+		var liner = $('div.dt-column-header', header);
+
+		// DataTables 2.3 as an extra wrapper element
+		if (liner.length) {
+			header = liner;
+		}
 
 		if (! $('input', header).length) {
 			// If no checkbox yet, insert one
