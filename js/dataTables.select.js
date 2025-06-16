@@ -607,7 +607,7 @@ function initCheckboxHeader( dt, headerCheckbox ) {
 			// If no checkbox yet, insert one
 			var input = $('<input>')
 				.attr({
-					class: checkboxClass(true),
+					class: checkboxClass(false),
 					type: 'checkbox',
 					'aria-label': dt.i18n('select.aria.headerCheckbox') || 'Select all rows'
 				})
