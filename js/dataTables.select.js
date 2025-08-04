@@ -534,15 +534,24 @@ function info(api, node) {
 	}
 
 	var ctx = api.settings()[0];
-	var rowSetLength = ctx._select_set.length;
-	var rows = rowSetLength ? rowSetLength : api.rows({ selected: true }).count();
+	var rowSet = ctx._select_set;
+
+	// Check that the ids are still in ctx.aIds - row might have been deleted before it was
+	// unselected
+	for (var i=rowSet.length-1 ; i>=0 ; i--) {
+		if (! ctx.aIds[rowSet[i]]) {
+			rowSet.splice(i, 1);
+		}
+	}
+
+	var rows = rowSet.length ? rowSet.length : api.rows({ selected: true }).count();
 	var columns = api.columns({ selected: true }).count();
 	var cells = api.cells({ selected: true }).count();
 
 	// If subtractive selection, then we need to take the number of rows and
 	// subtract those that have been deselected
 	if (ctx._select_mode === 'subtractive') {
-		rows = api.page.info().recordsDisplay - rowSetLength;
+		rows = api.page.info().recordsDisplay - rowSet.length;
 	}
 
 	var add = function (el, name, num) {
