@@ -1,4 +1,4 @@
-/*! Select for DataTables 3.0.1
+/*! Select for DataTables 3.1.0
  * © SpryMedia Ltd - datatables.net/license/mit
  */
 
@@ -9,7 +9,7 @@ DataTable.select.classes = {
 	checkbox: 'dt-select-checkbox'
 };
 
-DataTable.select.version = '3.0.1';
+DataTable.select.version = '3.1.0';
 
 DataTable.select.init = function (dt) {
 	var ctx = dt.settings()[0];
@@ -86,6 +86,7 @@ DataTable.select.init = function (dt) {
 	var headerCheckbox = true;
 	var setStyle = false;
 	var keys = false;
+	var keysWrap = false;
 
 	ctx._select = {
 		infoEls: []
@@ -145,6 +146,10 @@ DataTable.select.init = function (dt) {
 		if (opts.keys !== undefined) {
 			keys = opts.keys;
 		}
+
+		if (opts.keysWrap !== undefined) {
+			keysWrap = opts.keysWrap;
+		}
 	}
 
 	dt.select.selector(selector);
@@ -153,7 +158,7 @@ DataTable.select.init = function (dt) {
 	dt.select.blurable(blurable);
 	dt.select.toggleable(toggleable);
 	dt.select.info(info);
-	dt.select.keys(keys);
+	dt.select.keys(keys, keysWrap);
 	dt.select.selectable(selectable);
 	ctx._select.className = className;
 
@@ -673,6 +678,7 @@ function initCheckboxHeader( dt, headerCheckbox ) {
 function keysSet(dt) {
 	var ctx = dt.settings()[0];
 	var flag = ctx._select.keys;
+	var wrap = ctx._select.keysWrap;
 	var namespace = 'dts-keys-' + ctx.sTableId;
 
 	if (flag) {
@@ -701,6 +707,7 @@ function keysSet(dt) {
 			var nodes = dt.rows({page: 'current'}).nodes().toArray();
 			var idx = nodes.indexOf(active);
 			var preventDefault = true;
+			var pageInfo = dt.page.info();
 
 			// Only take an action if a row has focus
 			if (idx === -1) {
@@ -710,10 +717,10 @@ function keysSet(dt) {
 			if (key === 9) {
 				// Tab focus change
 				if (e.shift === false && idx === nodes.length - 1) {
-					keysPageDown(dt);
+					keysPageChange(dt, 'next', ':first-child');
 				}
 				else if (e.shift === true && idx === 0) {
-					keysPageUp(dt);
+					keysPageChange(dt, 'previous', ':last-child');
 				}
 				else {
 					// Browser will do it for us
@@ -736,8 +743,13 @@ function keysSet(dt) {
 				if (idx > 0) {
 					nodes[idx-1].focus();
 				}
-				else {
-					keysPageUp(dt);
+				else if (pageInfo.start > 0) {
+					// Shift back to the previous page
+					keysPageChange(dt, 'previous', ':last-child');
+				}
+				else if (wrap) {
+					// Wrap
+					keysPageChange(dt, 'last', ':last-child');
 				}
 			}
 			else {
@@ -745,8 +757,13 @@ function keysSet(dt) {
 				if (idx < nodes.length -1) {
 					nodes[idx+1].focus();
 				}
-				else {
-					keysPageDown(dt);
+				else if (pageInfo.page < pageInfo.pages-1) {
+					// Move on to the next page
+					keysPageChange(dt, 'next', ':first-child');
+				}
+				else if (wrap) {
+					// Wrap
+					keysPageChange(dt, 'first', ':first-child');
 				}
 			}
 
@@ -767,41 +784,17 @@ function keysSet(dt) {
 }
 
 /**
- * Change to the next page and focus on the first row
+ * Change change to a new page and focus
  *
  * @param {DataTable.Api} dt DataTable instance
  */
-function keysPageDown(dt) {
-	// Is there another page to turn to?
-	var info = dt.page.info();
-
-	if (info.page < info.pages - 1) {
-		dt
-			.one('draw', function () {
-				dt.row(':first-child').node().focus();
-			})
-			.page('next')
-			.draw(false);
-	}
-}
-
-/**
- * Change to the previous page and focus on the last row
- *
- * @param {DataTable.Api} dt DataTable instance
- */
-function keysPageUp(dt) {
-	// Is there another page to turn to?
-	var info = dt.page.info();
-
-	if (info.page > 0) {
-		dt
-			.one('draw', function () {
-				dt.row(':last-child').node().focus();
-			})
-			.page('previous')
-			.draw(false);
-	}
+function keysPageChange(dt, page, focus) {
+	dt
+		.one('draw', function () {
+			dt.row(focus).node().focus();
+		})
+		.page(page)
+		.draw(false);
 }
 
 /**
@@ -1277,7 +1270,7 @@ apiRegister('select.items()', function (items) {
 	});
 });
 
-apiRegister('select.keys()', function (flag) {
+apiRegister('select.keys()', function (flag, wrap) {
 	if (flag === undefined) {
 		return this.context[0]._select.keys;
 	}
@@ -1288,6 +1281,7 @@ apiRegister('select.keys()', function (flag) {
 		}
 
 		ctx._select.keys = flag;
+		ctx._select.keysWrap = keysWrap;
 
 		keysSet(new DataTable.Api(ctx));
 	});

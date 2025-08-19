@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<dt-option library="Select">
+	<name>select.keysWrap</name>
+	<summary>Allow keyboard navigation to wrap</summary>
+	<since>3.1.0</since>
+
+	<default value="false"/>
+
+	<type type="boolean">
+		<description>
+			`true` allows the keyboard navigation of the table with Select to wrap, while `false` disables this feature.
+		</description>
+	</type>
+
+	<description>
+		Select's keyboard navigation of the page will, by default, stop when it reaches the end of the table (or the start if pressing _up_). If you wish to have the navigation loop back around to the start, i.e. presenting the table as a list, this option can be enabled to provide that behaviour.
+	</description>
+
+	<example title="Enable keyboard navigation and wrap - paging disabled"><![CDATA[
+new DataTable('#myTable', {
+	select: {
+		keys: true,
+		keysWrap: true
+	},
+	paging: false
+});
+]]></example>
+
+	<related>-init select.keys</related>
+	<related>-api select.keys()</related>
+</dt-option>

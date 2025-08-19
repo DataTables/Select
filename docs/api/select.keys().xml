@@ -15,9 +15,12 @@
 	</type>
 
 	<type type="function">
-		<signature>select.keys( flag )</signature>
+		<signature>select.keys( flag, wrap )</signature>
 		<parameter type="boolean" name="flag">
 			Value to set for the keyboard navigation option - `true` to enable, `false` to disable.
+		</parameter>
+		<parameter type="boolean" name="wrap" default="false" since="3.1.0">
+			Enable wrapping (`true`) or not (`false`). See also `-init select.keysWrap`.
 		</parameter>
 		<returns type="DataTables.Api">
 			DataTables API instance for chaining.
@@ -41,4 +44,5 @@ table.select.keys(true);
 	<related>-api row().blur()</related>
 	<related>-api row().focus()</related>
 	<related>-init select.keys</related>
+	<related>-init select.keysWrap</related>
 </dt-api>
