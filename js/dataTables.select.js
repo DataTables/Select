@@ -1281,7 +1281,7 @@ apiRegister('select.keys()', function (flag, wrap) {
 		}
 
 		ctx._select.keys = flag;
-		ctx._select.keysWrap = keysWrap;
+		ctx._select.keysWrap = wrap;
 
 		keysSet(new DataTable.Api(ctx));
 	});
