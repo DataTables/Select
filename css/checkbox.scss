@@ -1,0 +1,130 @@
+
+table.dataTable {
+	> tbody > tr > .dt-select {
+		text-align: center;
+		vertical-align: middle;
+	}
+
+	> thead > tr > .dt-select {
+		text-align: center;
+		vertical-align: middle;
+	
+		input.dt-select-checkbox {
+			margin-left: auto;
+			margin-right: auto;
+		}
+	}
+
+	input.dt-select-checkbox {
+		appearance: none;
+		position: relative;
+		display: inline-block;
+		width: 12px;
+		height: 12px;
+		border: $dt-select-tick-border;
+		border-radius: 3px;
+		vertical-align: middle;
+		margin-top: 1px;
+		color: inherit;
+		font-size: 20px;
+		line-height: 1em;
+
+		&:checked {
+			&:after {
+				display: block;
+				content: '\2713';
+
+				margin-top: $dt-select-tick-margin-top;
+			}
+		}
+
+		&:indeterminate {
+			&:after {
+				display: block;
+				position: absolute;
+				content: ' ';
+				top: 3px;
+				left: 3px;
+				height: 4px;
+				width: 4px;
+				background-color: black;
+				border-radius: 2px;
+			}
+		}
+	}
+
+	> tbody > tr.selected {
+		input.dt-select-checkbox {
+			&:checked {
+				border: $dt-select-tick-border-checked;
+			}
+		}
+	}
+
+	// Legacy fake checkbox
+	> tbody > tr > td.select-checkbox,
+	> tbody > tr > th.select-checkbox {
+		position: relative;
+
+		&:before {
+			display: block;
+			position: absolute;
+			top: 50%;
+			left: 50%;
+			width: 12px;
+			height: 12px;
+			box-sizing: border-box;
+			content: ' ';
+			margin-top: -6px;
+			margin-left: -6px;
+			border: $dt-select-tick-border;
+			border-radius: 3px;
+		}
+	}
+
+	> tbody > tr.selected {
+		> td.select-checkbox,
+		> th.select-checkbox {
+			&:before {
+				border: $dt-select-tick-border-checked;
+				content: '\2713';
+				font-size: 20px;
+
+				line-height: $dt-select-tick-line-height;
+				text-align: center;
+			}
+		}
+	}
+
+	&.compact {
+		> tbody > tr > td.select-checkbox,
+		> tbody > tr > th.select-checkbox {
+			&:before {
+				margin-top: -12px;
+			}
+		}
+
+		> tbody > tr.selected {
+			> td.select-checkbox,
+			> th.select-checkbox {
+				&:after {
+					margin-top: -16px;
+				}
+			}
+		}
+	}
+}
+
+
+html.dark,
+html[data-bs-theme="dark"] {
+	table.dataTable {
+		input.dt-select-checkbox {
+			&:indeterminate {
+				&:after {
+					background-color: white;
+				}
+			}
+		}
+	}
+}

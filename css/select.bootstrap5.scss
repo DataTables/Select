@@ -1,9 +1,31 @@
 
-$dt-select-tick-line-height: 4px !default; // legacy tick position
 $selected-background-color: rgba(13, 110, 253) !default;
 
-@import 'select.dataTables.scss';
+table.dataTable {
+	// Cell and column selector access
+	> tbody > tr > .selected {
+		background-color: $selected-background-color;
+		color: $selected-text-color;
+	}
+}
+
+div.dt-container {
+	span.select-info,
+	span.select-item {
+		margin-left: 0.5em;
+	}
+}
 
 table.dataTable.table-sm tbody td.select-checkbox::before {
 	margin-top: -9px;
+}
+
+@media screen and (max-width: 640px) {
+	div.dt-container {
+		span.select-info,
+		span.select-item {
+			margin-left: 0;
+			display: block;
+		}
+	}
 }
