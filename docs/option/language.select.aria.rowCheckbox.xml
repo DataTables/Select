@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <dt-option library="Select">
 	<name>language.select.aria.rowCheckbox</name>
-	<summary>Text to use as the aria-label for the row selection checkboxs</summary>
+	<summary>Text to use as the aria-label for the row selection checkboxes</summary>
 	<since>2.0.0</since>
 
 	<default value="Select row" />
