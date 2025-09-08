@@ -21,6 +21,13 @@ declare module 'datatables.net' {
 		select?: boolean | string | ConfigSelect;
 	}
 
+	interface ConfigLanguage {
+		/**
+		 * Select language options
+		 */
+		select?: ConfigSelectLanguage;
+	}
+
 	interface Api<T> {
 		select: ApiSelect<Api<T>>
 	}
@@ -221,6 +228,26 @@ interface ConfigSelect {
 	style?: StyleType;
 }
 
+interface ConfigSelectLanguage {
+	/** AIRA strings */
+	aria?: {
+		/** Text to use as the aria-label for the header checkbox */
+		headerCheckbox?: string;
+
+		/** Text to use as the aria-label for the row selection checkboxes */
+		rowCheckbox?: string;
+	};
+
+	/** Table information summary string for the number of cells selected */
+	cells?: string | IPlural;
+
+	/** Table information summary string for the number of columns selected */
+	columns?: string | IPlural;
+
+	/** Table information summary string for the number of rows selected */
+	rows?: string | IPlural;
+}
+
 interface ApiSelect<Api> {
 	/**
 	 * Initialise Select for a DataTable after the DataTable has been constructed.
@@ -334,3 +361,10 @@ interface ApiSelect<Api> {
 	toggleable(set: boolean): Api;
 }
 
+interface IPlural {
+	/** Default if there is no specific number given. Use %d where you want the number to show */
+	_: string;
+
+	/** Specific replacement, e.g. for 0 or 1 commonly. */
+	[num: number]: string;
+}
