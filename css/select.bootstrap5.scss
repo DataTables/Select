@@ -5,7 +5,7 @@ table.dataTable {
 	// Cell and column selector access
 	> tbody > tr > .selected {
 		background-color: $selected-background-color;
-		color: $selected-text-color;
+		color: rgb(var(--dt-row-selected-text));
 	}
 }
 
