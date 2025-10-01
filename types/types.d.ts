@@ -204,6 +204,9 @@ interface ConfigSelect {
 	 */
 	className?: string;
 
+	/** Control automatic addition of header checkbox */
+	headerCheckbox?: boolean | 'none' | 'select-all' | 'select-page';
+
 	/**
 	 * Enable / disable the display for item selection information in the table summary
 	 */
@@ -217,6 +220,12 @@ interface ConfigSelect {
 	/** Set keyboard accessability (tab and arrow keys) */
 	keys?: boolean;
 
+	/** Allow keyboard navigation to wrap */
+	keysWrap?: boolean;
+
+	/** Set a function that will determine if a row should be selectable. */
+	selectable?: (data: any, tr: HTMLTableRowElement | null, index: number) => boolean;
+
 	/**
 	 * Set the element selector used for mouse event capture to select items
 	 */
@@ -226,6 +235,9 @@ interface ConfigSelect {
 	 * Set the selection style for end user interaction with the table
 	 */
 	style?: StyleType;
+
+	/** Disable the deselection of selected rows when clicked */
+	toggleable?: boolean;
 }
 
 interface ConfigSelectLanguage {
