@@ -1,4 +1,5 @@
 
 $selected-background-color: rgba(2, 117, 216) !default;
 
-@import 'select.dataTables.scss';
+@use 'common.scss' with ($selected-background-color: $selected-background-color);
+@use 'checkbox.scss';

@@ -1,3 +1,4 @@
+@use "sass:meta";
 
 // Use CSS variables for Bulma 1.x, but Bulma 0.9 didn't have them, so we need
 // to provide a fallback. That can be done with a `var` fallback, creating new
@@ -10,4 +11,4 @@
 $selected-background-color: var(--dt-bulma-selected-background-color) !default;
 $selected-text-color: var(--dt-bulma-selected-text-color) !default;
 
-@import 'select.dataTables.scss';
+@include meta.load-css('select.dataTables.scss');

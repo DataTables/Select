@@ -1,38 +1,5 @@
  
 // NOTE The styling for row selection is part of the core DataTables stylesheet
 
-// Selection colour for cells and columns
-$selected-background-color: rgba(13, 110, 253, 0.9) !default;
-$selected-text-color: white !default;
-
-$dt-select-tick-margin-top: -8px !default; // checkbox tick position
-$dt-select-tick-line-height: 6px !default; // legacy tick position
-$dt-select-tick-border: 1px solid !default;
-$dt-select-tick-border-checked: 1px solid !default;
-
-table.dataTable {
-	// Cell and column selector access
-	> tbody > tr > .selected {
-		background-color: $selected-background-color;
-		color: $selected-text-color;
-	}
-}
-
-div.dt-container {
-	span.select-info,
-	span.select-item {
-		margin-left: 0.5em;
-	}
-}
-
-@import 'checkbox.scss';
-
-@media screen and (max-width: 640px) {
-	div.dt-container {
-		span.select-info,
-		span.select-item {
-			margin-left: 0;
-			display: block;
-		}
-	}
-}
+@use 'common.scss';
+@use 'checkbox.scss';

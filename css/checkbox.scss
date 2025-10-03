@@ -1,4 +1,9 @@
 
+$dt-select-tick-margin-top: -8px !default; // checkbox tick position
+$dt-select-tick-line-height: 6px !default; // legacy tick position
+$dt-select-tick-border: 1px solid !default;
+$dt-select-tick-border-checked: 1px solid !default;
+
 table.dataTable {
 	> tbody > tr > .dt-select {
 		text-align: center;

@@ -1,0 +1,28 @@
+
+$selected-background-color: rgba(13, 110, 253, 0.9) !default;
+$selected-text-color: white !default;
+
+table.dataTable {
+	// Cell and column selector access
+	> tbody > tr > .selected {
+		background-color: $selected-background-color;
+		color: rgb(var(--dt-row-selected-text));
+	}
+}
+
+div.dt-container {
+	span.select-info,
+	span.select-item {
+		margin-left: 0.5em;
+	}
+}
+
+@media screen and (max-width: 640px) {
+	div.dt-container {
+		span.select-info,
+		span.select-item {
+			margin-left: 0;
+			display: block;
+		}
+	}
+}
