@@ -70,7 +70,7 @@ DataTable.select.init = function (dt) {
 			selectAndSave(undefined, undefined, savedSelected);
 		});
 
-	var init = ctx.oInit.select;
+	var init = dt.init() ? dt.init().select : null;
 	var defaults = DataTable.defaults.select;
 	var opts = init === undefined ? defaults : init;
 
@@ -187,11 +187,11 @@ features, with an overview of how they are implemented:
    stored in:
 
 * rows: a `_select_selected` property which contains a boolean value of the
-  DataTables' `aoData` object for each row
+  DataTables' `data` object for each row
 * columns: a `_select_selected` property which contains a boolean value of the
-  DataTables' `aoColumns` object for each column
+  DataTables' `columns` object for each column
 * cells: a `_selected_cells` property which contains an array of boolean values
-  of the `aoData` object for each row. The array is the same length as the
+  of the `data` object for each row. The array is the same length as the
   columns array, with each element of it representing a cell.
 
 This method of using boolean flags allows Select to operate when nodes have not
@@ -523,7 +523,7 @@ function eventTrigger(api, type, args, any) {
  * @returns 
  */
 function isCheckboxColumn(col) {
-	return col.mRender && col.mRender._name === 'selectCheckbox';
+	return col.render && col.render._name === 'selectCheckbox';
 }
 
 /**
@@ -600,7 +600,7 @@ function info(api, node) {
  */
 function initCheckboxHeader( dt, headerCheckbox ) {
 	var dtSettings = dt.settings()[0];
-	var dtInternalColumns = dtSettings.aoColumns;
+	var dtInternalColumns = dtSettings.columns;
 
 	// Find any checkbox column(s)
 	dt.columns().iterator('column', function (s, idx) {
@@ -831,8 +831,8 @@ function headerCheckboxState(dt, headerCheckbox) {
 
 		for (var i=0 ; i<indexes.length ; i++) {
 			// For speed I use the internal DataTables object.
-			var rowInternal = ctx.aoData[indexes[i]];
-			var result = selectable(rowInternal._aData, rowInternal.nTr, indexes[i]);
+			var rowInternal = ctx.data[indexes[i]];
+			var result = selectable(rowInternal.data, rowInternal.tr, indexes[i]);
 
 			if (result) {
 				available++;
@@ -874,9 +874,10 @@ function init(ctx) {
 	// This method of attaching to `aoRowCreatedCallback` is a hack until
 	// DataTables has proper events for row manipulation If you are reviewing
 	// this code to create your own plug-ins, please do not do this!
-	ctx.aoRowCreatedCallback.push(function (row, data, index) {
+	ctx.callbacks.rowCreated.push(
+		function (row, data, index) {
 			var i, ien;
-			var d = ctx.aoData[index];
+			var d = ctx.data[index];
 			var id = api.row(index).id();
 
 			// Row
@@ -894,12 +895,12 @@ function init(ctx) {
 
 			// Cells and columns - if separated out, we would need to do two
 			// loops, so it makes sense to combine them into a single one
-			for (i = 0, ien = ctx.aoColumns.length; i < ien; i++) {
+			for (i = 0, ien = ctx.columns.length; i < ien; i++) {
 				if (
-					ctx.aoColumns[i]._select_selected ||
+					ctx.columns[i]._select_selected ||
 					(d._selected_cells && d._selected_cells[i])
 				) {
-					$(d.anCells[i]).addClass(ctx._select.className)
+					$(d.cells[i]).addClass(ctx._select.className)
 				}
 			}
 		}
@@ -1154,8 +1155,8 @@ function _remove(api, arr, indexes) {
 // reduce the code size
 $.each(
 	[
-		{ type: 'row', prop: 'aoData' },
-		{ type: 'column', prop: 'aoColumns' }
+		{ type: 'row', prop: 'data' },
+		{ type: 'column', prop: 'columns' }
 	],
 	function (i, o) {
 		DataTable.ext.selector[o.type].push(function (settings, opts, indexes) {
@@ -1195,7 +1196,7 @@ DataTable.ext.selector.cell.push(function (settings, opts, cells) {
 	}
 
 	for (var i = 0, ien = cells.length; i < ien; i++) {
-		rowData = settings.aoData[cells[i].row];
+		rowData = settings.data[cells[i].row];
 
 		if (
 			rowData && (
@@ -1427,11 +1428,11 @@ apiRegisterPlural('rows().select()', 'row().select()', function (select) {
 		// There is a good amount of knowledge of DataTables internals in
 		// this function. It _could_ be done without that, but it would hurt
 		// performance (or DT would need new APIs for this work)
-		var dtData = ctx.aoData[idx];
-		var dtColumns = ctx.aoColumns;
+		var dtData = ctx.data[idx];
+		var dtColumns = ctx.columns;
 
 		if (ctx._select.selectable) {
-			var result = ctx._select.selectable(dtData._aData, dtData.nTr, idx);
+			var result = ctx._select.selectable(dtData.data, dtData.tr, idx);
 
 			if (result === false) {
 				// Not selectable - do nothing
@@ -1439,7 +1440,7 @@ apiRegisterPlural('rows().select()', 'row().select()', function (select) {
 			}
 		}
 
-		$(dtData.nTr).addClass(ctx._select.className);
+		$(dtData.tr).addClass(ctx._select.className);
 		dtData._select_selected = true;
 
 		selectedIndexes.push(idx);
@@ -1453,7 +1454,7 @@ apiRegisterPlural('rows().select()', 'row().select()', function (select) {
 			}
 			
 			if (isCheckboxColumn(col)) {
-				var cells = dtData.anCells;
+				var cells = dtData.cells;
 
 				// Make sure the checkbox shows the right state
 				if (cells && cells[i]) {
@@ -1461,8 +1462,8 @@ apiRegisterPlural('rows().select()', 'row().select()', function (select) {
 				}
 
 				// Invalidate the sort data for this column, if not already done
-				if (dtData._aSortData !== null) {
-					dtData._aSortData[i] = null;
+				if (dtData.orderCache !== null) {
+					dtData.orderCache[i] = null;
 				}
 			}
 		}
@@ -1478,7 +1479,7 @@ apiRegisterPlural('rows().select()', 'row().select()', function (select) {
 apiRegister('row().selected()', function () {
 	var ctx = this.context[0];
 
-	if (ctx && this.length && ctx.aoData[this[0]] && ctx.aoData[this[0]]._select_selected) {
+	if (ctx && this.length && ctx.data[this[0]] && ctx.data[this[0]]._select_selected) {
 		return true;
 	}
 
@@ -1488,16 +1489,16 @@ apiRegister('row().selected()', function () {
 apiRegister('row().focus()', function () {
 	var ctx = this.context[0];
 
-	if (ctx && this.length && ctx.aoData[this[0]] && ctx.aoData[this[0]].nTr) {
-		ctx.aoData[this[0]].nTr.focus();
+	if (ctx && this.length && ctx.data[this[0]] && ctx.data[this[0]].tr) {
+		ctx.data[this[0]].tr.focus();
 	}
 });
 
 apiRegister('row().blur()', function () {
 	var ctx = this.context[0];
 
-	if (ctx && this.length && ctx.aoData[this[0]] && ctx.aoData[this[0]].nTr) {
-		ctx.aoData[this[0]].nTr.blur();
+	if (ctx && this.length && ctx.data[this[0]] && ctx.data[this[0]].tr) {
+		ctx.data[this[0]].tr.blur();
 	}
 });
 
@@ -1511,7 +1512,7 @@ apiRegisterPlural('columns().select()', 'column().select()', function (select) {
 	this.iterator('column', function (ctx, idx) {
 		clear(ctx);
 
-		ctx.aoColumns[idx]._select_selected = true;
+		ctx.columns[idx]._select_selected = true;
 
 		var column = new DataTable.Api(ctx).column(idx);
 
@@ -1531,7 +1532,7 @@ apiRegisterPlural('columns().select()', 'column().select()', function (select) {
 apiRegister('column().selected()', function () {
 	var ctx = this.context[0];
 
-	if (ctx && this.length && ctx.aoColumns[this[0]] && ctx.aoColumns[this[0]]._select_selected) {
+	if (ctx && this.length && ctx.columns[this[0]] && ctx.columns[this[0]]._select_selected) {
 		return true;
 	}
 
@@ -1548,7 +1549,7 @@ apiRegisterPlural('cells().select()', 'cell().select()', function (select) {
 	this.iterator('cell', function (ctx, rowIdx, colIdx) {
 		clear(ctx);
 
-		var data = ctx.aoData[rowIdx];
+		var data = ctx.data[rowIdx];
 
 		if (data._selected_cells === undefined) {
 			data._selected_cells = [];
@@ -1556,8 +1557,8 @@ apiRegisterPlural('cells().select()', 'cell().select()', function (select) {
 
 		data._selected_cells[colIdx] = true;
 
-		if (data.anCells) {
-			$(data.anCells[colIdx]).addClass(ctx._select.className);
+		if (data.cells) {
+			$(data.cells[colIdx]).addClass(ctx._select.className);
 		}
 	});
 
@@ -1572,7 +1573,7 @@ apiRegister('cell().selected()', function () {
 	var ctx = this.context[0];
 
 	if (ctx && this.length) {
-		var row = ctx.aoData[this[0][0].row];
+		var row = ctx.data[this[0][0].row];
 
 		if (row && row._selected_cells && row._selected_cells[this[0][0].column]) {
 			return true;
@@ -1587,10 +1588,10 @@ apiRegisterPlural('rows().deselect()', 'row().deselect()', function () {
 
 	this.iterator('row', function (ctx, idx) {
 		// Like the select action, this has a lot of knowledge about DT internally
-		var dtData = ctx.aoData[idx];
-		var dtColumns = ctx.aoColumns;
+		var dtData = ctx.data[idx];
+		var dtColumns = ctx.columns;
 
-		$(dtData.nTr).removeClass(ctx._select.className);
+		$(dtData.tr).removeClass(ctx._select.className);
 		dtData._select_selected = false;
 		ctx._select_lastCell = null;
 
@@ -1603,16 +1604,16 @@ apiRegisterPlural('rows().deselect()', 'row().deselect()', function () {
 			}
 			
 			if (isCheckboxColumn(col)) {
-				var cells = dtData.anCells;
+				var cells = dtData.cells;
 
 				// Make sure the checkbox shows the right state
 				if (cells && cells[i]) {
-					$('input.' + checkboxClass(true), dtData.anCells[i]).prop('checked', false);
+					$('input.' + checkboxClass(true), dtData.cells[i]).prop('checked', false);
 				}
 
 				// Invalidate the sort data for this column, if not already done
-				if (dtData._aSortData !== null) {
-					dtData._aSortData[i] = null;
+				if (dtData.orderCache !== null) {
+					dtData.orderCache[i] = null;
 				}
 			}
 		}
@@ -1629,7 +1630,7 @@ apiRegisterPlural('columns().deselect()', 'column().deselect()', function () {
 	var api = this;
 
 	this.iterator('column', function (ctx, idx) {
-		ctx.aoColumns[idx]._select_selected = false;
+		ctx.columns[idx]._select_selected = false;
 
 		var api = new DataTable.Api(ctx);
 		var column = api.column(idx);
@@ -1643,11 +1644,11 @@ apiRegisterPlural('columns().deselect()', 'column().deselect()', function () {
 		api.cells(null, idx)
 			.indexes()
 			.each(function (cellIdx) {
-				var data = ctx.aoData[cellIdx.row];
+				var data = ctx.data[cellIdx.row];
 				var cellSelected = data._selected_cells;
 
-				if (data.anCells && (!cellSelected || !cellSelected[cellIdx.column])) {
-					$(data.anCells[cellIdx.column]).removeClass(ctx._select.className);
+				if (data.cells && (!cellSelected || !cellSelected[cellIdx.column])) {
+					$(data.cells[cellIdx.column]).removeClass(ctx._select.className);
 				}
 			});
 	});
@@ -1663,7 +1664,7 @@ apiRegisterPlural('cells().deselect()', 'cell().deselect()', function () {
 	var api = this;
 
 	this.iterator('cell', function (ctx, rowIdx, colIdx) {
-		var data = ctx.aoData[rowIdx];
+		var data = ctx.data[rowIdx];
 
 		if (data._selected_cells !== undefined) {
 			data._selected_cells[colIdx] = false;
@@ -1672,8 +1673,8 @@ apiRegisterPlural('cells().deselect()', 'cell().deselect()', function () {
 		// Remove class only if the cells exist, and the cell is not column
 		// selected, in which case the class should remain (since it is selected
 		// in the column)
-		if (data.anCells && !ctx.aoColumns[colIdx]._select_selected) {
-			$(data.anCells[colIdx]).removeClass(ctx._select.className);
+		if (data.cells && !ctx.columns[colIdx]._select_selected) {
+			$(data.cells[colIdx]).removeClass(ctx._select.className);
 		}
 	});
 
@@ -1818,9 +1819,9 @@ $.extend(DataTable.ext.buttons, {
 			}
 			else {
 				// Use a fixed filtering function to match on selected rows
-				// This needs to reference the internal aoData since that is
+				// This needs to reference the internal data since that is
 				// where Select stores its reference for the selected state
-				var dataSrc = dt.settings()[0].aoData;
+				var dataSrc = dt.settings()[0].data;
 
 				dt.search.fixed('dt-select', function (text, data, idx) {
 					// _select_selected is set by Select on the data object for the row
@@ -1883,7 +1884,7 @@ DataTable.type('select-checkbox', {
 	}
 });
 
-$.extend(true, DataTable.defaults.oLanguage, {
+$.extend(true, DataTable.defaults.language, {
 	select: {
 		aria: {
 			rowCheckbox: 'Select row'
@@ -1896,15 +1897,15 @@ DataTable.render.select = function (valueProp, nameProp) {
 	var nameFn = nameProp ? DataTable.util.get(nameProp) : null;
 
 	var fn = function (data, type, row, meta) {
-		var dtRow = meta.settings.aoData[meta.row];
+		var dtRow = meta.settings.data[meta.row];
 		var selected = dtRow._select_selected;
-		var ariaLabel = meta.settings.oLanguage.select.aria.rowCheckbox;
+		var ariaLabel = meta.settings.language.select.aria.rowCheckbox;
 		var selectable = meta.settings._select.selectable;
 
 		if (type === 'display') {
 			// Check if the row is selectable before showing the checkbox
 			if (selectable) {
-				var result = selectable(row, dtRow.nTr, meta.row);
+				var result = selectable(row, dtRow.tr, meta.row);
 	
 				if (result === false) {
 					return '';
@@ -1921,7 +1922,7 @@ DataTable.render.select = function (valueProp, nameProp) {
 					checked: selected
 				})
 				.on('input', function (e) {
-					// Let Select 100% control the state of the checkbox
+					// Let Select 100% cotrol the state of the checkbox
 					e.preventDefault();
 
 					// And make sure this checkbox matches it's row as it is possible
