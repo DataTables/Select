@@ -7,11 +7,15 @@
 
 /// <reference types="jquery" />
 
-import DataTables, {ObjectColumnRender} from 'datatables.net';
+import DataTables, { CellIdx } from 'datatables.net';
 
 export default DataTables;
 
-type StyleType = 'api' | 'single' | 'multi' | 'os' | 'multi+shift';
+export type StyleType = 'api' | 'single' | 'multi' | 'os' | 'multi+shift';
+
+export type Selectable = (data: any, tr: HTMLElement, idx: number) => boolean;
+
+export type HeaderCheckbox = boolean | 'none' | 'select-all' | 'select-page';
 
 declare module 'datatables.net' {
 	interface Config {
@@ -43,58 +47,93 @@ declare module 'datatables.net' {
 		/**
 		 * Blur a row
 		 */
-		blur(): Api<T>;
+		blur(): ApiRowMethods<T>;
 
 		/**
 		 * Deselect a row
 		 */
-		deselect(): Api<T>;
+		deselect(): ApiRowMethods<T>;
 
 		/**
 		 * Keyboard focus on a row
 		 */
-		focus(): Api<T>;
+		focus(): ApiRowMethods<T>;
 
 		/**
 		 * Select a row
 		 */
-		select(): Api<T>;
+		select(): ApiRowMethods<T>;
+
+		/**
+		 * Is a row selected
+		 */
+		selected(): boolean;
 	}
 
 	interface ApiRowsMethods<T> {
 		/**
 		 * Select multiple rows
+		 * 
+		 * @param toggle Can be false to deselect
 		 */
-		select(): Api<T>;
+		select(this: ApiRowsMethods<T>, toggle?: boolean): ApiRowsMethods<T>;
 
 		/**
 		 * Deselect a row
 		 */
-		deselect(): Api<T>;
+		deselect(this: ApiRowsMethods<T>): ApiRowsMethods<T>;
 	}
 
 	interface ApiCellMethods<T> {
 		/**
 		 * Select cell
 		 */
-		select(): Api<T>;
+		select(): ApiCellMethods<T>;
 
 		/**
 		 * Deselect a cell
 		 */
-		deselect(): Api<T>;
+		deselect(): ApiCellMethods<T>;
+	}
+
+	interface ApiColumnsMethods<T> {
+		/**
+		 * Select multiple columns
+		 * 
+		 * @param toggle Can be false to deselect
+		 */
+		select(this: ApiColumnsMethods<T>, toggle?: boolean): ApiColumnsMethods<T>;
+
+		/**
+		 * Deselect columns
+		 */
+		deselect(this: ApiColumnsMethods<T>): ApiColumnsMethods<T>;
+	}
+
+	interface ApiColumnMethods<T> {
+		/**
+		 * Select a column
+		 */
+		select(): ApiColumnMethods<T>;
+
+		/**
+		 * Deselect a column
+		 */
+		deselect(): ApiColumnMethods<T>;
 	}
 
 	interface ApiCellsMethods<T> {
 		/**
 		 * Select multiple cells
+		 * 
+		 * @param toggle Can be false to deselect
 		 */
-		select(): Api<T>;
+		select(this: ApiCellsMethods<T>, toggle?: boolean): ApiCellsMethods<T>;
 
 		/**
 		 * Deselect cells
 		 */
-		deselect(): Api<T>;
+		deselect(this: ApiCellsMethods<T>): ApiCellsMethods<T>;
 	}
 
 	interface DataTablesStatic {
@@ -130,7 +169,7 @@ declare module 'datatables.net' {
 		 * Display a checkbox in the column's cells to be used for and represent
 		 * row selection.
 		 */
-		select(): ObjectColumnRender;
+		select(): any;
 
 		/**
 		 * Display a checkbox in the column's cells to be used for and represent
@@ -142,7 +181,7 @@ declare module 'datatables.net' {
 		 * @param nameProp Name of the data property where the `name` for the
 		 *   checkbox is.
 		 */
-		select(valueProp: string, nameProp: string): ObjectColumnRender;
+		select(valueProp: string, nameProp: string): any;
 	}
 
 	interface Buttons {
@@ -191,6 +230,35 @@ declare module 'datatables.net' {
 			extend: 'showSelected';
 		}
 	}
+
+	interface Context {
+		_select_lastCell: CellIdx;
+		_select: {
+			blurable?: boolean;
+			className?: string;
+			info?: boolean;
+			infoEls: HTMLElement[];
+			items?: string;
+			keys?: boolean;
+			keysWrap?: boolean;
+			selector?: string;
+			selectable?: Selectable;
+			style?: string;
+			toggleable?: boolean;
+		}
+		_select_mode: 'additive' | 'subtractive';
+		_select_set: string[];
+		_select_init: boolean;
+	}
+
+	interface RowContext {
+		_select_selected: boolean;
+		_selected_cells: boolean[];
+	}
+
+	interface ColumnContext {
+		_select_selected: boolean;
+	}
 }
 
 interface ConfigSelect {
@@ -205,7 +273,7 @@ interface ConfigSelect {
 	className?: string;
 
 	/** Control automatic addition of header checkbox */
-	headerCheckbox?: boolean | 'none' | 'select-all' | 'select-page';
+	headerCheckbox?: HeaderCheckbox;
 
 	/**
 	 * Enable / disable the display for item selection information in the table summary
@@ -324,9 +392,22 @@ interface ApiSelect<Api> {
 	 * Set Select's keyboard navigation state
 	 * 
 	 * @param set Enable (true) or disable (false) row keyboard navigation
+	 * @param wrap Allow wrapping or not (default)
 	 * @returns DataTables API instance for chaining.
 	 */
-	keys(set: boolean): Api;
+	keys(set: boolean, wrap?: boolean): Api;
+
+	/**
+	 * Get the function used to determine if a row should be selectable.
+	 */
+	selectable(): Selectable;
+
+	/**
+	 * Set the function used to determine if a row should be selectable.
+	 *
+	 * @param set Function
+	 */
+	selectable(set: Selectable): Api;
 
 	/**
 	 * Get the current item selector string applied to the table.
@@ -347,7 +428,7 @@ interface ApiSelect<Api> {
 	* 
 	* @returns The current selection style, this will be one of "api", "single", "multi" or "os".
 	*/
-	style(): string;
+	style(): StyleType;
 
 	/**
 	* Set the table's selection style
