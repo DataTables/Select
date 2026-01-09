@@ -25,6 +25,13 @@ declare module 'datatables.net' {
 		select?: boolean | string | ConfigSelect;
 	}
 
+	interface Defaults {
+		/*
+		 * Select extension options
+		 */
+		select?: boolean | string | ConfigSelect;
+	}
+
 	interface ConfigLanguage {
 		/**
 		 * Select language options
