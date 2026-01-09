@@ -56,15 +56,15 @@ js_frameworks select $OUT_DIR/js "datatables.net-FW datatables.net-select"
 js_wrap $OUT_DIR/js/dataTables.select.js "datatables.net"
 
 # Move types across, single file was built by rollup
-# if [ -d $OUT_DIR/types ]; then
-# 	rm -r $OUT_DIR/types		
-# fi
-# mkdir $OUT_DIR/types
+if [ -d $OUT_DIR/types ]; then
+	rm -r $OUT_DIR/types		
+fi
+mkdir $OUT_DIR/types
 
-# cp dist/types.d.ts $OUT_DIR/types
-# cp types/select*.d.ts $OUT_DIR/types
+cp dist/types.d.ts $OUT_DIR/types
+cp types/select*.d.ts $OUT_DIR/types
 
-# rm -r dist
+rm -r dist
 
 
 # Copy and build examples
