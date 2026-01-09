@@ -27,27 +27,45 @@ DT_BUILT="${DT_SRC}/built/DataTables"
 rsync -r css $OUT_DIR
 css_frameworks select $OUT_DIR/css
 
-# Copy images
-#rsync -r images $OUT_DIR
 
-# Copy JS
-rsync -r js $OUT_DIR
-js_wrap $OUT_DIR/js/dataTables.select.js "jquery datatables.net"
-js_frameworks select $OUT_DIR/js "jquery datatables.net-FW datatables.net-select"
+# Get the version from the file
+VERSION=$(grep "static version" js/dataTables.select.ts | perl -nle'print $& if m{\d+\.\d+\.\d+(\-\w*)?}')
 
-# Copy Types
-if [ -d $OUT_DIR/types ]; then
-	rm -r $OUT_DIR/types		
-fi
-mkdir $OUT_DIR/types
+# JS - compile and then copy into place
+$DT_SRC/node_modules/typescript/bin/tsc -p ./tsconfig.json
 
-if [ -d types/ ]; then
-	cp types/* $OUT_DIR/types
-else
-	if [ -f types.d.ts ]; then
-		cp types.d.ts $OUT_DIR/types
-	fi
-fi
+## Remove the import - our wrapper does it for UMD as well as ESM
+sed -i "s#import DataTable from 'datatables.net';##" dist/dataTables.select.js
+
+HEADER="/*! Select $VERSION
+ * Copyright (c) SpryMedia Ltd - datatables.net/license
+ *
+ * SVG icons: ISC License
+ * Copyright (c) for portions of Lucide are held by Cole Bemis 2013-2022 as part of Feather (MIT).
+ * All other copyright (c) for Lucide are held by Lucide Contributors 2022.
+ */
+"
+$DT_SRC/node_modules/rollup/dist/bin/rollup \
+    --banner "$HEADER" \
+    --config rollup.config.mjs
+
+rsync -r dist/dataTables.select.js $OUT_DIR/js/
+rsync -r js/integrations/select.*.js $OUT_DIR/js/
+
+js_frameworks select $OUT_DIR/js "datatables.net-FW datatables.net-select"
+js_wrap $OUT_DIR/js/dataTables.select.js "datatables.net"
+
+# Move types across, single file was built by rollup
+# if [ -d $OUT_DIR/types ]; then
+# 	rm -r $OUT_DIR/types		
+# fi
+# mkdir $OUT_DIR/types
+
+# cp dist/types.d.ts $OUT_DIR/types
+# cp types/select*.d.ts $OUT_DIR/types
+
+# rm -r dist
+
 
 # Copy and build examples
 rsync -r examples $OUT_DIR

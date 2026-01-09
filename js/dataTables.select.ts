@@ -22,7 +22,7 @@ const dom = DataTable.dom;
 const util = DataTable.util;
 
 // Version information for debugger
-const select = {
+DataTable.select = {
 	classes: {
 		checkbox: 'dt-select-checkbox'
 	},
@@ -33,8 +33,6 @@ const select = {
 		if (ctx._select) {
 			return;
 		}
-
-		var savedSelected = dt.state.loaded();
 
 		var selectAndSave = function (e, settings, data) {
 			if (data === null || data.select === undefined) {
@@ -87,7 +85,7 @@ const select = {
 		})
 			.on('stateLoadParams', selectAndSave)
 			.one('init', function () {
-				selectAndSave(undefined, undefined, savedSelected);
+				selectAndSave(undefined, undefined, dt.state.loaded());
 			});
 
 		var init = dt.init() ? dt.init().select : null;
@@ -435,8 +433,10 @@ function enableMouseSelection(dt: Api) {
 				// selects text from the click event
 				if (
 					!selection.anchorNode ||
-					dom.s(selection.anchorNode).closest('table')[0] ===
-						dt.table().node()
+					dom
+						.s(selection.anchorNode.parentNode)
+						.closest('table')
+						.get(0) === dt.table().node()
 				) {
 					if (selection !== matchSelection) {
 						return;
@@ -448,7 +448,9 @@ function enableMouseSelection(dt: Api) {
 			var container = dt.table().container();
 
 			// Ignore clicks inside a sub-table
-			if (dom.s(e.target).closest('div.dt-container')[0] != container) {
+			if (
+				dom.s(e.target).closest('div.dt-container').get(0) != container
+			) {
 				return;
 			}
 
@@ -524,7 +526,7 @@ function enableMouseSelection(dt: Api) {
  * @returns `true` if the default action was prevented (i.e. execution should
  *   stop there)
  */
-function eventTrigger(api: Api, type: string, args: any[], any?: boolean) {
+function eventTrigger(api: any, type: string, args: any[], any?: boolean) {
 	if (any && !api.flatten().length) {
 		return;
 	}
@@ -1546,12 +1548,7 @@ DataTable.Api.registerPlural<ApiRowsMethods<any>['select']>(
 		});
 
 		this.iterator('table', function (innerCtx) {
-			eventTrigger(
-				new DataTable.Api(innerCtx),
-				'select',
-				['row', selectedIndexes],
-				true
-			);
+			eventTrigger(api, 'select', ['row', selectedIndexes], true);
 		});
 
 		return this;
@@ -1612,12 +1609,7 @@ apiRegisterPlural<ApiColumnsMethods<any>['select']>(
 		});
 
 		this.iterator('table', function (innerCtx, i) {
-			eventTrigger(
-				new DataTable.Api(innerCtx),
-				'select',
-				['column', api[i]],
-				true
-			);
+			eventTrigger(api, 'select', ['column', api[i]], true);
 		});
 
 		return this;
@@ -1667,7 +1659,7 @@ apiRegisterPlural<ApiCellsMethods<any>['select']>(
 
 		this.iterator('table', function (innerCtx, i) {
 			eventTrigger(
-				new DataTable.Api(innerCtx),
+				api,
 				'select',
 				['cell', (api as any).cells(api[i]).indexes().toArray()],
 				true
@@ -2027,7 +2019,7 @@ DataTable.render.select = function (valueProp?, nameProp?) {
 	var valueFn = valueProp ? DataTable.util.get(valueProp) : null;
 	var nameFn = nameProp ? DataTable.util.get(nameProp) : null;
 
-	var fn = ((function (data, type, row, meta) {
+	var fn = function (data, type, row, meta) {
 		var dtRow = meta.settings.data[meta.row];
 		var selected = dtRow._select_selected;
 		var ariaLabel = meta.settings.language.select.aria.rowCheckbox;
@@ -2064,7 +2056,7 @@ DataTable.render.select = function (valueProp?, nameProp?) {
 						'checked',
 						dom.s(this).closest('tr').classHas('selected')
 					);
-				})[0];
+				}).get(0);
 		}
 		else if (type === 'type') {
 			return 'select-checkbox';
@@ -2074,11 +2066,11 @@ DataTable.render.select = function (valueProp?, nameProp?) {
 		}
 
 		return selected ? 'X' : '';
-	})(
-		// Workaround so uglify doesn't strip the function name. It is used
-		// for the column type detection.
-		fn as any
-	)._name = 'selectCheckbox');
+	};
+
+	// Workaround so uglify doesn't strip the function name. It is used
+	// for the column type detection.
+	(fn as any)._name = 'selectCheckbox';
 
 	return fn;
 };
