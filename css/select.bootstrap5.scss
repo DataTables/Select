@@ -1,7 +1,11 @@
 
-$selected-background-color: rgba(13, 110, 253) !default;
+@use 'defaults.scss';
+@use 'common.scss';
+@use 'checkbox.scss';
 
-@use 'common.scss' with ($selected-background-color: $selected-background-color);
+:root {
+	--dtsl-tick_content-checked: '';
+}
 
 table.dataTable.table-sm tbody td.select-checkbox::before {
 	margin-top: -9px;

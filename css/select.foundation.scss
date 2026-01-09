@@ -1,6 +1,7 @@
+@use 'defaults.scss';
+@use 'common.scss';
+@use 'checkbox.scss';
 
-$dt-select-tick-margin-top: -9px !default; // checkbox tick position
-$selected-background-color: rgba(0, 137, 182) !default;
-
-@use 'common.scss' with ($selected-background-color: $selected-background-color);
-@use 'checkbox.scss' with ($dt-select-tick-margin-top: $dt-select-tick-margin-top);
+:root {
+	--dtsl-tick_margin-top: -7px;
+}

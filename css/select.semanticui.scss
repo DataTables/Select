@@ -1,10 +1,7 @@
+@use 'defaults.scss';
+@use 'common.scss';
+@use 'checkbox.scss';
 
-$dt-select-tick-line-height: 4px !default; // legacy tick position
-$selected-background-color: rgba(224, 224, 224) !default;
-$selected-text-color: inherit !default;
-
-@use 'common.scss' with (
-  $selected-background-color: $selected-background-color,
-  $selected-text-color: $selected-text-color
-);
-@use 'checkbox.scss' with ($dt-select-tick-line-height: $dt-select-tick-line-height);
+:root {
+	--dtsl-tick_line-height: 4px;
+}

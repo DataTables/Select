@@ -1,15 +1,17 @@
-
-$selected-background-color: rgba(13, 110, 253, 0.9) !default;
-$selected-text-color: white !default;
-
 table.dataTable {
-	// Cell and column selector access
+	// Cell and column styling. The row styling is handled by the DT base style
+	// sheet.
 	> tbody > tr > .selected {
-		background-color: $selected-background-color;
-		color: rgb(var(--dt-row-selected-text));
+		background-color: rgb(var(--dt_background-selected));
+		color: rgb(var(--dt_color-selected));
+
+		a {
+			color: rgb(var(--dt_link_color-selected));
+		}
 	}
 }
 
+// Info element styling
 div.dt-container {
 	span.select-info,
 	span.select-item {

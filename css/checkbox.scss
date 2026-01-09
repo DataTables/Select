@@ -1,9 +1,3 @@
-
-$dt-select-tick-margin-top: -8px !default; // checkbox tick position
-$dt-select-tick-line-height: 6px !default; // legacy tick position
-$dt-select-tick-border: 1px solid !default;
-$dt-select-tick-border-checked: 1px solid !default;
-
 table.dataTable {
 	> tbody > tr > .dt-select {
 		text-align: center;
@@ -13,7 +7,7 @@ table.dataTable {
 	> thead > tr > .dt-select {
 		text-align: center;
 		vertical-align: middle;
-	
+
 		input.dt-select-checkbox {
 			margin-left: auto;
 			margin-right: auto;
@@ -26,7 +20,7 @@ table.dataTable {
 		display: inline-block;
 		width: 12px;
 		height: 12px;
-		border: $dt-select-tick-border;
+		border: var(--dtsl-tick_border);
 		border-radius: 3px;
 		vertical-align: middle;
 		margin-top: 1px;
@@ -37,9 +31,9 @@ table.dataTable {
 		&:checked {
 			&:after {
 				display: block;
-				content: '\2713';
+				content: var(--dtsl-tick_content-checked);
 
-				margin-top: $dt-select-tick-margin-top;
+				margin-top: var(--dtsl-tick_margin-top);
 			}
 		}
 
@@ -61,7 +55,7 @@ table.dataTable {
 	> tbody > tr.selected {
 		input.dt-select-checkbox {
 			&:checked {
-				border: $dt-select-tick-border-checked;
+				border: var(--dtsl-tick_border-checked);
 			}
 		}
 	}
@@ -82,7 +76,7 @@ table.dataTable {
 			content: ' ';
 			margin-top: -6px;
 			margin-left: -6px;
-			border: $dt-select-tick-border;
+			border: var(--dtsl-tick_border);
 			border-radius: 3px;
 		}
 	}
@@ -91,11 +85,11 @@ table.dataTable {
 		> td.select-checkbox,
 		> th.select-checkbox {
 			&:before {
-				border: $dt-select-tick-border-checked;
+				border: var(--dtsl-tick_border-checked);
 				content: '\2713';
 				font-size: 20px;
 
-				line-height: $dt-select-tick-line-height;
+				line-height: var(--dtsl-tick_line-height);
 				text-align: center;
 			}
 		}
@@ -120,9 +114,8 @@ table.dataTable {
 	}
 }
 
-
 html.dark,
-html[data-bs-theme="dark"] {
+html[data-bs-theme='dark'] {
 	table.dataTable {
 		input.dt-select-checkbox {
 			&:indeterminate {
