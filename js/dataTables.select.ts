@@ -14,6 +14,10 @@ import DataTable, {
 import './interface';
 import { HeaderCheckbox, StyleType } from './interface';
 
+if (!DataTable.versionCheck('3')) {
+	throw 'Warning: Select requires DataTables 3 or newer';
+}
+
 const dom = DataTable.dom;
 const util = DataTable.util;
 
@@ -25,10 +29,6 @@ const select = {
 
 	init: function (dt: Api) {
 		var ctx = dt.settings()[0];
-
-		if (!DataTable.versionCheck('2')) {
-			throw 'Warning: Select requires DataTables 2 or newer';
-		}
 
 		if (ctx._select) {
 			return;
@@ -214,8 +214,8 @@ features, with an overview of how they are implemented:
 * columns: a `_select_selected` property which contains a boolean value of the
   DataTables' `columns` object for each column
 * cells: a `_selected_cells` property which contains an array of boolean values
-  of the `data` object for each row. The array is the same length as the
-  columns array, with each element of it representing a cell.
+  of the `data` object for each row. The array is the same length as the columns
+  array, with each element of it representing a cell.
 
 This method of using boolean flags allows Select to operate when nodes have not
 been created for rows / cells (DataTables' defer rendering feature).
@@ -238,18 +238,18 @@ The `_select` object contains the following properties:
 
 ```
 {
-	items:string       - Can be `rows`, `columns` or `cells`. Defines what item 
-	                     will be selected if the user is allowed to activate row
-	                     selection using the mouse.
-	style:string       - Can be `none`, `single`, `multi` or `os`. Defines the
-	                     interaction style when selecting items
-	blurable:boolean   - If row selection can be cleared by clicking outside of
-	                     the table
-	toggleable:boolean - If row selection can be cancelled by repeated clicking
-	                     on the row
-	info:boolean       - If the selection summary should be shown in the table
-	                     information elements
-	infoEls:element[]  - List of HTML elements with info elements for a table
+    items:string       - Can be `rows`, `columns` or `cells`. Defines what item 
+                         will be selected if the user is allowed to activate row
+                         selection using the mouse.
+    style:string       - Can be `none`, `single`, `multi` or `os`. Defines the
+                         interaction style when selecting items
+    blurable:boolean   - If row selection can be cleared by clicking outside of
+                         the table
+    toggleable:boolean - If row selection can be cancelled by repeated clicking
+                         on the row
+    info:boolean       - If the selection summary should be shown in the table
+                         information elements
+    infoEls:element[]  - List of HTML elements with info elements for a table
 }
 ```
 
@@ -430,8 +430,9 @@ function enableMouseSelection(dt: Api) {
 			if (matchSelection) {
 				var selection = window.getSelection();
 
-				// If the element that contains the selection is not in the table, we can ignore it
-				// This can happen if the developer selects text from the click event
+				// If the element that contains the selection is not in the
+				// table, we can ignore it This can happen if the developer
+				// selects text from the click event
 				if (
 					!selection.anchorNode ||
 					dom.s(selection.anchorNode).closest('table')[0] ===
@@ -491,8 +492,8 @@ function enableMouseSelection(dt: Api) {
 					return;
 				}
 
-				// Ignore elements which have been removed from the DOM (i.e. paging
-				// buttons)
+				// Ignore elements which have been removed from the DOM (i.e.
+				// paging buttons)
 				if (dom.s(e.target).closest('html').count() === 0) {
 					return;
 				}
@@ -563,8 +564,8 @@ function info(api: Api, node: HTMLElement) {
 	var ctx = api.settings()[0];
 	var rowSet = ctx._select_set;
 
-	// Check that the ids are still in ctx.ids - row might have been deleted before it was
-	// unselected
+	// Check that the ids are still in ctx.ids - row might have been deleted
+	// before it was unselected
 	if (!api.page.info().serverSide) {
 		for (var i = rowSet.length - 1; i >= 0; i--) {
 			if (!ctx.ids[rowSet[i]]) {
@@ -725,7 +726,8 @@ function keysSet(dt: Api) {
 	var namespace = 'dts-keys-' + ctx.tableId;
 
 	if (flag) {
-		// Need a tabindex of the `tr` elements to make them focusable by the browser
+		// Need a tabindex of the `tr` elements to make them focusable by the
+		// browser
 		dom.s(dt.rows({ page: 'current' }).nodes().toArray()).attr(
 			'tabindex',
 			0
@@ -874,8 +876,8 @@ function headerCheckboxState(dt: Api, headerCheckbox: HeaderCheckbox) {
 				: dt.rows({ search: 'applied' }).count();
 	}
 	else {
-		// Need to count how many rows are actually selectable to know if all selectable
-		// rows are selected or not
+		// Need to count how many rows are actually selectable to know if all
+		// selectable rows are selected or not
 		var indexes =
 			headerCheckbox == 'select-page'
 				? dt.rows({ page: 'current' }).indexes().toArray()
@@ -983,7 +985,8 @@ function init(ctx: Context) {
 
 	// Clean up and release
 	api.on('destroy.dtSelect', function () {
-		// Remove class directly rather than calling deselect - which would trigger events
+		// Remove class directly rather than calling deselect - which would
+		// trigger events
 		dom.s(api.rows({ selected: true }).nodes().toArray()).classRemove(
 			api.settings()[0]._select.className
 		);
@@ -1446,7 +1449,8 @@ apiRegister('select.cumulative()', function (mode) {
 
 			// Convert from the current mode, to the new
 			if (mode === 'subtractive') {
-				// For subtractive mode we track the row ids which are not selected
+				// For subtractive mode we track the row ids which are not
+				// selected
 				var unselected = dt.rows({ selected: false }).ids().toArray();
 
 				ctx._select_mode = mode;
@@ -1532,7 +1536,8 @@ DataTable.Api.registerPlural<ApiRowsMethods<any>['select']>(
 							.prop('checked', true);
 					}
 
-					// Invalidate the sort data for this column, if not already done
+					// Invalidate the sort data for this column, if not already
+					// done
 					if (dtData.orderCache !== null) {
 						dtData.orderCache[i] = null;
 					}
@@ -1695,7 +1700,8 @@ apiRegisterPlural('rows().deselect()', 'row().deselect()', function () {
 	var api = this;
 
 	this.iterator('row', function (ctx, idx) {
-		// Like the select action, this has a lot of knowledge about DT internally
+		// Like the select action, this has a lot of knowledge about DT
+		// internally
 		var dtData = ctx.data[idx];
 		var dtColumns = ctx.columns;
 
@@ -1955,7 +1961,8 @@ util.object.assign(DataTable.ext.buttons, {
 				var dataSrc = dt.settings()[0].data;
 
 				dt.search.fixed('dt-select', function (text, data, idx) {
-					// _select_selected is set by Select on the data object for the row
+					// _select_selected is set by Select on the data object for
+					// the row
 					return dataSrc[idx]._select_selected;
 				});
 
@@ -2050,9 +2057,9 @@ DataTable.render.select = function (valueProp?, nameProp?) {
 					// Let Select 100% cotrol the state of the checkbox
 					e.preventDefault();
 
-					// And make sure this checkbox matches it's row as it is possible
-					// to check out of sync if this was clicked on to deselect a range
-					// but remains selected itself
+					// And make sure this checkbox matches it's row as it is
+					// possible to check out of sync if this was clicked on to
+					// deselect a range but remains selected itself
 					dom.s(this).prop(
 						'checked',
 						dom.s(this).closest('tr').classHas('selected')
