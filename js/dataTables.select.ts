@@ -588,7 +588,7 @@ function info(api: Api, node: HTMLElement) {
 		rows = api.page.info().recordsDisplay - rowSet.length;
 	}
 
-	var add = function (el, name, num) {
+	var add = function (el, name, num: number) {
 		el.append(
 			dom
 				.c('span')
@@ -745,7 +745,7 @@ function keysSet(dt: Api) {
 		// Listen on document for tab, up and down
 		dom.s(document).on('keydown.' + namespace, function (e) {
 			var key = e.keyCode;
-			var active = document.activeElement;
+			var active = document.activeElement as HTMLTableRowElement;
 
 			// Can't use e.key as it wasn't widely supported until 2017
 			// 9 Tab
