@@ -1759,7 +1759,7 @@ apiRegisterPlural('columns().deselect()', 'column().deselect()', function () {
 					data.cells &&
 					(!cellSelected || !cellSelected[cellIdx.column])
 				) {
-					dom.s(data.cells[cellIdx.column]).classAdd(
+					dom.s(data.cells[cellIdx.column]).classRemove(
 						ctx._select.className
 					);
 				}
