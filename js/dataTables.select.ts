@@ -9,7 +9,8 @@ import DataTable, {
 	ApiRowsMethods,
 	CellIdx,
 	ColumnContext,
-	Context
+	Context,
+	Dom
 } from 'datatables.net';
 import './interface';
 import { HeaderCheckbox, StyleType } from './interface';
@@ -588,7 +589,7 @@ function info(api: Api, node: HTMLElement) {
 		rows = api.page.info().recordsDisplay - rowSet.length;
 	}
 
-	var add = function (el, name, num: number) {
+	var add = function (el: Dom, name: string, num: number) {
 		el.append(
 			dom
 				.c('span')
