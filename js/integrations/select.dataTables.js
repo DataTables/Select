@@ -1,3 +1,3 @@
-/*! DataTables styling wrapper for Select
- * © SpryMedia Ltd - datatables.net/license
+/*! Select default styling for DataTables
+ * Copyright (c) SpryMedia Ltd - datatables.net/license
  */

@@ -1,3 +1,3 @@
-/*! Semanic UI styling wrapper for Select
- * © SpryMedia Ltd - datatables.net/license
+/*! Select Fomantic UI styling for DataTables
+ * Copyright (c) SpryMedia Ltd - datatables.net/license
  */

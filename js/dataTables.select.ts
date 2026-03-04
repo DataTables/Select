@@ -1,5 +1,5 @@
-/*! Select for DataTables 4.0.0-dev
- * © SpryMedia Ltd - datatables.net/license/mit
+/*! Select for DataTables
+ * Copyright (c) SpryMedia Ltd - datatables.net/license
  */
 
 import DataTable, {
@@ -10,19 +10,16 @@ import DataTable, {
 	CellIdx,
 	ColumnContext,
 	Context,
-	Dom
+	Dom,
+	util
 } from 'datatables.net';
 import './interface';
 import { HeaderCheckbox, StyleType } from './interface';
 
-if (!DataTable.versionCheck('3')) {
-	throw 'Warning: Select requires DataTables 3 or newer';
+if (!DataTable || !DataTable.versionCheck('3')) {
+	throw 'Error: Select requires DataTables 3 or newer';
 }
 
-const dom = DataTable.dom;
-const util = DataTable.util;
-
-// Version information for debugger
 DataTable.select = {
 	classes: {
 		checkbox: 'dt-select-checkbox'
@@ -183,7 +180,7 @@ DataTable.select = {
 
 		// If the init options haven't enabled select, but there is a selectable
 		// class name, then enable
-		if (!setStyle && dom.s(dt.table().node()).classHas('selectable')) {
+		if (!setStyle && Dom.s(dt.table().node()).classHas('selectable')) {
 			dt.select.style('os');
 		}
 
@@ -380,12 +377,12 @@ function disableMouseSelection(dt: Api) {
 	var ctx = dt.settings()[0];
 	var selector = ctx._select.selector;
 
-	dom.s(dt.table().container())
+	Dom.s(dt.table().container())
 		.off('mousedown.dtSelect', selector)
 		.off('mouseup.dtSelect', selector)
 		.off('click.dtSelect', selector);
 
-	dom.s('body').off('click.dtSelect' + _safeId(dt.table().node()));
+	Dom.s('body').off('click.dtSelect' + _safeId(dt.table().node()));
 }
 
 /**
@@ -394,7 +391,7 @@ function disableMouseSelection(dt: Api) {
  * @param dt DataTable to remove events from
  */
 function enableMouseSelection(dt: Api) {
-	var container = dom.s(dt.table().container());
+	var container = Dom.s(dt.table().container());
 	var ctx = dt.settings()[0];
 	var selector = ctx._select.selector;
 	var matchSelection;
@@ -434,8 +431,7 @@ function enableMouseSelection(dt: Api) {
 				// selects text from the click event
 				if (
 					!selection.anchorNode ||
-					dom
-						.s(selection.anchorNode.parentNode)
+					Dom.s(selection.anchorNode.parentNode)
 						.closest('table')
 						.get(0) === dt.table().node()
 				) {
@@ -450,12 +446,12 @@ function enableMouseSelection(dt: Api) {
 
 			// Ignore clicks inside a sub-table
 			if (
-				dom.s(e.target).closest('div.dt-container').get(0) != container
+				Dom.s(e.target).closest('div.dt-container').get(0) != container
 			) {
 				return;
 			}
 
-			var cell = dt.cell(dom.s(e.target).closest('td, th').get(0));
+			var cell = dt.cell(Dom.s(e.target).closest('td, th').get(0));
 
 			// Check the cell actually belongs to the host DataTable (so child
 			// rows, etc, are ignored)
@@ -486,23 +482,23 @@ function enableMouseSelection(dt: Api) {
 		});
 
 	// Blurable
-	dom.s('body').on(
+	Dom.s('body').on(
 		'click.dtSelect' + _safeId(dt.table().node()),
 		function (e) {
 			if (ctx._select.blurable) {
 				// If the click was inside the DataTables container, don't blur
-				if (dom.s(e.target).closest(dt.table().container()).count()) {
+				if (Dom.s(e.target).closest(dt.table().container()).count()) {
 					return;
 				}
 
 				// Ignore elements which have been removed from the DOM (i.e.
 				// paging buttons)
-				if (dom.s(e.target).closest('html').count() === 0) {
+				if (Dom.s(e.target).closest('html').count() === 0) {
 					return;
 				}
 
 				// Don't blur in Editor form
-				if (dom.s(e.target).closest('div.DTE').count()) {
+				if (Dom.s(e.target).closest('div.DTE').count()) {
 					return;
 				}
 
@@ -538,7 +534,7 @@ function eventTrigger(api: any, type: string, args: any[], any?: boolean) {
 
 	args.unshift(api);
 
-	let ev = dom.s(api.table().node()).trigger(type, true, args);
+	let ev = Dom.s(api.table().node()).trigger(type, true, args);
 
 	return ev.includes(false);
 }
@@ -591,8 +587,7 @@ function info(api: Api, node: HTMLElement) {
 
 	var add = function (el: Dom, name: string, num: number) {
 		el.append(
-			dom
-				.c('span')
+			Dom.c('span')
 				.classAdd('select-item')
 				.text(
 					api.i18n(
@@ -608,8 +603,8 @@ function info(api: Api, node: HTMLElement) {
 		);
 	};
 
-	var el = dom.s(node);
-	var output = dom.c('span').classAdd('select-info');
+	var el = Dom.s(node);
+	var output = Dom.c('span').classAdd('select-info');
 
 	add(output, 'row', rows);
 	add(output, 'column', columns);
@@ -646,7 +641,7 @@ function initCheckboxHeader(dt: Api, headerCheckbox: HeaderCheckbox) {
 			return;
 		}
 
-		var header = dom.s(dt.column(idx).header());
+		var header = Dom.s(dt.column(idx).header());
 		var liner = header.find('div.dt-column-header');
 
 		if (liner.count()) {
@@ -655,8 +650,7 @@ function initCheckboxHeader(dt: Api, headerCheckbox: HeaderCheckbox) {
 
 		if (!header.find('input').count()) {
 			// If no checkbox yet, insert one
-			var input = dom
-				.c('input')
+			var input = Dom.c('input')
 				.attr({
 					class: checkboxClass(false),
 					type: 'checkbox',
@@ -731,20 +725,20 @@ function keysSet(dt: Api) {
 	if (flag) {
 		// Need a tabindex of the `tr` elements to make them focusable by the
 		// browser
-		dom.s(dt.rows({ page: 'current' }).nodes().toArray()).attr(
+		Dom.s(dt.rows({ page: 'current' }).nodes().toArray()).attr(
 			'tabindex',
 			0
 		);
 
 		dt.on('draw.' + namespace, function () {
-			dom.s(dt.rows({ page: 'current' }).nodes().toArray()).attr(
+			Dom.s(dt.rows({ page: 'current' }).nodes().toArray()).attr(
 				'tabindex',
 				0
 			);
 		});
 
 		// Listen on document for tab, up and down
-		dom.s(document).on('keydown.' + namespace, function (e) {
+		Dom.s(document).on('keydown.' + namespace, function (e) {
 			var key = e.keyCode;
 			var active = document.activeElement as HTMLTableRowElement;
 
@@ -829,11 +823,11 @@ function keysSet(dt: Api) {
 	}
 	else {
 		// Stop the rows from being able to gain focus
-		dom.s(dt.rows().nodes().toArray()).removeAttr('tabindex');
+		Dom.s(dt.rows().nodes().toArray()).removeAttr('tabindex');
 
 		// Nuke events
 		dt.off('draw.' + namespace);
-		dom.s(document).off('keydown.' + namespace);
+		Dom.s(document).off('keydown.' + namespace);
 	}
 }
 
@@ -948,7 +942,7 @@ function init(ctx: Context) {
 		) {
 			d._select_selected = true;
 
-			dom.s(row)
+			Dom.s(row)
 				.classAdd(ctx._select.className)
 				.find('input.' + checkboxClass(true))
 				.prop('checked', true);
@@ -961,7 +955,7 @@ function init(ctx: Context) {
 				ctx.columns[i]._select_selected ||
 				(d._selected_cells && d._selected_cells[i])
 			) {
-				dom.s(d.cells[i]).classAdd(ctx._select.className);
+				Dom.s(d.cells[i]).classAdd(ctx._select.className);
 			}
 		}
 	});
@@ -990,17 +984,17 @@ function init(ctx: Context) {
 	api.on('destroy.dtSelect', function () {
 		// Remove class directly rather than calling deselect - which would
 		// trigger events
-		dom.s(api.rows({ selected: true }).nodes().toArray()).classRemove(
+		Dom.s(api.rows({ selected: true }).nodes().toArray()).classRemove(
 			api.settings()[0]._select.className
 		);
 
-		dom.s(api.table().header())
+		Dom.s(api.table().header())
 			.find('input.' + checkboxClass(true))
 			.remove();
 
 		disableMouseSelection(api);
 		api.off('.dtSelect');
-		dom.s('body').off('.dtSelect' + _safeId(api.table().node()));
+		Dom.s('body').off('.dtSelect' + _safeId(api.table().node()));
 	});
 }
 
@@ -1516,7 +1510,7 @@ DataTable.Api.registerPlural<ApiRowsMethods<any>['select']>(
 				}
 			}
 
-			dom.s(dtData.tr).classAdd(ctx._select.className);
+			Dom.s(dtData.tr).classAdd(ctx._select.className);
 			dtData._select_selected = true;
 
 			selectedIndexes.push(idx);
@@ -1534,7 +1528,7 @@ DataTable.Api.registerPlural<ApiRowsMethods<any>['select']>(
 
 					// Make sure the checkbox shows the right state
 					if (cells && cells[i]) {
-						dom.s(cells[i])
+						Dom.s(cells[i])
 							.find('input.' + checkboxClass(true))
 							.prop('checked', true);
 					}
@@ -1604,9 +1598,9 @@ apiRegisterPlural<ApiColumnsMethods<any>['select']>(
 
 			var column = new DataTable.Api(ctx).column(idx);
 
-			dom.s(column.header()).classAdd(ctx._select.className);
-			dom.s(column.footer()).classAdd(ctx._select.className);
-			dom.s(column.nodes().toArray()).classAdd(ctx._select.className);
+			Dom.s(column.header()).classAdd(ctx._select.className);
+			Dom.s(column.footer()).classAdd(ctx._select.className);
+			Dom.s(column.nodes().toArray()).classAdd(ctx._select.className);
 		});
 
 		this.iterator('table', function (innerCtx, i) {
@@ -1654,7 +1648,7 @@ apiRegisterPlural<ApiCellsMethods<any>['select']>(
 			data._selected_cells[colIdx] = true;
 
 			if (data.cells) {
-				dom.s(data.cells[colIdx]).classAdd(ctx._select.className);
+				Dom.s(data.cells[colIdx]).classAdd(ctx._select.className);
 			}
 		});
 
@@ -1698,7 +1692,7 @@ apiRegisterPlural('rows().deselect()', 'row().deselect()', function () {
 		var dtData = ctx.data[idx];
 		var dtColumns = ctx.columns;
 
-		dom.s(dtData.tr).classRemove(ctx._select.className);
+		Dom.s(dtData.tr).classRemove(ctx._select.className);
 		dtData._select_selected = false;
 		ctx._select_lastCell = null;
 
@@ -1715,7 +1709,7 @@ apiRegisterPlural('rows().deselect()', 'row().deselect()', function () {
 
 				// Make sure the checkbox shows the right state
 				if (cells && cells[i]) {
-					dom.s(dtData.cells[i])
+					Dom.s(dtData.cells[i])
 						.find('input.' + checkboxClass(true))
 						.prop('checked', false);
 				}
@@ -1744,8 +1738,8 @@ apiRegisterPlural('columns().deselect()', 'column().deselect()', function () {
 		var api = new DataTable.Api(ctx);
 		var column = api.column(idx);
 
-		dom.s(column.header()).classRemove(ctx._select.className);
-		dom.s(column.footer()).classRemove(ctx._select.className);
+		Dom.s(column.header()).classRemove(ctx._select.className);
+		Dom.s(column.footer()).classRemove(ctx._select.className);
 
 		// Need to loop over each cell, rather than just using
 		// `column().nodes()` as cells which are individually selected should
@@ -1760,7 +1754,7 @@ apiRegisterPlural('columns().deselect()', 'column().deselect()', function () {
 					data.cells &&
 					(!cellSelected || !cellSelected[cellIdx.column])
 				) {
-					dom.s(data.cells[cellIdx.column]).classRemove(
+					Dom.s(data.cells[cellIdx.column]).classRemove(
 						ctx._select.className
 					);
 				}
@@ -1788,7 +1782,7 @@ apiRegisterPlural('cells().deselect()', 'cell().deselect()', function () {
 		// selected, in which case the class should remain (since it is selected
 		// in the column)
 		if (data.cells && !ctx.columns[colIdx]._select_selected) {
-			dom.s(data.cells[colIdx]).classRemove(ctx._select.className);
+			Dom.s(data.cells[colIdx]).classRemove(ctx._select.className);
 		}
 	});
 
@@ -2036,8 +2030,7 @@ DataTable.render.select = function (valueProp?, nameProp?) {
 				}
 			}
 
-			return dom
-				.c('input')
+			return Dom.c('input')
 				.attr({
 					'aria-label': ariaLabel,
 					class: checkboxClass(false),
@@ -2053,11 +2046,12 @@ DataTable.render.select = function (valueProp?, nameProp?) {
 					// And make sure this checkbox matches it's row as it is
 					// possible to check out of sync if this was clicked on to
 					// deselect a range but remains selected itself
-					dom.s(this).prop(
+					Dom.s(this).prop(
 						'checked',
-						dom.s(this).closest('tr').classHas('selected')
+						Dom.s(this).closest('tr').classHas('selected')
 					);
-				}).get(0);
+				})
+				.get(0);
 		}
 		else if (type === 'type') {
 			return 'select-checkbox';
@@ -2083,15 +2077,13 @@ DataTable.ext.order['select-checkbox'] = function (settings, col) {
 		.nodes()
 		.map(function (td) {
 			if (settings._select.items === 'row') {
-				return dom
-					.s(td)
+				return Dom.s(td)
 					.parent()
 					.classHas(settings._select.className)
 					.toString();
 			}
 			else if (settings._select.items === 'cell') {
-				return dom
-					.s(td)
+				return Dom.s(td)
 					.classHas(settings._select.className)
 					.toString();
 			}
@@ -2106,7 +2098,7 @@ DataTable.ext.order['select-checkbox'] = function (settings, col) {
 // DataTables creation - we need this to run _before_ data is read in, but
 // for backwards compat. we also run again on preInit. If it happens twice
 // it will simply do nothing the second time around.
-dom.s(document).on('i18n.dt.dtSelect preInit.dt.dtSelect', function (e, ctx) {
+Dom.s(document).on('i18n.dt.dtSelect preInit.dt.dtSelect', function (e, ctx) {
 	if (e.namespace !== 'dt') {
 		return;
 	}

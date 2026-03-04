@@ -1,3 +1,3 @@
-/*! jQuery UI styling wrapper for Select
- * © SpryMedia Ltd - datatables.net/license
+/*! Select jQuery UI styling for DataTables
+ * Copyright (c) SpryMedia Ltd - datatables.net/license
  */

@@ -1,3 +1,3 @@
-/*! Bulma styling wrapper for Select
- * © SpryMedia Ltd - datatables.net/license
+/*! Select Bulma styling for DataTables
+ * Copyright (c) SpryMedia Ltd - datatables.net/license
  */
