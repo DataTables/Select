@@ -2,21 +2,7 @@
 <dt-example table-type="html" order="20">
 
 <css lib="datatables select"/>
-<js lib="jquery datatables select">
-<![CDATA[
-
-var table = $('#example').DataTable({
-	select: {
-		keys: true
-	}
-});
-
-table.row(':eq(0)').focus();
-
-]]>
-</js>
-
-<js-vanilla>
+<js lib="datatables select">
 <![CDATA[
 
 let table = new DataTable('#example', {
@@ -28,7 +14,7 @@ let table = new DataTable('#example', {
 table.row(':eq(0)').focus();
 
 ]]>
-</js-vanilla>
+</js>
 
 <title lib="Select">Keyboard navigation and selection</title>
 

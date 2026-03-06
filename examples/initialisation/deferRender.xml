@@ -2,28 +2,9 @@
 <dt-example table-type="ajax" order="8">
 
 <css lib="datatables select"/>
-<js lib="jquery datatables select"/>
+<js lib="datatables select"/>
 
 <js>
-<![CDATA[
-var table = $('#example').DataTable({
-	ajax: '../../../../examples/ajax/data/objects.txt',
-	columns: [
-		{ data: 'name' },
-		{ data: 'position' },
-		{ data: 'office' },
-		{ data: 'extn' },
-		{ data: 'start_date' },
-		{ data: 'salary' }
-	],
-	deferRender: true,
-	select: true
-});
-
-]]>
-</js>
-
-<js-vanilla>
 <![CDATA[
 new DataTable('#example', {
 	ajax: '../../../../examples/ajax/data/objects.txt',
@@ -40,7 +21,7 @@ new DataTable('#example', {
 });
 
 ]]>
-</js-vanilla>
+</js>
 
 <title>Defer rendering</title>
 

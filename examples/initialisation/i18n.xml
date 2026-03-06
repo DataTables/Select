@@ -2,25 +2,7 @@
 <dt-example table-type="html" order="6">
 
 <css lib="datatables select"/>
-<js lib="jquery datatables select">
-<![CDATA[
-$('#example').DataTable({
-	select: true,
-	language: {
-		select: {
-			rows: {
-				_: 'You have selected %d rows',
-				0: 'Click a row to select it',
-				1: 'Only 1 row selected'
-			}
-		}
-	}
-});
-
-]]>
-</js>
-
-<js-vanilla>
+<js lib="datatables select">
 <![CDATA[
 new DataTable('#example', {
 	select: true,
@@ -36,7 +18,7 @@ new DataTable('#example', {
 });
 
 ]]>
-</js-vanilla>
+</js>
 
 <title lib="Select">Internationalisation</title>
 

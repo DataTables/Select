@@ -2,24 +2,9 @@
 <dt-example table-type="html" order="4">
 
 <css lib="datatables select"/>
-<js lib="jquery datatables select"/>
+<js lib="datatables select"/>
 
 <js>
-<![CDATA[
-var table = $('#example').DataTable({
-	select: true
-});
-
-table.on('user-select', function (e, dt, type, cell, originalEvent) {
-	if ($(originalEvent.target).index() === 0) {
-		e.preventDefault();
-	}
-});
-
-]]>
-</js>
-
-<js-vanilla>
 <![CDATA[
 
 let table = new DataTable('#example', {
@@ -33,7 +18,7 @@ table.on('user-select', function (e, dt, type, cell, originalEvent) {
 });
 
 ]]>
-</js-vanilla>
+</js>
 
 <title>Events (cancellable)</title>
 

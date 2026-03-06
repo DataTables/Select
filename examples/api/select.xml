@@ -2,34 +2,7 @@
 <dt-example table-type="html" order="2">
 
 <css lib="datatables select buttons"/>
-<js lib="jquery datatables select buttons">
-<![CDATA[
-var table = $('#example').DataTable({
-	layout: {
-		topStart: {
-			buttons: [
-				{
-					text: 'Select all',
-					action: function () {
-						table.rows().select();
-					}
-				},
-				{
-					text: 'Select none',
-					action: function () {
-						table.rows().deselect();
-					}
-				}
-			]
-		}
-	},
-	select: true
-});
-
-]]>
-</js>
-
-<js-vanilla>
+<js lib="datatables select buttons">
 <![CDATA[
 
 let table = new DataTable('#example', {
@@ -55,7 +28,7 @@ let table = new DataTable('#example', {
 });
 
 ]]>
-</js-vanilla>
+</js>
 
 <title lib="Select">Select items</title>
 

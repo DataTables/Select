@@ -2,33 +2,9 @@
 <dt-example table-type="ajax-details" order="8">
 
 <css lib="datatables select"/>
-<js lib="jquery datatables select"/>
+<js lib="datatables select"/>
 
 <js>
-<![CDATA[
-var table = $('#example').DataTable({
-	ajax: '../../../../examples/ajax/data/objects.txt',
-	columns: [
-		{
-			data: null,
-			render: DataTable.render.select(),
-		},
-		{ data: 'name' },
-		{ data: 'position' },
-		{ data: 'office' },
-		{ data: 'salary' }
-	],
-	select: {
-		style: 'multi',
-		selector: 'td:first-child',
-		headerCheckbox: 'select-page'
-	}
-});
-
-]]>
-</js>
-
-<js-vanilla>
 <![CDATA[
 new DataTable('#example', {
 	ajax: '../../../../examples/ajax/data/objects.txt',
@@ -50,7 +26,7 @@ new DataTable('#example', {
 });
 
 ]]>
-</js-vanilla>
+</js>
 
 <title>Current page selection only</title>
 

@@ -2,19 +2,7 @@
 <dt-example table-type="html" order="7">
 
 <css lib="datatables select"/>
-<js lib="jquery datatables select">
-<![CDATA[
-$('#example').DataTable({
-	select: {
-		style: 'os',
-		blurable: true
-	}
-});
-
-]]>
-</js>
-
-<js-vanilla>
+<js lib="datatables select">
 <![CDATA[
 
 new DataTable('#example', {
@@ -25,7 +13,7 @@ new DataTable('#example', {
 });
 
 ]]>
-</js-vanilla>
+</js>
 
 <title lib="Select">Blur selection</title>
 

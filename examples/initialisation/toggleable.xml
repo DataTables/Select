@@ -2,21 +2,7 @@
 <dt-example table-type="html" order="11">
 
 <css lib="datatables select"/>
-<js lib="jquery datatables select">
-<![CDATA[
-
-var table = $('#example').DataTable({
-	select: {
-		toggleable: false
-	}
-});
-
-table.row(2).select();
-
-]]>
-</js>
-
-<js-vanilla>
+<js lib="datatables select">
 <![CDATA[
 let table = new DataTable('#example', {
 	select: {
@@ -27,7 +13,7 @@ let table = new DataTable('#example', {
 table.row(2).select();
 
 ]]>
-</js-vanilla>
+</js>
 
 <title lib="Select">Disable Element Deselection</title>
 

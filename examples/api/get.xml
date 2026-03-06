@@ -2,32 +2,7 @@
 <dt-example table-type="html" order="1">
 
 <css lib="datatables select buttons"/>
-<js lib="jquery datatables select buttons">
-<![CDATA[
-
-var events = $('#events');
-var table = $('#example').DataTable({
-	layout: {
-		topStart: {
-			buttons: [
-				{
-					text: 'Get selected data',
-					action: function () {
-						var count = table.rows({ selected: true }).count();
-
-						events.prepend('<div>' + count + ' row(s) selected</div>');
-					}
-				}
-			]
-		}
-	},
-	select: true
-});
-
-]]>
-</js>
-
-<js-vanilla>
+<js lib="datatables select buttons">
 <![CDATA[
 function message(message) {
 	let el = document.querySelector('#events');
@@ -56,7 +31,7 @@ let table = new DataTable('#example', {
 });
 
 ]]>
-</js-vanilla>
+</js>
 
 <title lib="Select">Get selected items</title>
 

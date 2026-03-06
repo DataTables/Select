@@ -2,48 +2,9 @@
 <dt-example table-type="html" order="3">
 
 <css lib="datatables select" />
-<js lib="jquery datatables select"/>
+<js lib="datatables select"/>
 
-<js><![CDATA[
-var events = $('#events');
-var table = $('#example').DataTable({
-	select: true
-});
-
-table
-	.on('select', function (e, dt, type, indexes) {
-		var rowData = table
-			.rows(indexes)
-			.data()
-			.toArray();
-
-		events.prepend(
-			'<div><b>' +
-				type +
-				' selection</b> - ' +
-				JSON.stringify(rowData) +
-				'</div>'
-		);
-	})
-	.on('deselect', function (e, dt, type, indexes) {
-		var rowData = table
-			.rows(indexes)
-			.data()
-			.toArray();
-
-		events.prepend(
-			'<div><b>' +
-				type +
-				' <i>de</i>selection</b> - ' +
-				JSON.stringify(rowData) +
-				'</div>'
-		);
-	});
-
-]]>
-</js>
-
-<js-vanilla>
+<js>
 <![CDATA[
 function message(message) {
 	let el = document.querySelector('#events');
@@ -78,7 +39,7 @@ table
 	});
 
 ]]>
-</js-vanilla>
+</js>
 
 <title>Events</title>
 

@@ -2,42 +2,7 @@
 <dt-example table-type="ssp" table-class="display nowrap" order="13">
 
 <css lib="datatables select buttons" />
-<js lib="jquery datatables select buttons">
-<![CDATA[
-$('#example').DataTable({
-	ajax: '../../../../examples/server_side/scripts/ids-objects.php',
-	columns: [
-		{ data: 'first_name' },
-		{ data: 'last_name' },
-		{ data: 'position' },
-		{ data: 'office' },
-		{ data: 'start_date' },
-		{ data: 'salary' }
-	],
-	layout: {
-		topStart: {
-			buttons: [
-				'pageLength',
-				{
-					text: 'View selection info',
-					action: function (e, dt) {
-						alert(
-							'Information about selected rows: '+
-							JSON.stringify(dt.select.cumulative().rows)
-						);
-					}
-				}
-			]
-		}
-	},
-	processing: true,
-	select: true,
-	serverSide: true
-});
-]]>
-</js>
-
-<js-vanilla>
+<js lib="datatables select buttons">
 <![CDATA[
 new DataTable('#example', {
 	ajax: '../../../../examples/server_side/scripts/ids-objects.php',
@@ -72,7 +37,7 @@ new DataTable('#example', {
 	serverSide: true
 });
 ]]>
-</js-vanilla>
+</js>
 
 <title lib="Select">Server-side processing</title>
 

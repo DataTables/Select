@@ -2,19 +2,7 @@
 <dt-example table-type="html" order="4">
 
 <css lib="datatables select"/>
-<js lib="jquery datatables select">
-<![CDATA[
-$('#example').DataTable({
-	select: {
-		style: 'os',
-		items: 'cell'
-	}
-});
-
-]]>
-</js>
-
-<js-vanilla>
+<js lib="datatables select">
 <![CDATA[
 new DataTable('#example', {
 	select: {
@@ -24,7 +12,7 @@ new DataTable('#example', {
 });
 
 ]]>
-</js-vanilla>
+</js>
 
 <title lib="Select">Cell selection</title>
 

@@ -2,24 +2,10 @@
 <dt-example table-type="html" order="22">
 
 <css lib="datatables select buttons"/>
-<js lib="jquery datatables select buttons"/>
+<js lib="datatables select buttons"/>
 
 <title>Buttons - search toggle</title>
 <js>
-<![CDATA[
-$('#example').DataTable({
-	layout: {
-		topStart: {
-			buttons: ['showSelected']
-		}
-	},
-	select: true
-});
-
-]]>
-</js>
-
-<js-vanilla>
 <![CDATA[
 new DataTable('#example', {
 	layout: {
@@ -31,7 +17,7 @@ new DataTable('#example', {
 });
 
 ]]>
-</js-vanilla>
+</js>
 
 <info><![CDATA[
 

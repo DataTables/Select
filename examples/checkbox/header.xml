@@ -2,28 +2,7 @@
 <dt-example table-type="html-index" order="4">
 
 <css lib="datatables select"/>
-<js lib="jquery datatables select">
-<![CDATA[
-$('#example').DataTable({
-	columnDefs: [
-		{
-			orderable: false,
-			render: DataTable.render.select(),
-			targets: 0
-		}
-	],
-	select: {
-		style: 'os',
-		selector: 'td:first-child',
-		headerCheckbox: false
-	},
-	order: [[1, 'asc']]
-});
-
-]]>
-</js>
-
-<js-vanilla>
+<js lib="datatables select">
 <![CDATA[
 new DataTable('#example', {
 	columnDefs: [
@@ -42,7 +21,7 @@ new DataTable('#example', {
 });
 
 ]]>
-</js-vanilla>
+</js>
 
 <title lib="Select">Disabling the header checkbox</title>
 

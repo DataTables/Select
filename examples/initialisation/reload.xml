@@ -2,40 +2,9 @@
 <dt-example table-type="ajax" order="10">
 
 <css lib="datatables select buttons"/>
-<js lib="jquery datatables select buttons"/>
+<js lib="datatables select buttons"/>
 
 <js>
-<![CDATA[
-var table = $('#example').DataTable({
-	ajax: '../../../../examples/ajax/data/objects.txt',
-	columns: [
-		{ data: 'name' },
-		{ data: 'position' },
-		{ data: 'office' },
-		{ data: 'extn' },
-		{ data: 'start_date' },
-		{ data: 'salary' }
-	],
-	layout: {
-		topStart: {
-			buttons: [
-				{
-					text: 'Reload table',
-					action: function () {
-						table.ajax.reload();
-					}
-				}
-			]
-		}
-	},
-	rowId: 'extn',
-	select: true
-});
-
-]]>
-</js>
-
-<js-vanilla>
 <![CDATA[
 let table = new DataTable('#example', {
 	ajax: '../../../../examples/ajax/data/objects.txt',
@@ -64,7 +33,7 @@ let table = new DataTable('#example', {
 });
 
 ]]>
-</js-vanilla>
+</js>
 
 <title>Retain selection on data reload</title>
 

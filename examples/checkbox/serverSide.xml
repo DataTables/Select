@@ -2,28 +2,9 @@
 <dt-example table-type="ssp-details" order="9">
 
 <css lib="datatables select"/>
-<js lib="jquery datatables select"/>
+<js lib="datatables select"/>
 
 <js>
-<![CDATA[
-$('#example').DataTable({
-	ajax: '/examples/server_side/scripts/ids-objects.php',
-	columns: [
-		{data: null, orderable: false, searchable: false, render: DataTable.render.select()},
-		{data: 'first_name'},
-		{data: 'last_name'},
-		{data: 'position'},
-		{data: 'office'}
-	],
-	order: [[1, 'asc']],
-	select: true,
-	serverSide: true
-});
-
-]]>
-</js>
-
-<js-vanilla>
 <![CDATA[
 new DataTable('#example', {
 	ajax: '/examples/server_side/scripts/ids-objects.php',
@@ -40,7 +21,7 @@ new DataTable('#example', {
 });
 
 ]]>
-</js-vanilla>
+</js>
 
 <title>Server-side processing</title>
 

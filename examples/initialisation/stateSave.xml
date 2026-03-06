@@ -2,26 +2,7 @@
 <dt-example table-type="html" order="5">
 
 <css lib="datatables select"/>
-<js lib="jquery datatables select">
-<![CDATA[
-
-$('#example').DataTable({
-	ajax: '../data/objects.txt',
-	columns: [
-		{ data: 'name' },
-		{ data: 'position' },
-		{ data: 'office' },
-		{ data: 'salary' }
-	],
-	rowId: 'id',
-	stateSave: true,
-	select: true
-});
-
-]]>
-</js>
-
-<js-vanilla>
+<js lib="datatables select">
 <![CDATA[
 new DataTable('#example', {
 	ajax: '../data/objects.txt',
@@ -37,7 +18,7 @@ new DataTable('#example', {
 });
 
 ]]>
-</js-vanilla>
+</js>
 
 <title lib="Select">State Save</title>
 

@@ -6,26 +6,7 @@ tr.unselectable {
 	opacity: 0.5;
 }
 </css>
-<js lib="jquery datatables select">
-<![CDATA[
-
-$('#example').DataTable({
-	rowCallback: function (tr, rowData) {
-		if (rowData[2] === 'New York') {
-			$(tr).addClass('unselectable');
-		}
-	},
-	select: {
-		selectable: function (rowData) {
-			return rowData[2] !== 'New York';
-		}
-	}
-});
-
-]]>
-</js>
-
-<js-vanilla>
+<js lib="datatables select">
 <![CDATA[
 new DataTable('#example', {
 	rowCallback: function (tr, rowData) {
@@ -41,7 +22,7 @@ new DataTable('#example', {
 });
 
 ]]>
-</js-vanilla>
+</js>
 
 <title lib="Select">Disallow selection on specific rows</title>
 
