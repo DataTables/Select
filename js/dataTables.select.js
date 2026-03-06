@@ -1900,6 +1900,7 @@ DataTable.render.select = function (valueProp, nameProp) {
 		var selected = dtRow._select_selected;
 		var ariaLabel = meta.settings.oLanguage.select.aria.rowCheckbox;
 		var selectable = meta.settings._select.selectable;
+		var closestElement = meta.settings._select.items === 'cell' ? 'td' : 'tr';
 
 		if (type === 'display') {
 			// Check if the row is selectable before showing the checkbox
@@ -1927,7 +1928,7 @@ DataTable.render.select = function (valueProp, nameProp) {
 					// And make sure this checkbox matches it's row as it is possible
 					// to check out of sync if this was clicked on to deselect a range
 					// but remains selected itself
-					this.checked = $(this).closest('tr').hasClass('selected');
+					this.checked = $(this).closest(closestElement).hasClass('selected');
 				})[0];
 		}
 		else if (type === 'type') {
