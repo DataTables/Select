@@ -37,7 +37,7 @@ let table = new DataTable('#example', {
 
 <info><![CDATA[
 
-When Select is enabled on a table you will inevitably wish to know what rows have been selected so you can perform some action on them (edit, delete, highlight, etc). Select augments the `dt-type selector-modifier` object that can be used with the DataTables selector methods (`dt-api rows()`, `dt-api columns()` and `dt-api cells()` methods - as well as their singular counterparts) with a `selected` option.
+When Select is enabled on a table you will inevitably wish to know what rows have been selected so you can perform some action on them (edit, delete, highlight, etc). Select augments the `dt-type DataTable.SelectorModifier` object that can be used with the DataTables selector methods (`dt-api rows()`, `dt-api columns()` and `dt-api cells()` methods - as well as their singular counterparts) with a `selected` option.
 
 For example, to get the selected rows, columns and cells (lines 1, 2 and 3 respectively):
 
