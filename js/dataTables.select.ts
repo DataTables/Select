@@ -823,7 +823,7 @@ function keysSet(dt: Api) {
 	}
 	else {
 		// Stop the rows from being able to gain focus
-		Dom.s(dt.rows().nodes().toArray()).removeAttr('tabindex');
+		Dom.s(dt.rows().nodes().toArray()).('tabindex');
 
 		// Nuke events
 		dt.off('draw.' + namespace);
