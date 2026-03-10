@@ -21,7 +21,7 @@
 		<parameter type="string" name="set">
 			Selection style to set - this must be one of `-string api`, `-string single`, `-string multi` or `-string os`.
 		</parameter>
-		<returns type="DataTables.Api">
+		<returns type="DataTable.Api">
 			DataTables API instance for chaining.
 		</returns>
 		<description>

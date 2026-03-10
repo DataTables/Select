@@ -6,7 +6,7 @@
 
 	<type type="function">
 		<signature>row().select()</signature>
-		<returns type="DataTables.Api">
+		<returns type="DataTable.Api">
 			API instance that contains a reference to the selected row.
 		</returns>
 		<description>
@@ -19,7 +19,7 @@
 
 		If the selection style (`s-init select.style` / `s-api select.style()`) is set to `single` any previously selected rows will be automatically deselected. Otherwise the row will be added to the current selected set.
 
-		Selected rows can later be retrieved using the `selected` extension to the `dt-type selector-modifier` object - for example `table.rows( { selected: true } ).data()` will get the data of all rows which are selected in the table.
+		Selected rows can later be retrieved using the `selected` extension to the `dt-type DataTable.SelectorModifier` object - for example `table.rows( { selected: true } ).data()` will get the data of all rows which are selected in the table.
 	</description>
 
 	<example title="Select the first row in the table's current page"><![CDATA[

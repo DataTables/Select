@@ -6,7 +6,7 @@
 
 	<type type="function">
 		<signature>rows().deselect()</signature>
-		<returns type="DataTables.Api">
+		<returns type="DataTable.Api">
 			API instance that contains a reference to the deselected rows.
 		</returns>
 		<description>

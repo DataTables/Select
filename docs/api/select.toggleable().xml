@@ -19,7 +19,7 @@
 		<parameter type="boolean" name="set">
 			`true` to allow item deselection, `false` to disallow.
 		</parameter>
-		<returns type="DataTables.Api">
+		<returns type="DataTable.Api">
 			DataTables API instance for chaining.
 		</returns>
 		<description>

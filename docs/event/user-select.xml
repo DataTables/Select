@@ -9,13 +9,13 @@
 		<parameter type="object" name="e">
 			jQuery event object
 		</parameter>
-		<parameter type="DataTables.Api" name="dt">
+		<parameter type="DataTable.Api" name="dt">
 			DataTables API instance
 		</parameter>
 		<parameter type="string" name="type">
 			Item type that will be selected. This can be `-string row`, `-string column` or `-string cell`.
 		</parameter>
-		<parameter type="DataTables.Api" name="cell">
+		<parameter type="DataTable.Api" name="cell">
 			A `dt-api cell()` result for the cell that the event was activated by.
 		</parameter>
 		<parameter type="object" name="originalEvent">

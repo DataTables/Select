@@ -19,7 +19,7 @@
 		<parameter type="string" name="set">
 			Items to select - this must be one of `-string row`, `-string column` or `-string cells`.
 		</parameter>
-		<returns type="DataTables.Api">
+		<returns type="DataTable.Api">
 			DataTables API instance for chaining.
 		</returns>
 		<description>

@@ -19,7 +19,7 @@
 		<parameter type="function" name="set">
 			Function used to determine if a row should be selectable or not. See `-init select.selectable` for the function's signature.
 		</parameter>
-		<returns type="DataTables.Api">
+		<returns type="DataTable.Api">
 			DataTables API instance for chaining.
 		</returns>
 		<description>

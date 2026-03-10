@@ -21,7 +21,7 @@
 		<parameter type="string" name="set">
 			[jQuery selector](https://api.jquery.com/category/selectors/) that will select the cells that can trigger item selection.
 		</parameter>
-		<returns type="DataTables.Api">
+		<returns type="DataTable.Api">
 			DataTables API instance for chaining.
 		</returns>
 		<description>

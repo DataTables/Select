@@ -22,7 +22,7 @@
 		<parameter type="boolean" name="wrap" default="false" since="3.1.0">
 			Enable wrapping (`true`) or not (`false`). See also `-init select.keysWrap`.
 		</parameter>
-		<returns type="DataTables.Api">
+		<returns type="DataTable.Api">
 			DataTables API instance for chaining.
 		</returns>
 		<description>

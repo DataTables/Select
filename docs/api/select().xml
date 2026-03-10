@@ -6,7 +6,7 @@
 
 	<type type="function">
 		<signature>select()</signature>
-		<returns type="DataTables.Api">
+		<returns type="DataTable.Api">
 			API instance, unmodified.
 		</returns>
 		<description>

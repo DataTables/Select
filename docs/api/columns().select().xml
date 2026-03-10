@@ -6,7 +6,7 @@
 
 	<type type="function">
 		<signature>columns().select()</signature>
-		<returns type="DataTables.Api">
+		<returns type="DataTable.Api">
 			API instance that contains a reference to the selected columns.
 		</returns>
 		<description>
@@ -17,7 +17,7 @@
 	<description>
 		This method simply selects the columns that have been found by the `dt-api columns()` selector method.
 
-		Selected columns can later be retrieved using the `selected` extension to the `dt-type selector-modifier` object - for example `table.columns( { selected: true } ).data()` will get the data of all columns which are selected in the table.
+		Selected columns can later be retrieved using the `selected` extension to the `dt-type DataTable.SelectorModifier` object - for example `table.columns( { selected: true } ).data()` will get the data of all columns which are selected in the table.
 	</description>
 
 	<example title="Select column indexes 1 and 2"><![CDATA[

@@ -19,7 +19,7 @@
 		<parameter type="boolean" name="flag">
 			Value to set for the information summary display state - `true` to enable, `false` to disable.
 		</parameter>
-		<returns type="DataTables.Api">
+		<returns type="DataTable.Api">
 			DataTables API instance for chaining.
 		</returns>
 		<description>

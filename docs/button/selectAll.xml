@@ -17,7 +17,7 @@
 			Select all items in the table based on the current item select mode.
 		</parameter>
 		<parameter name="selectorModifier" value="function|object" since="1.7.0">
-			Provides a method to control what items should be selected through the `-type selector-modifier` option. For example you can limit the selection to the current filtered values, or the current page. This option can also be given as a function which passes the same arguments as `-init buttons.buttons.action` and expects a selector modifier in return.
+			Provides a method to control what items should be selected through the `-type DataTable.SelectorModifier` option. For example you can limit the selection to the current filtered values, or the current page. This option can also be given as a function which passes the same arguments as `-init buttons.buttons.action` and expects a selector modifier in return.
 		</parameter>
 	</defaults>
 
