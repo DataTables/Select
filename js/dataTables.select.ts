@@ -2019,6 +2019,7 @@ DataTable.render.select = function (valueProp?, nameProp?) {
 		var selected = dtRow._select_selected;
 		var ariaLabel = meta.settings.language.select.aria.rowCheckbox;
 		var selectable = meta.settings._select.selectable;
+		var selectedClass = meta.settings._select.className;
 
 		if (type === 'display') {
 			// Check if the row is selectable before showing the checkbox
@@ -2048,7 +2049,7 @@ DataTable.render.select = function (valueProp?, nameProp?) {
 					// deselect a range but remains selected itself
 					Dom.s(this).prop(
 						'checked',
-						Dom.s(this).closest('tr').classHas('selected')
+						Dom.s(this).closest('tr').classHas(selectedClass)
 					);
 				})
 				.get(0);
