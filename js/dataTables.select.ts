@@ -193,7 +193,7 @@ DataTable.select = {
 		}
 	},
 
-	version: '4.0.0-dev'
+	version: '4.0.0-beta.1'
 };
 
 /*
