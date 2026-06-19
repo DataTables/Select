@@ -7,7 +7,7 @@
 	<type type="function">
 		<signature>function( e, dt, type, cell, originalEvent )</signature>
 		<parameter type="object" name="e">
-			jQuery event object
+			Event object
 		</parameter>
 		<parameter type="DataTable.Api" name="dt">
 			DataTables API instance
