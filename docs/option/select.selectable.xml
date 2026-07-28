@@ -55,5 +55,5 @@ new DataTable('#example', {
 ]]></example>
 
 	<related>-api select.selectable()</related>
-	<related>-event user-select()</related>
+	<related>-event user-select</related>
 </dt-option>
