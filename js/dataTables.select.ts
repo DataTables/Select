@@ -2037,11 +2037,11 @@ DataTable.render.select = function (valueProp?, nameProp?) {
 					class: checkboxClass(false),
 					name: nameFn ? nameFn(row) : null,
 					type: 'checkbox',
-					value: valueFn ? valueFn(row) : null,
-					checked: selected
+					value: valueFn ? valueFn(row) : null
 				})
+				.prop('checked', selected || false)
 				.on('input', function (e) {
-					// Let Select 100% cotrol the state of the checkbox
+					// Let Select 100% control the state of the checkbox
 					e.preventDefault();
 
 					// And make sure this checkbox matches it's row as it is
