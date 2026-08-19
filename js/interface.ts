@@ -18,7 +18,7 @@ export type Selectable = (data: any, tr: HTMLElement, idx: number) => boolean;
 export type HeaderCheckbox = boolean | 'none' | 'select-all' | 'select-page';
 
 declare module 'datatables.net' {
-	interface Config {
+	interface Options {
 		/*
 		 * Select extension options
 		 */
@@ -32,7 +32,7 @@ declare module 'datatables.net' {
 		select?: boolean | string | ConfigSelect;
 	}
 
-	interface ConfigLanguage {
+	interface Language {
 		/**
 		 * Select language options
 		 */
