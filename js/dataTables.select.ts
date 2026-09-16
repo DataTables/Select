@@ -16,8 +16,8 @@ import DataTable, {
 import './interface';
 import { HeaderCheckbox, StyleType } from './interface';
 
-if (!DataTable || !DataTable.versionCheck('3')) {
-	throw 'Error: Select requires DataTables 3 or newer';
+if (!DataTable || !DataTable.versionCheck('3.1')) {
+	throw 'Error: Select requires DataTables 3.1 or newer';
 }
 
 DataTable.select = {
@@ -2099,7 +2099,7 @@ DataTable.ext.order['select-checkbox'] = function (settings, col) {
 // DataTables creation - we need this to run _before_ data is read in, but
 // for backwards compat. we also run again on preInit. If it happens twice
 // it will simply do nothing the second time around.
-Dom.s(document).on('i18n.dt.dtSelect preInit.dt.dtSelect', function (e, ctx) {
+Dom.on('i18n.dt.dtSelect preInit.dt.dtSelect', function (e, ctx) {
 	if (e.namespace !== 'dt') {
 		return;
 	}
