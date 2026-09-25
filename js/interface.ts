@@ -266,6 +266,24 @@ declare module 'datatables.net' {
 	interface ColumnContext {
 		_select_selected: boolean;
 	}
+
+	interface State {
+		/** Identifiers for the selected items in the table */
+		select?: {
+			cells: string[];
+			columns: string[];
+			rows: string[]
+		}
+	}
+
+	interface StateLoad {
+		/** Identifiers for the selected items in the table */
+		select?: {
+			cells: string[];
+			columns: string[];
+			rows: string[]
+		}
+	}
 }
 
 interface ConfigSelect {
